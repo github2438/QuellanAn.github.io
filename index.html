@@ -222,7 +222,7 @@
                 
               
 
-              <time title="创建时间：2019-09-27 15:53:19 / 修改时间：15:53:26" itemprop="dateCreated datePublished" datetime="2019-09-27T15:53:19+08:00">2019-09-27</time>
+              <time title="创建时间：2019-09-27 15:53:19 / 修改时间：16:36:31" itemprop="dateCreated datePublished" datetime="2019-09-27T15:53:19+08:00">2019-09-27</time>
             </span>
           
             
@@ -241,7 +241,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>@[toc]</p>
+          <p>title: 四、springBoot 优雅的创建定时任务</p>
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。<br>总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。<br>不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修改，每次都得重新编译，所以想将定时时间存在数据库，然后项目读取数据库执行定时任务，所以就有了基于接口的定时任务。下面就分基于注解和基于接口详细讲解。</p>
 <h1 id="基于注解"><a href="#基于注解" class="headerlink" title="基于注解"></a>基于注解</h1><p>pom.xml 文件不用修改，我们原本的项目就支持，其实定时器是springboot框架自带的，不用引入什么依赖。我们直接创建一个autotask 包，创建一个AutoTask类。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@EnableScheduling</span><br><span class="line">@Component</span><br><span class="line">@Slf4j</span><br><span class="line">public class AutoTask &#123;</span><br><span class="line">    @Scheduled(cron=&quot;*/6 * * * * ?&quot;)</span><br><span class="line">    private void process()&#123;</span><br><span class="line">        log.info(&quot;autoTask &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -265,7 +265,90 @@
 <h1 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h1><p>cron 用法网上有很多，也没有什么讲的这里就附带记录下</p>
 <h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>cron表达式是一个字符串，分为6或7个域，每两个域之间用空格分隔，<br>其语法格式为：”秒域 分域 时域 日域 月域 周域 年域”</p>
 <h2 id="取值范围"><a href="#取值范围" class="headerlink" title="取值范围"></a>取值范围</h2><p>|域名|    可取值|    可取符号（仅列部分常用）|<br>|–|–|<br>|秒域|    0<del>59的整数|      *    -    ,    /<br>|分域|    0</del>59的整数|      *    -    ,    /<br>|时域    |0<del>23的整数|      *    -    ,    /<br>|日域    |1</del>31的整数|      *    -    ,    /    ?    L<br>|月域    |1<del>12的整数或JAN</del>DEC|      *    -    ,    /<br>|周域    |1<del>7的整数或SUN</del>SAT|  *    -    ,    /    ?    L    #<br>|年域    |1970~2099的整数    |  *    -    ,    /</p>
-<h2 id="常例"><a href="#常例" class="headerlink" title="常例"></a>常例</h2><p>|表达式|        意义|<br>|–|–|–|<br>|每隔5秒钟执行一次|       */5  *  * *  *  ?    |<br>|每隔1分钟执行一次|                0  * /1  * * *  ?  |<br>| 每天1点执行一次|     　　　　0  0  1  *  *  ?|<br> | 每天23点55分执行一次    　| 　　　0  55  23 *  * ？|<br> | 每月最后一天23点执行一次    | 　　　　0  0  23  L  *  ？|<br> | 每周六8点执行一次    | 　　　　0  0  8  ?  *  L|<br> | 每月最后一个周五，每隔2小时执行一次    　| 　　　0  0  */2  ?  *  6L|<br> | 每月的第三个星期五上午10:15执行一次    | 　　　　0  15  10  ? *  5#3|<br>|  在每天下午2点到下午2:05期间的每1分钟执行|     　　　　0  0-5  14  *  *  ?|<br>|  表示周一到周五每天上午10:15执行    　| 　　　0  15  10  ? *  2-6|<br> | 每个月的最后一个星期五上午10:15执行    | 　　　　0  15  10  ?  *  6L |<br> | 每天上午10点，下午2点，4点执行一次    | 　　　　0  0  10,14,16  * * ?|<br> | 朝九晚五工作时间内每半小时执行一次    | 　　　　0  0/30  9-17  *  * ?|<br> | 每个星期三中午12点执行一次    　| 　　　0  0  12  ?  *  4|<br> | 每年三月的星期三的下午2:10和2:44各执行一次    | 　　　   0  10,44  14  ?  3  4　|<br>|  每月的第三个星期五上午10:15执行一次    | 　　　　0  15  10  ?  *  6#3|<br> | 每月一日凌晨2点30执行一次    | 　　　　0  30  2  1  *  ?|<br> | 每分钟的第10秒与第20秒都会执行|     　　　　10,20  *  *  *  * ?|<br>|  每月的第2个星期的周5，凌晨执行|     　　　　0  0  0  ?  *  6#2| </p>
+<h2 id="常例"><a href="#常例" class="headerlink" title="常例"></a>常例</h2><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每隔5秒钟执行一次</td>
+<td>*/5  *  * *  *  ?</td>
+</tr>
+<tr>
+<td>每隔1分钟执行一次</td>
+<td>0  * /1  * * *  ?</td>
+</tr>
+<tr>
+<td>每天1点执行一次</td>
+<td>0  0  1  *  *  ?</td>
+</tr>
+<tr>
+<td>每天23点55分执行一次</td>
+<td>0  55  23 *  * ？</td>
+</tr>
+<tr>
+<td>每月最后一天23点执行一次</td>
+<td>0  0  23  L  *  ？</td>
+</tr>
+<tr>
+<td>每周六8点执行一次</td>
+<td>0  0  8  ?  *  L</td>
+</tr>
+<tr>
+<td>每月最后一个周五，每隔2小时执行一次</td>
+<td>0  0  */2  ?  *  6L</td>
+</tr>
+<tr>
+<td>每月的第三个星期五上午10:15执行一次</td>
+<td>0  15  10  ? *  5#3</td>
+</tr>
+<tr>
+<td>在每天下午2点到下午2:05期间的每1分钟执行</td>
+<td>0  0-5  14  *  *  ?</td>
+</tr>
+<tr>
+<td>表示周一到周五每天上午10:15执行</td>
+<td>0  15  10  ? *  2-6</td>
+</tr>
+<tr>
+<td>每个月的最后一个星期五上午10:15执行</td>
+<td>0  15  10  ?  *  6L</td>
+</tr>
+<tr>
+<td>每天上午10点，下午2点，4点执行一次</td>
+<td>0  0  10,14,16  * * ?</td>
+</tr>
+<tr>
+<td>朝九晚五工作时间内每半小时执行一次</td>
+<td>0  0/30  9-17  *  * ?</td>
+</tr>
+<tr>
+<td>每个星期三中午12点执行一次</td>
+<td>0  0  12  ?  *  4</td>
+</tr>
+<tr>
+<td>每年三月的星期三的下午2:10和2:44各执行一次</td>
+<td>0  10,44  14  ?  3  4</td>
+</tr>
+<tr>
+<td>每月的第三个星期五上午10:15执行一次</td>
+<td>0  15  10  ?  *  6#3</td>
+</tr>
+<tr>
+<td>每月一日凌晨2点30执行一次</td>
+<td>0  30  2  1  *  ?</td>
+</tr>
+<tr>
+<td>每分钟的第10秒与第20秒都会执行</td>
+<td>10,20  *  *  *  * ?</td>
+</tr>
+<tr>
+<td>每月的第2个星期的周5，凌晨执行</td>
+<td>0  0  0  ?  *  6#2</td>
+</tr>
+</tbody></table>
 <h1 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h1><p>本来这个知识点不应该放在这里讲的，但是不多，顺带写了，刚好也能做定时器。我们项目中往往有一些需求需要在项目启动的时候就执行，那这个我们怎么实现了。其实spring boot 使用起来也非常简单，只用实现 ApplicationRunner  就好了。<br>我们在autotask 包下创建一个AutoTaskFromSpringRunner类</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Component</span><br><span class="line">public class AutoTaskFromSpringRunner implements ApplicationRunner &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments args) throws Exception &#123;</span><br><span class="line">        process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void process()&#123;</span><br><span class="line">        log.info(&quot; run ApplicationArguments&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -647,11 +730,19 @@
                 
               
 
-              <time title="创建时间：2019-06-25 17:32:25 / 修改时间：17:32:32" itemprop="dateCreated datePublished" datetime="2019-06-25T17:32:25+08:00">2019-06-25</time>
+              <time title="创建时间：2019-06-25 17:32:25" itemprop="dateCreated datePublished" datetime="2019-06-25T17:32:25+08:00">2019-06-25</time>
             </span>
           
             
 
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-09-27 16:35:44" itemprop="dateModified" datetime="2019-09-27T16:35:44+08:00">2019-09-27</time>
+              </span>
             
           
 
@@ -666,7 +757,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="代码简洁的重要性"><a href="#代码简洁的重要性" class="headerlink" title="代码简洁的重要性"></a>代码简洁的重要性</h4><p>代码就是衔接人脑理解需求的含糊性和机器指令的精确性的桥梁。哪怕未来会有对现在高级编程语言的再一次抽象——但这个抽象规范自身仍旧是代码。所以既然代码会一直存在下去。所以才会出现那么多的祖传代码，<br>基本上我们读代码时间往往比写代码的时间多，而简洁的代码可以增加可读性，可以让别人快速的理解你代码想要表达或是想做的事情。从而能够更好的拓展和修改。</p>
+          <p>title: 代码简洁之道，检测出你代码中的 bug、漏洞、异味</p>
+<h4 id="代码简洁的重要性"><a href="#代码简洁的重要性" class="headerlink" title="代码简洁的重要性"></a>代码简洁的重要性</h4><p>代码就是衔接人脑理解需求的含糊性和机器指令的精确性的桥梁。哪怕未来会有对现在高级编程语言的再一次抽象——但这个抽象规范自身仍旧是代码。所以既然代码会一直存在下去。所以才会出现那么多的祖传代码，<br>基本上我们读代码时间往往比写代码的时间多，而简洁的代码可以增加可读性，可以让别人快速的理解你代码想要表达或是想做的事情。从而能够更好的拓展和修改。</p>
 <p>在工作过程中，我们往往会出现为了拓展一个功能或修改一个bug，调整原来的代码，结果导致出现更多的bug。这总是让我们程序员抱怨写的代码垃圾，这都是因为代码不够简洁，别人没有真正理解而接着开发，积累的坑越来越多，到一定程度，代码就成了累赘了，变得难以拓展和维护。所以代码简洁就显得尤为重要了，我们写代码应该像写文章一样，先自由发挥，再细节打磨，追求完美简洁。</p>
 <h4 id="简洁的代码是什么样的"><a href="#简洁的代码是什么样的" class="headerlink" title="简洁的代码是什么样的"></a>简洁的代码是什么样的</h4><p>“唯一能有效测量代码质量的方式是每分钟说多少个What-the-Fk ”<br>− Robert Martin</p>
 <p>整洁的代码简单直接。整洁的代码如同优美的散文。整洁的代码从不隐藏<br>设计者的意图，充满了干净利落的抽象和直截了当的控制语句。<br>可以对比一下下面这两段代码，哪个更让你舒服呢<br><img src="https://images.gitbook.cn/1cb53670-96f6-11e9-bc97-93abff33030c" alt="enter image description here"><br><img src="https://images.gitbook.cn/2562e470-96f6-11e9-b265-f1f3c6cbb1c4" alt="enter image description here"><br>这两段代码实现的功能是一样的，很显然第二种的代码是非常简洁优雅的，通过方法名就能知道这个方法是做什么的，并且很有层次感。第一种的代码就让我们很头痛了，需要花更多的时间去理清逻辑，但是这种代码我们项目中最常见的样式，所以我们在读代码的时候是多么痛苦。</p>
