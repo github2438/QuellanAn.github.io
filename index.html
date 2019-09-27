@@ -4,78 +4,182 @@
 
 
 
-<html lang="zh-CN">
-<head>
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 3.9.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
-  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
-
-<link rel="stylesheet" href="/css/main.css?v=7.4.0">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
 
-<script id="hexo-configurations">
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
-    version: '7.4.0',
-    exturl: false,
-    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":false,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"shrinkIn","post_header":"slideLeftIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideDownIn"}},
     algolia: {
-      appID: '',
+      applicationID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    translation: {
-      copy_button: '复制',
-      copy_success: '复制成功',
-      copy_failure: '复制失败'
-    },
-    sidebarPadding: 40
+    }
   };
 </script>
+
+
+  
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "bd399fce"
+    });
+  daovoice('update');
+  </script>
 
   <meta name="description" content="别让生活成为梦想的羁绊">
 <meta property="og:type" content="website">
 <meta property="og:title" content="QuellanAn">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="https://quellanan.github.io/index.html">
 <meta property="og:site_name" content="QuellanAn">
 <meta property="og:description" content="别让生活成为梦想的羁绊">
 <meta property="og:locale" content="zh-CN">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="QuellanAn">
 <meta name="twitter:description" content="别让生活成为梦想的羁绊">
-  <link rel="canonical" href="http://yoursite.com/">
 
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
+
+  <link rel="alternate" href="/atom.xml" title="QuellanAn" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://quellanan.github.io/">
+
+
+
+<script id="page.configurations">
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
-    isPage: false,
-    isArchive: false
   };
 </script>
 
@@ -89,8 +193,13 @@
 
 
 
+
+
+
+
   <noscript>
   <style>
+  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -99,7 +208,7 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+  .use-motion .collection-title { opacity: initial; }
 
   .use-motion .logo,
   .use-motion .site-title,
@@ -112,24 +221,34 @@
   .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
-
+ 
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-  <div class="container use-motion">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
+      <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
+    
 
-    <div>
+    <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">QuellanAn</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -142,98 +261,330 @@
 </div>
 
 
+
 <nav class="site-nav">
   
-  <ul id="menu" class="menu">
-      
-      
+    <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
+        
+        
+          
+          <li class="menu-item menu-item-home menu-item-active">
+
+    
+    
+    
       
+    
+
     
 
     <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
 
   </li>
-      
-      
-      
         
-        <li class="menu-item menu-item-archives">
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
       
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
     
 
     <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
 
   </li>
-  </ul>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
 
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-互动">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/guestbook/" rel="section"><i class="menu-item-icon fa fa-fw fa-comments"></i> <br>互动</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
 </nav>
+
+
+
+  
+
+
+
 </div>
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
 
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
-            
-
+          
           <div id="content" class="content">
             
-  <div id="posts" class="posts-expand">
-        <article itemscope itemtype="http://schema.org/Article">
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
   
   
   
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/googlebb5d6832d2f9474f/">
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/2018/11/30/第一篇博客.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="QuellanAn">
       <meta itemprop="description" content="别让生活成为梦想的羁绊">
-      <meta itemprop="image" content="/images/author.jpg">
+      <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="QuellanAn">
     </span>
+
+    
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/30/第一篇博客.html" class="post-title-link" itemprop="url">第一篇博客</a>
+              
             
-            <a href="/2019/09/27/googlebb5d6832d2f9474f/" class="post-title-link" itemprop="url">未命名</a>
-          
-        </h1>
+          </h1>
+        
 
         <div class="post-meta">
-            <span class="post-meta-item">
+          <span class="post-time">
+
+            
+            
+            
+
+            
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              <span class="post-meta-item-text">发表于</span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
 
               
                 
               
 
-              <time title="创建时间：2019-09-27 16:58:41 / 修改时间：16:57:41" itemprop="dateCreated datePublished" datetime="2019-09-27T16:58:41+08:00">2019-09-27</time>
-            </span>
-          
+              <time title="创建时间：2018-11-30 17:30:00" itemprop="dateCreated datePublished" datetime="2018-11-30T17:30:00+08:00">2018-11-30</time>
             
 
             
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-27 17:17:41" itemprop="dateModified" datetime="2019-09-27T17:17:41+08:00">2019-09-27</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">develop</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/develop/test/" itemprop="url" rel="index"><span itemprop="name">test</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">104</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">1 分钟</span>
+              
+            </div>
           
 
           
 
         </div>
       </header>
+    
 
     
     
@@ -241,693 +592,70 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          google-site-verification: googlebb5d6832d2f9474f.html
+      
 
+      
+        
+          
+            <p>
+              第一次见面你好，同学！欢迎你使用基于hexo搭建的next主题的博客系统。
+关于Markdown当你能够正常访问这个页面时，相信你已经知道以后写博客文章是基于Markdown语法的，请熟练使用他。
+祝你好运
+
+              
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/11/30/第一篇博客.html#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
 
     
+
     
     
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
+    
+
+    
+
+    
+      
+    
+    
+
+    
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
   </div>
   
   
   
   </article>
 
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/四、springBoot 优雅的创建定时任务/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="QuellanAn">
-      <meta itemprop="description" content="别让生活成为梦想的羁绊">
-      <meta itemprop="image" content="/images/author.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="QuellanAn">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/27/四、springBoot 优雅的创建定时任务/" class="post-title-link" itemprop="url">未命名</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-27 16:51:36" itemprop="dateCreated datePublished" datetime="2019-09-27T16:51:36+08:00">2019-09-27</time>
-            </span>
-          
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>title: 四、springBoot 优雅的创建定时任务</p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。<br>总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。<br>不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修改，每次都得重新编译，所以想将定时时间存在数据库，然后项目读取数据库执行定时任务，所以就有了基于接口的定时任务。下面就分基于注解和基于接口详细讲解。</p>
-<h1 id="基于注解"><a href="#基于注解" class="headerlink" title="基于注解"></a>基于注解</h1><p>pom.xml 文件不用修改，我们原本的项目就支持，其实定时器是springboot框架自带的，不用引入什么依赖。我们直接创建一个autotask 包，创建一个AutoTask类。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@EnableScheduling</span><br><span class="line">@Component</span><br><span class="line">@Slf4j</span><br><span class="line">public class AutoTask &#123;</span><br><span class="line">    @Scheduled(cron=&quot;*/6 * * * * ?&quot;)</span><br><span class="line">    private void process()&#123;</span><br><span class="line">        log.info(&quot;autoTask &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样一个定时器就创建啦，在项目启动后，会每隔6s 打印“autoTask”的日志。是不是很简单。主要用到的两个注解就是@EnableScheduling 和 @Scheduled。<br>注解@EnableScheduling 就是开启定时任务的。哪个类的中的方法想要定期执行，就在这个类上加入这个注解。当然这个这个注解也可以加在启动类上。加在启动类上表示项目中所有的类都可以创建定时任务。<br><img src="https://img-blog.csdnimg.cn/20190926161157924.jpeg" alt="file"></p>
-<p>@Scheduled 注解就是我们常见的定时器啦，后面的cron 就是定时任务表达式。在方法上注解，表示这个方法定期执行。<br><img src="https://img-blog.csdnimg.cn/20190926161158434.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"><br>不过@Scheduled 可以进行两种配置，我们熟悉的cron ,还有一种是fixedRate。比如fixedRate=6000 表示方法每6秒钟执行一次。<br>我们来启动项目看一下，可以看到两个方法都在定期执行。<br><img src="https://img-blog.csdnimg.cn/20190926161158769.jpeg" alt="file"></p>
-<h1 id="基于接口"><a href="#基于接口" class="headerlink" title="基于接口"></a>基于接口</h1><p>上面可以看到springboot 基于注解是非常方便的。但是对于频繁变动或者一个项目中有很多的定时器那就不方便管理了。所以统一将定时器信息存放在数据库中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">DROP TABLE IF EXISTS `scheduled`;</span><br><span class="line">CREATE TABLE `scheduled`  (</span><br><span class="line">  `cron_id` varchar(30) NOT NULL PRIMARY KEY,</span><br><span class="line">  `cron_name` varchar(30) NULL,</span><br><span class="line">  `cron` varchar(30) NOT NULL</span><br><span class="line">);</span><br><span class="line">INSERT INTO `scheduled` VALUES (&apos;1&apos;,&apos;定时器任务一&apos;,&apos;0/6 * * * * ?&apos;);</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/20190926161159239.jpeg" alt="file"></p>
-<p>在dao 层mapper1包下创建一个CronMapper接口，很简单的就获取cron</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface CronMapper &#123;</span><br><span class="line"></span><br><span class="line">    @Select(&quot;select cron from scheduled where cron_id = #&#123;id&#125;&quot;)</span><br><span class="line">    public String getCron(int id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/20190926161159580.jpeg" alt="file"></p>
-<p>这里我们就不写service 层了。直接在autotask 包下创建一个AutoTaskFromDB类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Component</span><br><span class="line">public class AutoTaskFromDB implements SchedulingConfigurer &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    protected CronMapper cronMapper;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) &#123;</span><br><span class="line"></span><br><span class="line">        scheduledTaskRegistrar.addTriggerTask(() -&gt; process(),</span><br><span class="line">                triggerContext -&gt; &#123;</span><br><span class="line">                    String cron = cronMapper.getCron(1);</span><br><span class="line">                    if (cron.isEmpty()) &#123;</span><br><span class="line">                       log.info(&quot;cron 为空&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                    return new CronTrigger(cron).nextExecutionTime(triggerContext);</span><br><span class="line">                &#125;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private  void process()&#123;</span><br><span class="line">        log.info(&quot;formDB &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到也很简单，就是实现SchedulingConfigurer 这个吧接口，addTriggerTask（）是添加一个定时器。<br>process（）方法是我们需要定时执行的方法体。<br>CronTrigger(cron).nextExecutionTime(triggerContext) 就是从数据库读取的cron 创建定时器。</p>
-<p>这个类我没有加上@EnableScheduling 注解，因为我在启动类上加上了，如果你们启动类上没有加，这里记得加上。</p>
-<p>测试一下;下图可以看到三个定时任务都执行了，fromDB 是从数据库读取的。<br><img src="https://img-blog.csdnimg.cn/20190926161159969.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
-<h1 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h1><p>cron 用法网上有很多，也没有什么讲的这里就附带记录下</p>
-<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>cron表达式是一个字符串，分为6或7个域，每两个域之间用空格分隔，<br>其语法格式为：”秒域 分域 时域 日域 月域 周域 年域”</p>
-<h2 id="取值范围"><a href="#取值范围" class="headerlink" title="取值范围"></a>取值范围</h2><p>|域名|    可取值|    可取符号（仅列部分常用）|<br>|–|–|<br>|秒域|    0<del>59的整数|      *    -    ,    /<br>|分域|    0</del>59的整数|      *    -    ,    /<br>|时域    |0<del>23的整数|      *    -    ,    /<br>|日域    |1</del>31的整数|      *    -    ,    /    ?    L<br>|月域    |1<del>12的整数或JAN</del>DEC|      *    -    ,    /<br>|周域    |1<del>7的整数或SUN</del>SAT|  *    -    ,    /    ?    L    #<br>|年域    |1970~2099的整数    |  *    -    ,    /</p>
-<h2 id="常例"><a href="#常例" class="headerlink" title="常例"></a>常例</h2><table>
-<thead>
-<tr>
-<th>表达式</th>
-<th>意义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>每隔5秒钟执行一次</td>
-<td>*/5  *  * *  *  ?</td>
-</tr>
-<tr>
-<td>每隔1分钟执行一次</td>
-<td>0  * /1  * * *  ?</td>
-</tr>
-<tr>
-<td>每天1点执行一次</td>
-<td>0  0  1  *  *  ?</td>
-</tr>
-<tr>
-<td>每天23点55分执行一次</td>
-<td>0  55  23 *  * ？</td>
-</tr>
-<tr>
-<td>每月最后一天23点执行一次</td>
-<td>0  0  23  L  *  ？</td>
-</tr>
-<tr>
-<td>每周六8点执行一次</td>
-<td>0  0  8  ?  *  L</td>
-</tr>
-<tr>
-<td>每月最后一个周五，每隔2小时执行一次</td>
-<td>0  0  */2  ?  *  6L</td>
-</tr>
-<tr>
-<td>每月的第三个星期五上午10:15执行一次</td>
-<td>0  15  10  ? *  5#3</td>
-</tr>
-<tr>
-<td>在每天下午2点到下午2:05期间的每1分钟执行</td>
-<td>0  0-5  14  *  *  ?</td>
-</tr>
-<tr>
-<td>表示周一到周五每天上午10:15执行</td>
-<td>0  15  10  ? *  2-6</td>
-</tr>
-<tr>
-<td>每个月的最后一个星期五上午10:15执行</td>
-<td>0  15  10  ?  *  6L</td>
-</tr>
-<tr>
-<td>每天上午10点，下午2点，4点执行一次</td>
-<td>0  0  10,14,16  * * ?</td>
-</tr>
-<tr>
-<td>朝九晚五工作时间内每半小时执行一次</td>
-<td>0  0/30  9-17  *  * ?</td>
-</tr>
-<tr>
-<td>每个星期三中午12点执行一次</td>
-<td>0  0  12  ?  *  4</td>
-</tr>
-<tr>
-<td>每年三月的星期三的下午2:10和2:44各执行一次</td>
-<td>0  10,44  14  ?  3  4</td>
-</tr>
-<tr>
-<td>每月的第三个星期五上午10:15执行一次</td>
-<td>0  15  10  ?  *  6#3</td>
-</tr>
-<tr>
-<td>每月一日凌晨2点30执行一次</td>
-<td>0  30  2  1  *  ?</td>
-</tr>
-<tr>
-<td>每分钟的第10秒与第20秒都会执行</td>
-<td>10,20  *  *  *  * ?</td>
-</tr>
-<tr>
-<td>每月的第2个星期的周5，凌晨执行</td>
-<td>0  0  0  ?  *  6#2</td>
-</tr>
-</tbody></table>
-<h1 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h1><p>本来这个知识点不应该放在这里讲的，但是不多，顺带写了，刚好也能做定时器。我们项目中往往有一些需求需要在项目启动的时候就执行，那这个我们怎么实现了。其实spring boot 使用起来也非常简单，只用实现 ApplicationRunner  就好了。<br>我们在autotask 包下创建一个AutoTaskFromSpringRunner类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Component</span><br><span class="line">public class AutoTaskFromSpringRunner implements ApplicationRunner &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments args) throws Exception &#123;</span><br><span class="line">        process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void process()&#123;</span><br><span class="line">        log.info(&quot; run ApplicationArguments&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>启动项目看一下，可以发现这个会在项目启动后执行，但是只会执行一次。</p>
-<p><img src="https://img-blog.csdnimg.cn/20190926161200531.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"><br>那这个怎么用来做定时器呢？当然是结合线程来做啦，但是这个方法其实不建议，b毕竟线程很容易出问题，但是提供一种思路：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Component</span><br><span class="line">public class AutoTaskFromSpringRunner implements ApplicationRunner &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments args) throws Exception &#123;</span><br><span class="line">        process();</span><br><span class="line">        new Thread(() -&gt; &#123;</span><br><span class="line">            while (true) &#123;</span><br><span class="line">                process2();</span><br><span class="line">                try &#123;</span><br><span class="line">                    Thread.sleep(6000);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    log.error(&quot;&#123;&#125;&quot;,e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line">    &#125;</span><br><span class="line">    private void process()&#123;</span><br><span class="line">        log.info(&quot; run ApplicationArguments&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    private void process2()&#123;</span><br><span class="line">        log.info(&quot;线程定时器&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>启动项目看下，发现也是可以起到定时器的作用的。<br><img src="https://img-blog.csdnimg.cn/20190926161201238.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
-<p>好了，就说这么多啦，今天项目的代码也同步到github 上啦。<br>github地址：<a href="https://github.com/QuellanAn/zlflovemm" target="_blank" rel="noopener">https://github.com/QuellanAn/zlflovemm</a></p>
-<p>后续加油♡</p>
-<p>欢迎大家关注个人公众号 “程序员爱酸奶”</p>
-<p>分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。</p>
-<p>如果大家喜欢记得关注和分享哟❤<br><img src="https://img-blog.csdnimg.cn/2019092616120288.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/代码简洁之道，检测出你代码中的 bug、漏洞、异味/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="QuellanAn">
-      <meta itemprop="description" content="别让生活成为梦想的羁绊">
-      <meta itemprop="image" content="/images/author.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="QuellanAn">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/27/代码简洁之道，检测出你代码中的 bug、漏洞、异味/" class="post-title-link" itemprop="url">未命名</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-27 16:51:36" itemprop="dateCreated datePublished" datetime="2019-09-27T16:51:36+08:00">2019-09-27</time>
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>title: 代码简洁之道，检测出你代码中的 bug、漏洞、异味</p>
-<h4 id="代码简洁的重要性"><a href="#代码简洁的重要性" class="headerlink" title="代码简洁的重要性"></a>代码简洁的重要性</h4><p>代码就是衔接人脑理解需求的含糊性和机器指令的精确性的桥梁。哪怕未来会有对现在高级编程语言的再一次抽象——但这个抽象规范自身仍旧是代码。所以既然代码会一直存在下去。所以才会出现那么多的祖传代码，<br>基本上我们读代码时间往往比写代码的时间多，而简洁的代码可以增加可读性，可以让别人快速的理解你代码想要表达或是想做的事情。从而能够更好的拓展和修改。</p>
-<p>在工作过程中，我们往往会出现为了拓展一个功能或修改一个bug，调整原来的代码，结果导致出现更多的bug。这总是让我们程序员抱怨写的代码垃圾，这都是因为代码不够简洁，别人没有真正理解而接着开发，积累的坑越来越多，到一定程度，代码就成了累赘了，变得难以拓展和维护。所以代码简洁就显得尤为重要了，我们写代码应该像写文章一样，先自由发挥，再细节打磨，追求完美简洁。</p>
-<h4 id="简洁的代码是什么样的"><a href="#简洁的代码是什么样的" class="headerlink" title="简洁的代码是什么样的"></a>简洁的代码是什么样的</h4><p>“唯一能有效测量代码质量的方式是每分钟说多少个What-the-Fk ”<br>− Robert Martin</p>
-<p>整洁的代码简单直接。整洁的代码如同优美的散文。整洁的代码从不隐藏<br>设计者的意图，充满了干净利落的抽象和直截了当的控制语句。<br>可以对比一下下面这两段代码，哪个更让你舒服呢<br><img src="https://images.gitbook.cn/1cb53670-96f6-11e9-bc97-93abff33030c" alt="enter image description here"><br><img src="https://images.gitbook.cn/2562e470-96f6-11e9-b265-f1f3c6cbb1c4" alt="enter image description here"><br>这两段代码实现的功能是一样的，很显然第二种的代码是非常简洁优雅的，通过方法名就能知道这个方法是做什么的，并且很有层次感。第一种的代码就让我们很头痛了，需要花更多的时间去理清逻辑，但是这种代码我们项目中最常见的样式，所以我们在读代码的时候是多么痛苦。</p>
-<p>所以简洁的代码是什么样的，让人最快读懂能理解的代码就是简洁的代码。</p>
-<h4 id="怎样写出简洁的代码"><a href="#怎样写出简洁的代码" class="headerlink" title="怎样写出简洁的代码"></a>怎样写出简洁的代码</h4><p>在这之前，先说说代码的坏味道，看看你写的代码中有没有这些，如果有那就尽早修改。</p>
-<h6 id="代码坏味道"><a href="#代码坏味道" class="headerlink" title="代码坏味道"></a>代码坏味道</h6><ol>
-<li>重复的代码</li>
-<li>过长的方法</li>
-<li>过大的类</li>
-<li>过长的参数列</li>
-<li>散弹式修改（同一个方法在项目中不同的地方出现，需要修改的时候多多处修改）</li>
-<li>不同的类别使用switch</li>
-<li>临时变量</li>
-<li>过多的抽象和代理</li>
-<li>无用多余的方法代码</li>
-<li>魔法数字（代码中存在一些常量直接使用或者比较，但是这些常量并没有声明和统一管理）</li>
-</ol>
-<p>上述的坏味道仅仅是一部分，这些坏味道的代码往往会造成代码很多问题，如：</p>
-<ol>
-<li>难于变化</li>
-<li>难于重用</li>
-<li>设计过于复杂，不利于当前编码</li>
-<li>同样的逻辑多处出现，没有进行抽象的统一</li>
-<li>命名混乱，结构杂乱，难以阅读和理解</li>
-<li>难于测试和验证</li>
-</ol>
-<h5 id="代码准则"><a href="#代码准则" class="headerlink" title="代码准则"></a>代码准则</h5><p>所以就写代码的时候需要遵循一些准则，每个公司定义的准则不一样，但是整个公司都遵循着一套准则和规范，那么写出来的代码，别人是不是更容易理解呢？</p>
-<p>下面给出我们公司实行的准则和规范给大家参考：<br>我们公司制定代码十三大原则，并附有宣言：整洁的代码从不隐藏设计者的意图，我是程序设计师，我遵循4不超、2个一、7禁止。</p>
-<p><strong>4不超</strong></p>
-<ol>
-<li>函数圈复杂度不超过15</li>
-<li>函数代码行数不超过50行</li>
-<li>函数参数不超过7个</li>
-<li>函数嵌套层次不超过3层</li>
-</ol>
-<p><strong>2个一</strong></p>
-<ol>
-<li>每一行代码只表达一件事</li>
-<li>每个变量只用于单一用途</li>
-</ol>
-<p><strong>7禁止</strong></p>
-<ol>
-<li>函数/变量命名要有真实准确的意义 （禁止含有Not、And、OR；禁止具有歧义的命名）</li>
-<li>禁止使用do/while语句</li>
-<li>禁止使用continue语句</li>
-<li>禁止使用魔法数字</li>
-<li>禁止使用三元表达式</li>
-<li>禁止在if语句中使用运算表达式</li>
-<li>禁止提交SVN的代码中含有死代码</li>
-</ol>
-<p>另外我们写代码大部分都是写方法，所以针对函数我们公司给出了<strong>函数十个一</strong></p>
-<ol>
-<li>每个变量值用于单一用途</li>
-<li>每行代码只想表达一件事</li>
-<li>一个循环只做一件事</li>
-<li>单一层次抽象原则</li>
-<li>代码组织的一次只做一件事</li>
-<li>一种变化的仅仅修改一处</li>
-<li>函数应该遵守单一职责</li>
-<li>函数圈复杂度应该小于一十</li>
-<li>函数第一原则是必须短小</li>
-<li>编写函数是，必须一心一意，专注，怀有谦卑的心态</li>
-</ol>
-<p>不过在写函数的时候其实我们很难做到满足上面所有的要求，我自认为我是做不到的，这些往往是理想的状态，有时候满足这个准则就会冲突另一个准则，所以总结写函数的几点注意，我觉得做到这样，这个函数就可以算得上是比较简洁的了。</p>
-<ol>
-<li>函数名必须规范，能体现这个函数的用途最好。</li>
-<li>每个函数体进行注释说明，函数功能、参数。返回值</li>
-<li>使用卫函数：卫函数是指减少程序的圈复杂度提前返回输出。</li>
-<li>如果是一个public函数，尽量保持函数的单一抽象层次原则。即将这个函数抽离分解成若干个子函数组成，每个函数只做一件事情。这样的目的可以使得代码变得简洁易懂。</li>
-</ol>
-<p>看如下代码：</p>
-<p><img src="https://img-blog.csdnimg.cn/20181228142124234.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>If(!readOnly){…}可以使用卫函数，改成if(readOnly){return };然后对函数进行抽象，可以抽成三部分，第一部分判断是否为只读，第二部门扩容，第三部门添加函数。如下：<br><img src="https://img-blog.csdnimg.cn/20181228142142491.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>这样代码就显得很简洁了，让人一眼就能明白是做什么的。最后一个函数addElement()中只有一条语句也单独的抽成一个函数，这样做的好处是保证的函数的单一抽象层次原则。像书的目录一样，整个add()方法中都是函数组成，显得更加的美观，并且抽成函数可以通过函数名就能知道这个函数是做什么的，比直接写语句更加的直观。</p>
-<h5 id="代码注释"><a href="#代码注释" class="headerlink" title="代码注释"></a>代码注释</h5><p>另外相信大部分小伙伴都觉得注释应该越多越好吧，这样对方法理解通过看注释就可以看懂。但是实际上这是不对的。<strong>简洁的代码，不需要注释就可以让人看懂。</strong> 注释的作用是方便别人理解，所以当你想通过注释来说明一段代码是做什么的时候也许你就应该将其抽离出成函数，通过函数名来解释这个函数的作用，这样使得代码更加简洁。另外一段代码很乱，就不要给它再增加注释了，重写这个方法吧。</p>
-<p>这里提倡的是大家不要写无用的注释，而不是不写注释。另外还有一点，我们的程序代码往往很容易变动,但是往往会忘记修改注释，导致最后注释反而起到了误导的作用。所以建议注释也一定要规范。</p>
-<h5 id="代码可读性"><a href="#代码可读性" class="headerlink" title="代码可读性"></a>代码可读性</h5><p>关于代码的可读性，就是不要隐藏真实意图，不需要阅读者做太多的思考，所以有几点建议</p>
-<ol>
-<li><p>判断中尽量少用非，禁止多重否定。看下面例子<br><img src="https://images.gitbook.cn/1acd2370-9720-11e9-ae98-dfdddc232198" alt="enter image description here"><br>这个结果是多少呢？相信一不小心就判断错了吧，这种写在代码中就严重影响了代码可读性，如果你觉得这个还无所谓，那我们在来看看“我不得不否认,我不是个笨蛋”，这句话是什么意思呢？这种语句就是让你费解，需要思考。所以在代码中尽量少用非，不要多重否定。</p>
-</li>
-<li><p>命令查询分离原则，比如下面这种代码<br><img src="https://images.gitbook.cn/91b5da80-9721-11e9-ae98-dfdddc232198" alt="enter image description here"><br>是先自增还是先返回结果呢？多线程情况下呢，这种就很让人费解，由于运行环境的不同，有些返回1，有些返回0。所以在写代码的时候最好控制语句和运算语句最好分离。像我们公司禁止使用三元表达式，虽然多花几行但是能让人一眼就看懂不好么。特别是那种嵌套的三元表达式这些只使用在面试中为难面试者，在实际项目中不建议使用，可读性太差。</p>
-</li>
-</ol>
-<h5 id="代码健壮性"><a href="#代码健壮性" class="headerlink" title="代码健壮性"></a>代码健壮性</h5><p>注意代码中的空指针异常，比如下面代码<br><img src="https://images.gitbook.cn/76ab70a0-9722-11e9-9465-a7e3d006cf60" alt="enter image description here"><br>如果para为空，就会报空指针异常，导致项目报错，这就是指代码健壮性不够了。上面代码也很好修改，加一个空指针判断或者反过来写(<code>&quot;&quot;.equals(para)</code>)</p>
-<p>函数不要返回null ，如下面代码<br><img src="https://images.gitbook.cn/26e28620-9723-11e9-ae98-dfdddc232198" alt="enter image description here"><br>如果这个对象为空直接返回到上一层，如果没有做空值检验很容易就出现空指针异常，所以推荐函数中不要返回null，最好返回空的实例或者抛出异常。</p>
-<h4 id="现有的项目代码优化思路已经代码检索工具"><a href="#现有的项目代码优化思路已经代码检索工具" class="headerlink" title="现有的项目代码优化思路已经代码检索工具"></a>现有的项目代码优化思路已经代码检索工具</h4><p>相信看完上面的代码坏味道和一些代码准则，会发现我们手头上写的项目多多少少存在一些问题需要优化的，那现在该从何开始呢，如果按照上面的准则一个类一个方法的看，相信没有什么人能坚持下来的。如果你是公司级别的，建议在公司内网搭建一个SonarQube项目，公司所有项目都进行管理起来。如果是个人级别的可以使用SonarLint，它是一个插件，在eclipse和IDEA中都有插件(下图是IDEA中的插件)<br><img src="https://images.gitbook.cn/48d45590-9725-11e9-ae98-dfdddc232198" alt="enter image description here"></p>
-<p>安装好插件之后重启IDEA，右击项目，最下面就会出现SonarLint，选择analyze with SonarLint(快捷键：Ctrl+Shift+s),就会对整个项目进行检测，就会检测出你项目中的bug，漏洞，异味。<br><img src="https://images.gitbook.cn/b65af830-9725-11e9-ae77-f7748cb4d629" alt="enter image description here"></p>
-<p>这是使用的是SonarLint 默认的规则，其实上述的那些准则，SonarLint 默认的规则就差不多了，小伙伴们可以先修复SonarLint 检测出的问题。如下图就是我实际项目中检测出来的问题，报告告诉你有哪些文件有多少问题。<br><img src="https://images.gitbook.cn/bfc30010-9726-11e9-9465-a7e3d006cf60" alt="enter image description here"></p>
-<p>bug和漏洞，异味的标识都不一样。大家优先清除bug和漏洞，这样提升项目的健壮性，最后修复异味，因为个人习惯不同，往往一个项目中异味数可能达到几万或者几十万都可能。所以这里建议大家通过SonarLint 检测出来的问题，先清除bug和漏洞。最后异味优先清除容易消除的。大家不要觉得bug和漏洞很难清除，以我清理N个项目的经验来看，bug和漏洞的类型不多，往往是我们写代码的时候没有注意到，但是编译不抱错，测试不到位导致的。所以修复起来相对简单的，并且SonarLint 一般都会附加上推荐的写法，所以修改成SonarLint 推荐的写法就可以了。</p>
-<h5 id="SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例"><a href="#SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例" class="headerlink" title="SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例"></a>SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例</h5><p>这里其实有很多，我单独写了一份文档，可以参看我的博文：<br><a href="https://blog.csdn.net/qq_27790011/article/details/89309694" target="_blank" rel="noopener">SonarQube检测出的bug、漏洞以及异味的修复整理</a><br>或者链接：<a href="https://pan.baidu.com/s/11WXEl6-3VripUMLpylq2EQ" target="_blank" rel="noopener">clean code整理</a><br>提取码：c02z<br>这里我就调一些我觉得项目中比较常见的讲一下。</p>
-<ol>
-<li><p>Use an “instanceof” comparison instead.<br><img src="https://img-blog.csdnimg.cn/20190415104831783.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>上面代码都是报这个bug,提示不应该按照名称来比较类。<br>不要求类名是唯一的，只要它们在包中是唯一的。 因此，尝试根据类名确定对象的类型是一种充满危险的练习。 其中一个危险是恶意用户将发送与受信任类同名的对象，从而获得可信访问。<br>相反，应该使用instanceof运算符或Class.isAssignableFrom（）方法来检查对象的基础类型。<br>下面我是通过isAssignableFrom（）来消除bug的。如下图：<br><img src="https://img-blog.csdnimg.cn/20190415104846217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"></p>
-</li>
-<li><p>Use try-with-resources or close this “FileInputStream” in a “finally” clause.<br><img src="https://img-blog.csdnimg.cn/20190415104306231.png" alt="enter image description here"><br>提示资源没有关闭，需要在finally中进行资源关闭，但是把资源关闭放到finally中由提示这样写不规范有异味。所以它推荐的写法是将创建资源流的代码放在try()中，这样系统会自动的关闭资源，不需要我们写.close()方法，如图：<br><img src="https://img-blog.csdnimg.cn/20190415104336886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"></p>
-</li>
-<li><p>Do something with the “boolean” value returned by “delete”<br><img src="https://img-blog.csdnimg.cn/20190415120900471.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>提示当包含操作状态代码时，不应忽略返回值。也就是说不应该忽略文件删除操作的结果。<br>所以进行如下修改，但是如下修改虽然修复了漏洞，但是新增了异味。<br><img src="https://img-blog.csdnimg.cn/20190415120911365.png" alt="enter image description here"><br>异味提示”java.nio.Files#delete” should be preferred (squid:S4042)。应该使用Files.delete()方法，而不能之间文件delete.所以最后修改成：<br><img src="https://img-blog.csdnimg.cn/20190415120918496.png" alt="enter image description here"></p>
-</li>
-<li><p>Reorder the modifiers to comply with the Java Language Specification.<br><img src="https://img-blog.csdnimg.cn/20190415121828384.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>提示修饰符的顺序应该符合java语言规范，它给出的参考如下：<br><img src="https://img-blog.csdnimg.cn/20190415121838632.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"></p>
-</li>
-</ol>
-<p>这里就给出这几个吧，更多的大家可以查看我的博客和我提供的文档。</p>
-<p>第一次写chat，有什么不足的，欢迎大家指点交流。欢迎大家一起讨论。</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/三、SpringBoot 整合mybatis 多数据源以及分库分表/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="QuellanAn">
-      <meta itemprop="description" content="别让生活成为梦想的羁绊">
-      <meta itemprop="image" content="/images/author.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="QuellanAn">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/27/三、SpringBoot 整合mybatis 多数据源以及分库分表/" class="post-title-link" itemprop="url">未命名</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-27 16:51:36" itemprop="dateCreated datePublished" datetime="2019-09-27T16:51:36+08:00">2019-09-27</time>
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>@[toc]</p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>说实话，这章本来不打算讲的，因为配置多数据源的网上有很多类似的教程。但是最近因为项目要用到分库分表，所以让我研究一下看怎么实现。我想着上一篇博客讲了多环境的配置，不同的环境调用不同的数据库，那接下来就将一个环境用到多个库也就讲了。所以才有了这篇文章。<br>我们先来看一下今天项目的项目结构，在上篇博客的基础上进行了一定的增改，主要是增加了一个 config 文件，在dao 中分了两个子包mapper1 和mapper2 将原先的UserMapper 移入到了 mapper1 中。好了，开始正文<br><img src="https://img-blog.csdnimg.cn/20190921184125101.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
-<h1 id="多数据源配置"><a href="#多数据源配置" class="headerlink" title="多数据源配置"></a>多数据源配置</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在这之前，还是先说一下为什么会存在多数据源。如果项目小的话，当然是所有的数据以及逻辑处理都操作同一个库。但是当业务量大的话，就会考虑到分库了。比我会将也日志入库数据存放到单独的数据库。或者用户权限信息单独的一个库存放。这种如果只是简单的分库，一个项目中就用到2~4 个数据库的话，这种多数据源配置就有意义啦。在配置文件中配置好这几个数据源，都有唯一标识。项目在启动加载的时候都进行初始化，然后在调用的时候，想用哪个库就哪个数据源的连接实例就好了。</p>
-<p>如果不整合 mybatis 的话，直接使用使用spring 自带的jdbcTemplate ，那配置多数据源，以及使用都比较简单，但是整合 mybatis 的话，就相对复杂点。我们一步一步来将讲解。  </p>
-<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>打开application-dev.yml 文件，添加数据源。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#开发环境</span><br><span class="line">spring:</span><br><span class="line">  # 数据源配置</span><br><span class="line">  datasource:</span><br><span class="line">    one:</span><br><span class="line">      driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">      jdbc-url: jdbc:mysql://192.168.252.53:3306/zlflovemm?characterEncoding=utf-8&amp;useSSL=false&amp;zeroDateTimeBehavior=CONVERT_TO_NULL</span><br><span class="line">      username: root</span><br><span class="line">      password: 123456</span><br><span class="line">      max-idle: 10</span><br><span class="line">      max-wait: 10000</span><br><span class="line">      min-idle: 5</span><br><span class="line">      initial-size: 5</span><br><span class="line">    two:</span><br><span class="line">      driver-class-name: com.mysql.jdbc.Driver</span><br><span class="line">      jdbc-url: jdbc:mysql://192.168.252.53:3306/zlfdb?characterEncoding=utf-8&amp;useSSL=false&amp;zeroDateTimeBehavior=CONVERT_TO_NULL</span><br><span class="line">      username: root</span><br><span class="line">      password: 123456</span><br><span class="line">      max-idle: 10</span><br><span class="line">      max-wait: 10000</span><br><span class="line">      min-idle: 5</span><br><span class="line">      initial-size: 5</span><br></pre></td></tr></table></figure>
-
-<p>这里需要注意的是如果使用的是springboot 2.0 以上的，那么注意是 driver-class-name 和<br> jdbc-url 而不是driverClassName和url.这里是一个坑，提醒大家一下。</p>
-<h2 id="配置数据源"><a href="#配置数据源" class="headerlink" title="配置数据源"></a>配置数据源</h2><p>接下来就需要我们手动的加载什么什么数据源了，我们在config中创建 DataSourcesConfig 类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class DataSourcesConfig &#123;</span><br><span class="line"></span><br><span class="line">    @Bean(name=&quot;dbOne&quot;)</span><br><span class="line">    @ConfigurationProperties(prefix = &quot;spring.datasource.one&quot;)</span><br><span class="line">    @Primary</span><br><span class="line">    DataSource dbOne()&#123;</span><br><span class="line">        return DataSourceBuilder.create().build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Bean(name=&quot;dbTwo&quot;)</span><br><span class="line">    @ConfigurationProperties(prefix = &quot;spring.datasource.two&quot;)</span><br><span class="line">    DataSource dbTwo()&#123;</span><br><span class="line">        return DataSourceBuilder.create().build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里定义了两个数据源的DataSource。分别是我们在配置文件中配置的one 和two 。注解@Primary 表示默认使用的数据源。</p>
-<p>MyBatisConfigOne 类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@MapperScan(basePackages = &quot;com.quellan.zlflovemm.dao.mapper1&quot;,sqlSessionFactoryRef = &quot;sqlSessionFactory1&quot;,sqlSessionTemplateRef = &quot;sqlSessionTemplate1&quot;)</span><br><span class="line">public class MyBatisConfigOne &#123;</span><br><span class="line">    @Resource(name = &quot;dbOne&quot;)</span><br><span class="line">    DataSource dbOne;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    @Primary</span><br><span class="line">    SqlSessionFactory sqlSessionFactory1()throws Exception &#123;</span><br><span class="line">        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();</span><br><span class="line">        bean.setDataSource(dbOne);</span><br><span class="line">        return bean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line">    @Bean</span><br><span class="line">    @Primary</span><br><span class="line">    SqlSessionTemplate sqlSessionTemplate1() throws Exception&#123;</span><br><span class="line">        return new SqlSessionTemplate(sqlSessionFactory1());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>MyBatisConfigTwo 类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@MapperScan(basePackages = &quot;com.quellan.zlflovemm.dao.mapper2&quot;,sqlSessionFactoryRef = &quot;sqlSessionFactory2&quot;,sqlSessionTemplateRef = &quot;sqlSessionTemplate2&quot;)</span><br><span class="line">public class MyBatisConfigTwo &#123;</span><br><span class="line">    @Resource(name = &quot;dbTwo&quot;)</span><br><span class="line">    DataSource dbTwo;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    SqlSessionFactory sqlSessionFactory2()throws Exception &#123;</span><br><span class="line">        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();</span><br><span class="line">        bean.setDataSource(dbTwo);</span><br><span class="line">        return bean.getObject();</span><br><span class="line">    &#125;</span><br><span class="line">    @Bean</span><br><span class="line">    SqlSessionTemplate sqlSessionTemplate2()throws Exception &#123;</span><br><span class="line">        return new SqlSessionTemplate(sqlSessionFactory2());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注意连个文件的区别：<br><img src="https://img-blog.csdnimg.cn/20190921184125425.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
-<h2 id="dao-层"><a href="#dao-层" class="headerlink" title="dao 层"></a>dao 层</h2><p>在dao 层创建了两个包mapper1 和mapper2 .包里面的UserMapper类的内容是完全一样，放在不同的包中只是区分使用哪个数据源。和昨天是一样的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public interface UserMapper &#123;</span><br><span class="line"></span><br><span class="line">    @Select(&quot;select id,username as userName,password,email,role_code as roleCode,gmt_create as gmtCreate,gmt_update as gmtUpdate,nickname as nickName,user_create as userCreate from sys_user&quot;)</span><br><span class="line">    List&lt;UserEntry&gt; findUserList();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Insert(&#123;&quot;insert into sys_user(username,password,email) values(&apos;$&#123;user.userName&#125;&apos;,&apos;$&#123;user.password&#125;&apos;,&apos;$&#123;user.email&#125;&apos;)&quot;&#125;)</span><br><span class="line">    int add(@Param(&quot;user&quot;) UserEntry user);</span><br><span class="line"></span><br><span class="line">    @Delete(&quot;delete from sys_user where id = #&#123;id&#125;&quot;)</span><br><span class="line">    int delete(int id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="service-层"><a href="#service-层" class="headerlink" title="service 层"></a>service 层</h2><p>UserService接口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public interface UserService &#123;</span><br><span class="line"></span><br><span class="line">    List&lt;UserEntry&gt; findUserList();</span><br><span class="line"></span><br><span class="line">    int addUser(String userName,String password,String email);</span><br><span class="line"></span><br><span class="line">    int deleteUser(int id);</span><br><span class="line"></span><br><span class="line">    List&lt;UserEntry&gt; findUserList2();</span><br><span class="line"></span><br><span class="line">    int addUser2(String userName,String password,String email);</span><br><span class="line"></span><br><span class="line">    int deleteUser2(int id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>UserServiceImpl类：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">public class UserServiceImpl implements UserService &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    protected UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    protected UserMapper2 userMapper2;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;UserEntry&gt; findUserList() &#123;</span><br><span class="line">        return userMapper.findUserList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int addUser(String userName, String password, String email) &#123;</span><br><span class="line">        UserEntry user=new UserEntry();</span><br><span class="line">        user.setUserName(userName);</span><br><span class="line">        user.setPassword(password);</span><br><span class="line">        user.setEmail(email);</span><br><span class="line">        return userMapper.add(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int deleteUser(int id) &#123;</span><br><span class="line">        return userMapper.delete(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public List&lt;UserEntry&gt; findUserList2() &#123;</span><br><span class="line">        return userMapper2.findUserList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int addUser2(String userName, String password, String email) &#123;</span><br><span class="line">        UserEntry user=new UserEntry();</span><br><span class="line">        user.setUserName(userName);</span><br><span class="line">        user.setPassword(password);</span><br><span class="line">        user.setEmail(email);</span><br><span class="line">        return userMapper2.add(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int deleteUser2(int id) &#123;</span><br><span class="line">        return userMapper2.delete(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="controller-层"><a href="#controller-层" class="headerlink" title="controller 层"></a>controller 层</h2><p>userController</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/user&quot;)</span><br><span class="line">public class UserController &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    private UserService userService;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/list&quot;,method = RequestMethod.GET)</span><br><span class="line">    public List&lt;UserEntry&gt; findUserList()&#123;</span><br><span class="line">        return userService.findUserList();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/add&quot;,method = RequestMethod.GET)</span><br><span class="line">    public String addUser(@RequestParam(value = &quot;userName&quot;)String uaserName,@RequestParam(value = &quot;password&quot;)String password,@RequestParam(value = &quot;email&quot;)String email)&#123;</span><br><span class="line">        int falg=userService.addUser(uaserName,password,email);</span><br><span class="line">        if(falg&gt;0)&#123;</span><br><span class="line">            return &quot;success&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;error&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">		</span><br><span class="line">    @RequestMapping(value = &quot;/delete&quot;,method = RequestMethod.GET)</span><br><span class="line">    public String deleteUser(@RequestParam(value = &quot;id&quot;)int id)&#123;</span><br><span class="line">        if(userService.deleteUser(id)&gt;0)&#123;</span><br><span class="line">            return &quot;success&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;error&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/list2&quot;,method = RequestMethod.GET)</span><br><span class="line">    public List&lt;UserEntry&gt; findUserList2()&#123;</span><br><span class="line">        return userService.findUserList2();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/add2&quot;,method = RequestMethod.GET)</span><br><span class="line">    public String addUser2(@RequestParam(value = &quot;userName&quot;)String uaserName,@RequestParam(value = &quot;password&quot;)String password,@RequestParam(value = &quot;email&quot;)String email)&#123;</span><br><span class="line">        int falg= userService.addUser2(uaserName,password,email);</span><br><span class="line">        if(falg&gt;0)&#123;</span><br><span class="line">            return &quot;success&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;error&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(value = &quot;/delete2&quot;,method = RequestMethod.GET)</span><br><span class="line">    public String deleteUser2(@RequestParam(value = &quot;id&quot;)int id)&#123;</span><br><span class="line">        if(userService.deleteUser2(id)&gt;0)&#123;</span><br><span class="line">            return &quot;success&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;error&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p><img src="https://img-blog.csdnimg.cn/20190921184125702.jpeg" alt="file"><br><img src="https://img-blog.csdnimg.cn/20190921184125970.jpeg" alt="file"><br>可以看到是从不同的库中调出来的。这样就说明我们springboot配置多数据源整合mybatis 已经成功了。其实最主要就是config 包下的那三个配置类。其他的都是常见的业务逻辑，所以后面我就没有怎么讲了，代码会同步到github  上，想要实践的可以拿源码下来实践。</p>
-<p>到此我们springboot整合mybatis  多数据源已经配置好了，但是我们配置下来可以发现，我们如果想要配置几个数据源就得在 dao 层创建多少个子包用来区分。那如果我们数据量足够大，要分库分表而不是几个库呢？</p>
-<h1 id="分库分表"><a href="#分库分表" class="headerlink" title="分库分表"></a>分库分表</h1><h2 id="背景-1"><a href="#背景-1" class="headerlink" title="背景"></a>背景</h2><p>其实分库分表和多数据源是一样的，只不过是数据源更多了，多到在配置中配置所有的连接显得很臃肿，所以不得不另觅它法。分库分表就是 在项目中配置连接主库的连接，从主库中读取各个分库的连接，然后进行动态的加载，那个接口想调用那个分库就加载这个分库的连接。<br>我现在项目做的由于不用整合mybatis 直接使用jdbcTemplate ，所以实现起来不是很麻烦。</p>
-<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>主要就两个类；<br>GetDynamicJdbcTemplate类：手动的创建连接。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * @ClassName GetDynamicJdbcTemplate</span><br><span class="line"> * @Description 获取动态的jdbcTemplate</span><br><span class="line"> * @Author zhulinfeng</span><br><span class="line"> * @Date 2019/9/20 14:35</span><br><span class="line"> * @Version 1.0</span><br><span class="line"> */</span><br><span class="line">public class GetDynamicJdbcTemplate &#123;</span><br><span class="line"></span><br><span class="line">    private  String driverClassName;</span><br><span class="line">    private  String url;</span><br><span class="line">    private  String dbUsername;</span><br><span class="line">    private  String dbPassword;</span><br><span class="line">    private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    public JdbcTemplate getJdbcTemplate() &#123;</span><br><span class="line">        return jdbcTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public GetDynamicJdbcTemplate(String driverClassName, String url, String dbUsername, String dbPassword)&#123;</span><br><span class="line">        this.driverClassName=driverClassName;</span><br><span class="line">        this.url=url;</span><br><span class="line">        this.dbUsername=dbUsername;</span><br><span class="line">        this.dbPassword=dbPassword;</span><br><span class="line">        this.jdbcTemplate=new JdbcTemplate(getDataSource());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public DriverManagerDataSource getDataSource() &#123;</span><br><span class="line">        DriverManagerDataSource dataSource = new DriverManagerDataSource();</span><br><span class="line">        dataSource.setDriverClassName(driverClassName);</span><br><span class="line">        dataSource.setUrl(url);</span><br><span class="line">        dataSource.setUsername(dbUsername);</span><br><span class="line">        dataSource.setPassword(dbPassword);</span><br><span class="line">        return dataSource;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>GetJdbcTemplateMap类在项目启动的时候，会读取主库中的配置，将所有分库的连接都创建好放到map中。我们是按照地市分表的，接口在调用的时候根据前端传过来的地市就可以知道使用哪个数据库连接了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@Component</span><br><span class="line">@Slf4j</span><br><span class="line">    public class GetJdbcTemplateMap implements ApplicationRunner &#123;</span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    @Qualifier(&quot;baseTemplate&quot;)</span><br><span class="line">    private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">    public static Map&lt;String,JdbcTemplate&gt; JdbcTemplateMap=new HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run(ApplicationArguments args) throws Exception &#123;</span><br><span class="line">        String sql=&quot;CALL proc_baseinfo_cfg_dbsetting_query()&quot;;</span><br><span class="line">        List&lt;Map&lt;String, Object&gt;&gt; list = jdbcTemplate.queryForList(sql);</span><br><span class="line">        if(list!=null &amp;&amp; !list.isEmpty())&#123;</span><br><span class="line">            insertMap(list);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void insertMap(List&lt;Map&lt;String, Object&gt;&gt; list)&#123;</span><br><span class="line">        for(Map&lt;String, Object&gt; map :list)&#123;</span><br><span class="line">            String url=&quot;jdbc:mysql://&quot; map.get(&quot;serverip&quot;) &quot;:&quot; map.get(&quot;dbport&quot;) &quot;/&quot; map.get(&quot;dbname&quot;) &quot;?allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull&quot;;</span><br><span class="line">            log.info(url);</span><br><span class="line">            String  dbUsername=  map.get(&quot;user&quot;).toString();</span><br><span class="line">            String  dbPassword=  map.get(&quot;password&quot;).toString();</span><br><span class="line">            GetDynamicJdbcTemplate getDynamicJdbcTemplate=new GetDynamicJdbcTemplate(ConstantClass.DRIVERCLASSNAME,url,dbUsername,dbPassword);</span><br><span class="line">            JdbcTemplate jdbcTemplate=getDynamicJdbcTemplate.getJdbcTemplate();</span><br><span class="line">            JdbcTemplateMap.put(map.get(&quot;cityid&quot;).toString(),jdbcTemplate);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/20190921184126325.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
-<p>在接口中调用也很方便。<br><img src="https://img-blog.csdnimg.cn/20190921184126584.jpeg" alt="file"></p>
-<p>但是上面讲的只适合我们自己特有的业务，并且也没有整合mybatis ,所以我就没有写在我自己的项目中，这里提供出来是给大家一个思路。</p>
-<h1 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h1><p>也算是写完了这篇，感觉写的不是很好，但是有不知道怎么修改，暂时就先这样吧，后续有思路了再进行修改。又问问我为什么不先整合Thymeleaf  弄出页面来。之所以没有弄，是因为我想后期做前后端分离都是以接口的形式调用。所以想先将后端的部分都搭建好，再来整合前端的。<br>好了，就说这么多啦，今天项目的代码也同步到github 上啦。<br>github地址：<a href="https://github.com/QuellanAn/zlflovemm" target="_blank" rel="noopener">https://github.com/QuellanAn/zlflovemm</a></p>
-<p>后续加油♡</p>
-<p>欢迎大家关注个人公众号 “程序员爱酸奶”</p>
-<p>分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。</p>
-<p>如果大家喜欢记得关注和分享哟❤<br><img src="https://img-blog.csdnimg.cn/2019092118412737.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/七、Redis持久化的两种方式RDB和AOF理解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="QuellanAn">
-      <meta itemprop="description" content="别让生活成为梦想的羁绊">
-      <meta itemprop="image" content="/images/author.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="QuellanAn">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/27/七、Redis持久化的两种方式RDB和AOF理解/" class="post-title-link" itemprop="url">未命名</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-27 16:51:36" itemprop="dateCreated datePublished" datetime="2019-09-27T16:51:36+08:00">2019-09-27</time>
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>@[TOC]</p>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前面将了redis的主从复制以及怎么搭建，还介绍了哨兵模式以及哨兵模式的搭建。虽然操作跟上了，但是还是补一下redis的持久化。redis之所以这么流行，很大一部分原因便是持久化，断电重启数据不消失，使得redis在数据库领域中站稳了脚。前文将的主从复制其实就是依赖持久化的，如果没有持久化，这些数据都不会从主服务器备份到从服务器。下文我们就讲讲redis的持久化。</p>
-<p>说起redis持久化，大家或多或少都知道一些，简单点一句话也能概括。redis通过RDB和AOF方式将数据存入磁盘，实现持久化。RDB是定期生成快照存入磁盘中，AOF是将写操作存入磁盘中。二者各有优劣，RDB 是存放数据库中数据，适合做数据备份，但是数据可能不全，最近几分钟的数据可能没有。AOF是每秒中执行一次，如果有写操作的命令就存储起来，最多只会丢失1秒钟的数据，适合做数据恢复。但是这个就不适合做数据备份了，并且由于每秒都会执行多多少少会抢占redis的内存，会影响性能。但是在实际应用中是二者是配合使用的。</p>
-<p>下面就来具体的讲讲RDB和AOF吧</p>
-<h1 id="RDB"><a href="#RDB" class="headerlink" title="RDB"></a>RDB</h1><p>RDB 的全称是 redis database. 顾名思义，RDB就是将redis数据库，用来存储数据的，所以通过RDB方式持久化就是将存在redis内存中的数据写入到RDB文件中保存到磁盘上从而实现持久化的。<br>RDB文件是一个压缩的二进制文件，通过这个文件可以还原redis数据库的数据，从而达到数据恢复的目的，借用一下《redis设计与实现》讲的这张图，途中数据库状态可以理解为redis内存中存储的数据。<br><img src="https://img-blog.csdnimg.cn/20190822110411147.png" alt="在这里插入图片描述"><br>既然RDB持久化的方式是生成RDB文件，那么这个RDB文件是怎么生成的呢？<br>RDB文件生成的方式有两种，一种是通过命令手动生成快照，还有一个是通过配置自动生成快照。下面我们来分别看看。</p>
-<h2 id="通过save和bgsava命令生成RDB文件"><a href="#通过save和bgsava命令生成RDB文件" class="headerlink" title="通过save和bgsava命令生成RDB文件"></a>通过save和bgsava命令生成RDB文件</h2><p>这两个命令都是可以直接运行的。</p>
-<p>save命令，会阻塞服务器进程，只有当RDB文件生成成功才会接着响应服务端的其他命令。<br><img src="https://img-blog.csdnimg.cn/20190822111713522.png" alt="在这里插入图片描述"><br>而bgsave ，既然有这个命令，肯定是和save有所不同的，bgsave 不会阻塞服务器进程，会创建一个子进程来创建RDB文件<br><img src="https://img-blog.csdnimg.cn/20190822112439225.png" alt="在这里插入图片描述"><br>但是注意的是使用bgsave命令的时候，虽然是通过子进程生成RDB文件，不会阻塞服务进程，其他的命令可以执行，但是有几个命令是不能执行的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">save </span><br><span class="line">bgsave</span><br><span class="line">bgrewriteaof</span><br></pre></td></tr></table></figure>
-
-<p>在bgsave 期间 服务器拒绝这三个命令，主要是方式线程间竞争产生问题。</p>
-<h2 id="通过配置文件自动生成RDB"><a href="#通过配置文件自动生成RDB" class="headerlink" title="通过配置文件自动生成RDB"></a>通过配置文件自动生成RDB</h2><p>初了手动执行这两个命令外，还可以在配置文件中配合参数，达到条件的时候就会自动的生成RDB<br>打开我们的配置文件redis.conf,找到如下图，这个是默认的配置。<br><img src="https://img-blog.csdnimg.cn/20190822131647656.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">save 900 1 </span><br><span class="line">表示在900秒内，如果发生了一次写操作，就触发bgsave命令生成RDB</span><br><span class="line"></span><br><span class="line">同理 </span><br><span class="line">save 300 10 在300秒内，发生了10次写操作，就触发bgsave</span><br><span class="line"></span><br><span class="line">save 60 10000  在60秒内发生了10000次写操作，就触发bgsave</span><br></pre></td></tr></table></figure>
-
-<p>上面的这些可以进行配置，可以看到默认的设置，如果短时间内发生大量的写操作就会自动的触发bgsave ,生成RDB文件， 防止数据丢失。</p>
-<p>好了，上面虽然说达到这三个条件中的一个，redis就会自动的生成RDB文件，那系统是怎样控制，又是怎样识别是否满足条件呢？<br>原来啊，服务器维持了一个dirty 计数器，以及一个lastsave属性。<br>dirty 计数器记录着从上次save/bgave 到现在发生了多少次写操作，没进行一次写操作，计数器就加1<br>比如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">set a  123</span><br><span class="line">计数器dirty 加1 </span><br><span class="line"></span><br><span class="line">set a 123 b 234 c 456</span><br><span class="line">计数器dirty 加3</span><br></pre></td></tr></table></figure>
-
-<p>而lastsave 是unix时间戳，记录上次save或bgsave的时间。<br>有了这两个属性，就可以判断什么时候执行啦，redis服务器会周期性的执行serverCron函数,默认的话是每100毫秒执行一次。<br>这个serverCron 函数先通过当前时间减去lastsave 获取时间间隔。<br>如果dirty 大于 saveparm.chranges<br>并且时间间隔大于saveparm.seconds<br>那么就会触发bgsave 生成 RDB文件</p>
-<p>其中saveparm.seconds 和saveparm.chranges  分别对应的是配置文件中设置的save 900 1等。</p>
-<p>既然生成了RDB文件，我们只知道RDB是一个压缩的二进制文件，那RDB文件到底结构是什么样的呢？<br>我看了一下《redis 设计与实现》没有怎么看明白哈哈，感兴趣的可以去看看。</p>
-<p>RDB方式就讲到这里了，记住RDB方式，是定时的执行bgsave 命令生成RDB文件保存在磁盘上实现持久化的。适合数据备份，用于数据恢复可能会丢失最近几分钟的数据。</p>
-<h1 id="AOF"><a href="#AOF" class="headerlink" title="AOF"></a>AOF</h1><p>全称是append only file.  AOF 持久化的方式是通过redis服务器记录保存下所有的写命令到AOF文件存放在磁盘上，实现持久化的，看下图：<br><img src="https://img-blog.csdnimg.cn/20190822174320529.png" alt="在这里插入图片描述"><br>怎样采用AOF的方式持久化呢？<br>打开我们的配置文件，在配置文件中找到appendonly 改成yes 就可以采用AOF的方式备份了<br><img src="https://img-blog.csdnimg.cn/20190822185305746.png" alt="在这里插入图片描述"><br>我们启动redis服务，为了测试方便，我们新启的一个redis服务，数据库中没有任何key<br><img src="https://img-blog.csdnimg.cn/20190822185520265.png" alt="在这里插入图片描述"><br>我们看看appendonly.aof 也是没有任何东西的。<br><img src="https://img-blog.csdnimg.cn/20190822185617470.png" alt="在这里插入图片描述"><br>现在我们存入一个key<br><img src="https://img-blog.csdnimg.cn/20190822185725947.png" alt="在这里插入图片描述"><br>然后我们来看下aof文件的内容：<br><img src="https://img-blog.csdnimg.cn/20190822185741824.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到，初了一些$3等一些特殊符号外我们可以看到我们执行的命令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 0</span><br><span class="line">set a bbb</span><br></pre></td></tr></table></figure>
-
-<p>但是我们一些读操作的就不会记录。由此可见，AOF 持久化就是将所有的写操作存入AOF文件中，当数据恢复的时候，执行AOF文件中的命令就可以获取数据了。</p>
-<p>我们接着来看那，我向数据库中先加一个key b ,然后删除key a .<br><img src="https://img-blog.csdnimg.cn/20190822190344226.png" alt="在这里插入图片描述"><br>好了，现在我们再来看看aof 文件中是什么情况。<br><img src="https://img-blog.csdnimg.cn/2019082219043083.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到命令有：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select 0</span><br><span class="line">set a bbb</span><br><span class="line">set b ddd</span><br><span class="line">del a</span><br></pre></td></tr></table></figure>
-
-<p>所以aof 文件中包含了这四条命令，到这大家有没有发现一个问题，如果我重复的对某一个key值进行操作，那么aof文件中就会记录所有的操作命令，但是实际上只有最后一次操作才是有效的，那这个aof文件中是不是就有很多冗余的数据呢？</p>
-<p>实际上是这样的，那怎么解决这个问题呢？这里就要提到一个命令啦</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BGREWRITEAOF</span><br></pre></td></tr></table></figure>
-
-<p>和RDB中的save 以及bgsave 是类似的。不过bgrewriteaof 命令的作用是重写aof文件，为什么要重写呢，就是为了解决aof文件中冗余的问题。<br>我们先来手动执行一下这个命令<br><img src="https://img-blog.csdnimg.cn/20190822191203171.png" alt="在这里插入图片描述"><br>然后看看aof 文件中的内容<br><img src="https://img-blog.csdnimg.cn/20190822191234835.png" alt="在这里插入图片描述"><br>可以看到命令变成了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 0</span><br><span class="line">set b ddd</span><br></pre></td></tr></table></figure>
-
-<p>重写之后，aof的文件里的命令就是有效的啦，但是我们总不能自己手动执行bgrewriteaof 命令吧，那我们在哪里配置呢?<br>在redis.conf 配置文件中有这两个参数。<br><img src="https://img-blog.csdnimg.cn/20190822193916987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br> auto-aof-rewrite-percentage 100<br> 当Aof log增长超过指定比例时，重写log file， 设置为0表示不自动重写Aof 日志，重写是为了使aof体积保持最小，而确保保存最完整的数据。</p>
-<p>auto-aof-rewrite-min-size 64mb</p>
-<p>触发aof rewrite的最小文件尺寸</p>
-<p>也就是说在实际应用中，如果开启了aof 备份，可以设置这两个参数来重写AOF文件。</p>
-<p>好了上面说了那么多，那redis服务怎么通过aof文件来恢复数据的呢？<br>其实很简单，就是将aof 文件中的命令一条一条的读取出来执行。看下图<br><img src="https://img-blog.csdnimg.cn/20190822194539918.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>最后再说一点嘿嘿。<br>我们在配置文件中同时启用了RDB 和AOF ,那么服务启动的时候，会在用那个文件来回复数据呢？<br>看下面这张图。<br><img src="https://img-blog.csdnimg.cn/20190822194804742.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到如果启动aof ,就会采用aof 文件来回复数据，这是为什么呢，因为AOF 文件更新的频率更高，模式一秒中一次，所以用AOF 恢复的数据更加准确。</p>
-<p>好了，只有这么多了哈哈，推荐大家看看《redis 设计与实现》也不建议大家从头往后看，调感兴趣的看吧，毕竟里面还是有很多原理对我们而言也不是一定非得弄懂的，大概了解一下就行，我比较懒哈哈。</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/27/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="QuellanAn">
-      <meta itemprop="description" content="别让生活成为梦想的羁绊">
-      <meta itemprop="image" content="/images/author.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="QuellanAn">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/27/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-27 16:51:36" itemprop="dateCreated datePublished" datetime="2019-09-27T16:51:36+08:00">2019-09-27</time>
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-  </div>
+  </section>
 
   
 
@@ -936,6 +664,7 @@
           
 
         </div>
+        
           
   
   <div class="sidebar-toggle">
@@ -946,83 +675,281 @@
     </div>
   </div>
 
-  <aside class="sidebar">
+  <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
+      
 
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="QuellanAn">
+            
+              <p class="site-author-name" itemprop="name">QuellanAn</p>
+              <div class="site-description motion-element" itemprop="description">别让生活成为梦想的羁绊</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/ipyker" title="GitHub &rarr; https://github.com/ipyker" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:pyker@qq.com" title="E-Mail &rarr; mailto:pyker@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://weibo.com/viszhang" title="Weibo &rarr; https://weibo.com/viszhang" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="tencent://message/?uin=123435796&Site=&menu=yes" title="QQ &rarr; tencent://message/?uin=123435796&Site=&menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.ttlsa.com/" title="http://www.ttlsa.com/" rel="noopener" target="_blank">运维生存时间</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.iyunw.cn" title="https://www.iyunw.cn" rel="noopener" target="_blank">爱运维</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://nginxconfig.io/" title="https://nginxconfig.io/" rel="noopener" target="_blank">Nginxconfig</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://linux.51yip.com/" title="http://linux.51yip.com/" rel="noopener" target="_blank">Linux命令手册</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://echarts.baidu.com/index.html" title="https://echarts.baidu.com/index.html" rel="noopener" target="_blank">echarts可视化库</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
       </div>
-      <!--/noindex-->
 
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image"
-      src="/images/author.jpg"
-      alt="QuellanAn">
-  <p class="site-author-name" itemprop="name">QuellanAn</p>
-  <div class="site-description" itemprop="description">别让生活成为梦想的羁绊</div>
-</div>
-  <nav class="site-state motion-element">
-      <div class="site-state-item site-state-posts">
-        
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">6</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-    
-  </nav>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
       
-      
-        
-      
-      
-        
-      
-        <a href="https://github.com/QuellanAn" title="Github &rarr; https://github.com/QuellanAn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>Github</a>
-      </span>
-    
-  </div>
 
-
-
-      </div>
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
-  <div id="sidebar-dimmer"></div>
+  
 
 
+        
       </div>
     </main>
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright" style=" text-align:center;">&copy; 2017 – <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">QuellanAn</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="author" itemprop="copyrightHolder">Pyker</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"> 站点字数合计:</i>
+    </span>
+    
+    <span title="站点总字数">0k</span>
+  
+  
   <span class="post-meta-divider">|</span>
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.0</div>
+  <a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank">粤ICP备19028706号 </a>
 
+</div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+<div class="run_time" style=" text-align:center;">
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("07/23/2017 10:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+    setInterval("createtime()",250);
+  </script>
+</div>
         
+<div class="busuanzi-count" style=" text-align:center;">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+  
 
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+  
+</div>
 
 
 
@@ -1036,38 +963,99 @@
         
       </div>
     </footer>
+    
+
+    
+
+    
+
+    
   </div>
 
   
 
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
 
-  <script src="/lib/anime.min.js?v=3.1.0"></script>
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="255,0,255" opacity="0.7" zindex="-1" count="140" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1.0.0/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.1" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
-<script src="/js/schemes/pisces.js?v=7.4.0"></script>
-<script src="/js/next-boot.js?v=7.4.0"></script>
 
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
 
 
   
 
 
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
 
 
 
+  
+  
 
 
-
-
-
-
-
-
-
-
-
-
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
 
 
 
@@ -1076,7 +1064,411 @@
 
   
 
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
   
 
-</body>
+  
+
+  
+  
+  
+
+  
+    
+      
+    
+  
+
+  
+  
+  
+    <script src="/lib/quicklink/quicklink.umd.js"></script>
+    <script>
+      
+        window.addEventListener('load', () => {
+      
+        quicklink({
+          timeout: 3000,
+          priority: true,
+          ignores: [uri => uri.includes('#'),uri => uri == 'https://quellanan.github.io/',]
+        });
+      
+        });
+      
+    </script>
+  
+
+
+  
+
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script>
+  
+    bookmark.loadBookmark();
+  
+  </script>
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"react":{"opacity":0.7},"log":false});</script></body>
 </html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
