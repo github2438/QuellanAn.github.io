@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"always","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="代码简洁的重要性代码就是衔接人脑理解需求的含糊性和机器指令的精确性的桥梁。哪怕未来会有对现在高级编程语言的再一次抽象——但这个抽象规范自身仍旧是代码。所以既然代码会一直存在下去。所以才会出现那么多的祖传代码，基本上我们读代码时间往往比写代码的时间多，而简洁的代码可以增加可读性，可以让别人快速的理解你代码想要表达或是想做的事情。从而能够更好的拓展和修改。 在工作过程中，我们往往会出现为了拓展一个功能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="QuellanAn">
+<meta property="og:url" content="http://yoursite.com/2019/06/25/代码简洁之道，检测出你代码中的 bug、漏洞、异味/index.html">
+<meta property="og:site_name" content="QuellanAn">
+<meta property="og:description" content="代码简洁的重要性代码就是衔接人脑理解需求的含糊性和机器指令的精确性的桥梁。哪怕未来会有对现在高级编程语言的再一次抽象——但这个抽象规范自身仍旧是代码。所以既然代码会一直存在下去。所以才会出现那么多的祖传代码，基本上我们读代码时间往往比写代码的时间多，而简洁的代码可以增加可读性，可以让别人快速的理解你代码想要表达或是想做的事情。从而能够更好的拓展和修改。 在工作过程中，我们往往会出现为了拓展一个功能">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://images.gitbook.cn/1cb53670-96f6-11e9-bc97-93abff33030c">
+<meta property="og:image" content="https://images.gitbook.cn/2562e470-96f6-11e9-b265-f1f3c6cbb1c4">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181228142124234.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181228142142491.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://images.gitbook.cn/1acd2370-9720-11e9-ae98-dfdddc232198">
+<meta property="og:image" content="https://images.gitbook.cn/91b5da80-9721-11e9-ae98-dfdddc232198">
+<meta property="og:image" content="https://images.gitbook.cn/76ab70a0-9722-11e9-9465-a7e3d006cf60">
+<meta property="og:image" content="https://images.gitbook.cn/26e28620-9723-11e9-ae98-dfdddc232198">
+<meta property="og:image" content="https://images.gitbook.cn/48d45590-9725-11e9-ae98-dfdddc232198">
+<meta property="og:image" content="https://images.gitbook.cn/b65af830-9725-11e9-ae77-f7748cb4d629">
+<meta property="og:image" content="https://images.gitbook.cn/bfc30010-9726-11e9-9465-a7e3d006cf60">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415104831783.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415104846217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415104306231.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415104336886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415120900471.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415120911365.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415120918496.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415121828384.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190415121838632.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-06-25T09:32:32.771Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="QuellanAn">
+<meta name="twitter:description" content="代码简洁的重要性代码就是衔接人脑理解需求的含糊性和机器指令的精确性的桥梁。哪怕未来会有对现在高级编程语言的再一次抽象——但这个抽象规范自身仍旧是代码。所以既然代码会一直存在下去。所以才会出现那么多的祖传代码，基本上我们读代码时间往往比写代码的时间多，而简洁的代码可以增加可读性，可以让别人快速的理解你代码想要表达或是想做的事情。从而能够更好的拓展和修改。 在工作过程中，我们往往会出现为了拓展一个功能">
+<meta name="twitter:image" content="https://images.gitbook.cn/1cb53670-96f6-11e9-bc97-93abff33030c">
+  <link rel="canonical" href="http://yoursite.com/2019/06/25/代码简洁之道，检测出你代码中的 bug、漏洞、异味/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title> | QuellanAn</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">QuellanAn</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/代码简洁之道，检测出你代码中的 bug、漏洞、异味/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="QuellanAn">
+      <meta itemprop="description" content="别让生活成为梦想的羁绊">
+      <meta itemprop="image" content="/images/author.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QuellanAn">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-25 17:32:25 / 修改时间：17:32:32" itemprop="dateCreated datePublished" datetime="2019-06-25T17:32:25+08:00">2019-06-25</time>
+            </span>
+          
+            
+
+            
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="代码简洁的重要性"><a href="#代码简洁的重要性" class="headerlink" title="代码简洁的重要性"></a>代码简洁的重要性</h4><p>代码就是衔接人脑理解需求的含糊性和机器指令的精确性的桥梁。哪怕未来会有对现在高级编程语言的再一次抽象——但这个抽象规范自身仍旧是代码。所以既然代码会一直存在下去。所以才会出现那么多的祖传代码，<br>基本上我们读代码时间往往比写代码的时间多，而简洁的代码可以增加可读性，可以让别人快速的理解你代码想要表达或是想做的事情。从而能够更好的拓展和修改。</p>
+<p>在工作过程中，我们往往会出现为了拓展一个功能或修改一个bug，调整原来的代码，结果导致出现更多的bug。这总是让我们程序员抱怨写的代码垃圾，这都是因为代码不够简洁，别人没有真正理解而接着开发，积累的坑越来越多，到一定程度，代码就成了累赘了，变得难以拓展和维护。所以代码简洁就显得尤为重要了，我们写代码应该像写文章一样，先自由发挥，再细节打磨，追求完美简洁。</p>
+<h4 id="简洁的代码是什么样的"><a href="#简洁的代码是什么样的" class="headerlink" title="简洁的代码是什么样的"></a>简洁的代码是什么样的</h4><p>“唯一能有效测量代码质量的方式是每分钟说多少个What-the-Fk ”<br>− Robert Martin</p>
+<p>整洁的代码简单直接。整洁的代码如同优美的散文。整洁的代码从不隐藏<br>设计者的意图，充满了干净利落的抽象和直截了当的控制语句。<br>可以对比一下下面这两段代码，哪个更让你舒服呢<br><img src="https://images.gitbook.cn/1cb53670-96f6-11e9-bc97-93abff33030c" alt="enter image description here"><br><img src="https://images.gitbook.cn/2562e470-96f6-11e9-b265-f1f3c6cbb1c4" alt="enter image description here"><br>这两段代码实现的功能是一样的，很显然第二种的代码是非常简洁优雅的，通过方法名就能知道这个方法是做什么的，并且很有层次感。第一种的代码就让我们很头痛了，需要花更多的时间去理清逻辑，但是这种代码我们项目中最常见的样式，所以我们在读代码的时候是多么痛苦。</p>
+<p>所以简洁的代码是什么样的，让人最快读懂能理解的代码就是简洁的代码。</p>
+<h4 id="怎样写出简洁的代码"><a href="#怎样写出简洁的代码" class="headerlink" title="怎样写出简洁的代码"></a>怎样写出简洁的代码</h4><p>在这之前，先说说代码的坏味道，看看你写的代码中有没有这些，如果有那就尽早修改。</p>
+<h6 id="代码坏味道"><a href="#代码坏味道" class="headerlink" title="代码坏味道"></a>代码坏味道</h6><ol>
+<li>重复的代码</li>
+<li>过长的方法</li>
+<li>过大的类</li>
+<li>过长的参数列</li>
+<li>散弹式修改（同一个方法在项目中不同的地方出现，需要修改的时候多多处修改）</li>
+<li>不同的类别使用switch</li>
+<li>临时变量</li>
+<li>过多的抽象和代理</li>
+<li>无用多余的方法代码</li>
+<li>魔法数字（代码中存在一些常量直接使用或者比较，但是这些常量并没有声明和统一管理）</li>
+</ol>
+<p>上述的坏味道仅仅是一部分，这些坏味道的代码往往会造成代码很多问题，如：</p>
+<ol>
+<li>难于变化</li>
+<li>难于重用</li>
+<li>设计过于复杂，不利于当前编码</li>
+<li>同样的逻辑多处出现，没有进行抽象的统一</li>
+<li>命名混乱，结构杂乱，难以阅读和理解</li>
+<li>难于测试和验证</li>
+</ol>
+<h5 id="代码准则"><a href="#代码准则" class="headerlink" title="代码准则"></a>代码准则</h5><p>所以就写代码的时候需要遵循一些准则，每个公司定义的准则不一样，但是整个公司都遵循着一套准则和规范，那么写出来的代码，别人是不是更容易理解呢？</p>
+<p>下面给出我们公司实行的准则和规范给大家参考：<br>我们公司制定代码十三大原则，并附有宣言：整洁的代码从不隐藏设计者的意图，我是程序设计师，我遵循4不超、2个一、7禁止。</p>
+<p><strong>4不超</strong></p>
+<ol>
+<li>函数圈复杂度不超过15</li>
+<li>函数代码行数不超过50行</li>
+<li>函数参数不超过7个</li>
+<li>函数嵌套层次不超过3层</li>
+</ol>
+<p><strong>2个一</strong></p>
+<ol>
+<li>每一行代码只表达一件事</li>
+<li>每个变量只用于单一用途</li>
+</ol>
+<p><strong>7禁止</strong></p>
+<ol>
+<li>函数/变量命名要有真实准确的意义 （禁止含有Not、And、OR；禁止具有歧义的命名）</li>
+<li>禁止使用do/while语句</li>
+<li>禁止使用continue语句</li>
+<li>禁止使用魔法数字</li>
+<li>禁止使用三元表达式</li>
+<li>禁止在if语句中使用运算表达式</li>
+<li>禁止提交SVN的代码中含有死代码</li>
+</ol>
+<p>另外我们写代码大部分都是写方法，所以针对函数我们公司给出了<strong>函数十个一</strong></p>
+<ol>
+<li>每个变量值用于单一用途</li>
+<li>每行代码只想表达一件事</li>
+<li>一个循环只做一件事</li>
+<li>单一层次抽象原则</li>
+<li>代码组织的一次只做一件事</li>
+<li>一种变化的仅仅修改一处</li>
+<li>函数应该遵守单一职责</li>
+<li>函数圈复杂度应该小于一十</li>
+<li>函数第一原则是必须短小</li>
+<li>编写函数是，必须一心一意，专注，怀有谦卑的心态</li>
+</ol>
+<p>不过在写函数的时候其实我们很难做到满足上面所有的要求，我自认为我是做不到的，这些往往是理想的状态，有时候满足这个准则就会冲突另一个准则，所以总结写函数的几点注意，我觉得做到这样，这个函数就可以算得上是比较简洁的了。</p>
+<ol>
+<li>函数名必须规范，能体现这个函数的用途最好。</li>
+<li>每个函数体进行注释说明，函数功能、参数。返回值</li>
+<li>使用卫函数：卫函数是指减少程序的圈复杂度提前返回输出。</li>
+<li>如果是一个public函数，尽量保持函数的单一抽象层次原则。即将这个函数抽离分解成若干个子函数组成，每个函数只做一件事情。这样的目的可以使得代码变得简洁易懂。</li>
+</ol>
+<p>看如下代码：</p>
+<p><img src="https://img-blog.csdnimg.cn/20181228142124234.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>If(!readOnly){…}可以使用卫函数，改成if(readOnly){return };然后对函数进行抽象，可以抽成三部分，第一部分判断是否为只读，第二部门扩容，第三部门添加函数。如下：<br><img src="https://img-blog.csdnimg.cn/20181228142142491.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>这样代码就显得很简洁了，让人一眼就能明白是做什么的。最后一个函数addElement()中只有一条语句也单独的抽成一个函数，这样做的好处是保证的函数的单一抽象层次原则。像书的目录一样，整个add()方法中都是函数组成，显得更加的美观，并且抽成函数可以通过函数名就能知道这个函数是做什么的，比直接写语句更加的直观。</p>
+<h5 id="代码注释"><a href="#代码注释" class="headerlink" title="代码注释"></a>代码注释</h5><p>另外相信大部分小伙伴都觉得注释应该越多越好吧，这样对方法理解通过看注释就可以看懂。但是实际上这是不对的。<strong>简洁的代码，不需要注释就可以让人看懂。</strong> 注释的作用是方便别人理解，所以当你想通过注释来说明一段代码是做什么的时候也许你就应该将其抽离出成函数，通过函数名来解释这个函数的作用，这样使得代码更加简洁。另外一段代码很乱，就不要给它再增加注释了，重写这个方法吧。</p>
+<p>这里提倡的是大家不要写无用的注释，而不是不写注释。另外还有一点，我们的程序代码往往很容易变动,但是往往会忘记修改注释，导致最后注释反而起到了误导的作用。所以建议注释也一定要规范。</p>
+<h5 id="代码可读性"><a href="#代码可读性" class="headerlink" title="代码可读性"></a>代码可读性</h5><p>关于代码的可读性，就是不要隐藏真实意图，不需要阅读者做太多的思考，所以有几点建议</p>
+<ol>
+<li><p>判断中尽量少用非，禁止多重否定。看下面例子<br><img src="https://images.gitbook.cn/1acd2370-9720-11e9-ae98-dfdddc232198" alt="enter image description here"><br>这个结果是多少呢？相信一不小心就判断错了吧，这种写在代码中就严重影响了代码可读性，如果你觉得这个还无所谓，那我们在来看看“我不得不否认,我不是个笨蛋”，这句话是什么意思呢？这种语句就是让你费解，需要思考。所以在代码中尽量少用非，不要多重否定。</p>
+</li>
+<li><p>命令查询分离原则，比如下面这种代码<br><img src="https://images.gitbook.cn/91b5da80-9721-11e9-ae98-dfdddc232198" alt="enter image description here"><br>是先自增还是先返回结果呢？多线程情况下呢，这种就很让人费解，由于运行环境的不同，有些返回1，有些返回0。所以在写代码的时候最好控制语句和运算语句最好分离。像我们公司禁止使用三元表达式，虽然多花几行但是能让人一眼就看懂不好么。特别是那种嵌套的三元表达式这些只使用在面试中为难面试者，在实际项目中不建议使用，可读性太差。</p>
+</li>
+</ol>
+<h5 id="代码健壮性"><a href="#代码健壮性" class="headerlink" title="代码健壮性"></a>代码健壮性</h5><p>注意代码中的空指针异常，比如下面代码<br><img src="https://images.gitbook.cn/76ab70a0-9722-11e9-9465-a7e3d006cf60" alt="enter image description here"><br>如果para为空，就会报空指针异常，导致项目报错，这就是指代码健壮性不够了。上面代码也很好修改，加一个空指针判断或者反过来写(<code>&quot;&quot;.equals(para)</code>)</p>
+<p>函数不要返回null ，如下面代码<br><img src="https://images.gitbook.cn/26e28620-9723-11e9-ae98-dfdddc232198" alt="enter image description here"><br>如果这个对象为空直接返回到上一层，如果没有做空值检验很容易就出现空指针异常，所以推荐函数中不要返回null，最好返回空的实例或者抛出异常。</p>
+<h4 id="现有的项目代码优化思路已经代码检索工具"><a href="#现有的项目代码优化思路已经代码检索工具" class="headerlink" title="现有的项目代码优化思路已经代码检索工具"></a>现有的项目代码优化思路已经代码检索工具</h4><p>相信看完上面的代码坏味道和一些代码准则，会发现我们手头上写的项目多多少少存在一些问题需要优化的，那现在该从何开始呢，如果按照上面的准则一个类一个方法的看，相信没有什么人能坚持下来的。如果你是公司级别的，建议在公司内网搭建一个SonarQube项目，公司所有项目都进行管理起来。如果是个人级别的可以使用SonarLint，它是一个插件，在eclipse和IDEA中都有插件(下图是IDEA中的插件)<br><img src="https://images.gitbook.cn/48d45590-9725-11e9-ae98-dfdddc232198" alt="enter image description here"></p>
+<p>安装好插件之后重启IDEA，右击项目，最下面就会出现SonarLint，选择analyze with SonarLint(快捷键：Ctrl+Shift+s),就会对整个项目进行检测，就会检测出你项目中的bug，漏洞，异味。<br><img src="https://images.gitbook.cn/b65af830-9725-11e9-ae77-f7748cb4d629" alt="enter image description here"></p>
+<p>这是使用的是SonarLint 默认的规则，其实上述的那些准则，SonarLint 默认的规则就差不多了，小伙伴们可以先修复SonarLint 检测出的问题。如下图就是我实际项目中检测出来的问题，报告告诉你有哪些文件有多少问题。<br><img src="https://images.gitbook.cn/bfc30010-9726-11e9-9465-a7e3d006cf60" alt="enter image description here"></p>
+<p>bug和漏洞，异味的标识都不一样。大家优先清除bug和漏洞，这样提升项目的健壮性，最后修复异味，因为个人习惯不同，往往一个项目中异味数可能达到几万或者几十万都可能。所以这里建议大家通过SonarLint 检测出来的问题，先清除bug和漏洞。最后异味优先清除容易消除的。大家不要觉得bug和漏洞很难清除，以我清理N个项目的经验来看，bug和漏洞的类型不多，往往是我们写代码的时候没有注意到，但是编译不抱错，测试不到位导致的。所以修复起来相对简单的，并且SonarLint 一般都会附加上推荐的写法，所以修改成SonarLint 推荐的写法就可以了。</p>
+<h5 id="SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例"><a href="#SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例" class="headerlink" title="SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例"></a>SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例</h5><p>这里其实有很多，我单独写了一份文档，可以参看我的博文：<br><a href="https://blog.csdn.net/qq_27790011/article/details/89309694" target="_blank" rel="noopener">SonarQube检测出的bug、漏洞以及异味的修复整理</a><br>或者链接：<a href="https://pan.baidu.com/s/11WXEl6-3VripUMLpylq2EQ" target="_blank" rel="noopener">clean code整理</a><br>提取码：c02z<br>这里我就调一些我觉得项目中比较常见的讲一下。</p>
+<ol>
+<li><p>Use an “instanceof” comparison instead.<br><img src="https://img-blog.csdnimg.cn/20190415104831783.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>上面代码都是报这个bug,提示不应该按照名称来比较类。<br>不要求类名是唯一的，只要它们在包中是唯一的。 因此，尝试根据类名确定对象的类型是一种充满危险的练习。 其中一个危险是恶意用户将发送与受信任类同名的对象，从而获得可信访问。<br>相反，应该使用instanceof运算符或Class.isAssignableFrom（）方法来检查对象的基础类型。<br>下面我是通过isAssignableFrom（）来消除bug的。如下图：<br><img src="https://img-blog.csdnimg.cn/20190415104846217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"></p>
+</li>
+<li><p>Use try-with-resources or close this “FileInputStream” in a “finally” clause.<br><img src="https://img-blog.csdnimg.cn/20190415104306231.png" alt="enter image description here"><br>提示资源没有关闭，需要在finally中进行资源关闭，但是把资源关闭放到finally中由提示这样写不规范有异味。所以它推荐的写法是将创建资源流的代码放在try()中，这样系统会自动的关闭资源，不需要我们写.close()方法，如图：<br><img src="https://img-blog.csdnimg.cn/20190415104336886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"></p>
+</li>
+<li><p>Do something with the “boolean” value returned by “delete”<br><img src="https://img-blog.csdnimg.cn/20190415120900471.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>提示当包含操作状态代码时，不应忽略返回值。也就是说不应该忽略文件删除操作的结果。<br>所以进行如下修改，但是如下修改虽然修复了漏洞，但是新增了异味。<br><img src="https://img-blog.csdnimg.cn/20190415120911365.png" alt="enter image description here"><br>异味提示”java.nio.Files#delete” should be preferred (squid:S4042)。应该使用Files.delete()方法，而不能之间文件delete.所以最后修改成：<br><img src="https://img-blog.csdnimg.cn/20190415120918496.png" alt="enter image description here"></p>
+</li>
+<li><p>Reorder the modifiers to comply with the Java Language Specification.<br><img src="https://img-blog.csdnimg.cn/20190415121828384.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"><br>提示修饰符的顺序应该符合java语言规范，它给出的参考如下：<br><img src="https://img-blog.csdnimg.cn/20190415121838632.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="enter image description here"></p>
+</li>
+</ol>
+<p>这里就给出这几个吧，更多的大家可以查看我的博客和我提供的文档。</p>
+<p>第一次写chat，有什么不足的，欢迎大家指点交流。欢迎大家一起讨论。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/22/七、Redis持久化的两种方式RDB和AOF理解/" rel="prev" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码简洁的重要性"><span class="nav-number">1.</span> <span class="nav-text">代码简洁的重要性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简洁的代码是什么样的"><span class="nav-number">2.</span> <span class="nav-text">简洁的代码是什么样的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#怎样写出简洁的代码"><span class="nav-number">3.</span> <span class="nav-text">怎样写出简洁的代码</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#代码坏味道"><span class="nav-number">3.0.1.</span> <span class="nav-text">代码坏味道</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码准则"><span class="nav-number">3.1.</span> <span class="nav-text">代码准则</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码注释"><span class="nav-number">3.2.</span> <span class="nav-text">代码注释</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码可读性"><span class="nav-number">3.3.</span> <span class="nav-text">代码可读性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码健壮性"><span class="nav-number">3.4.</span> <span class="nav-text">代码健壮性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#现有的项目代码优化思路已经代码检索工具"><span class="nav-number">4.</span> <span class="nav-text">现有的项目代码优化思路已经代码检索工具</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例"><span class="nav-number">4.1.</span> <span class="nav-text">SonarLint和SonarQube检测出的bug、漏洞、异味修复的思路和案例</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/author.jpg"
+      alt="QuellanAn">
+  <p class="site-author-name" itemprop="name">QuellanAn</p>
+  <div class="site-description" itemprop="description">别让生活成为梦想的羁绊</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/QuellanAn" title="Github &rarr; https://github.com/QuellanAn" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>Github</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">QuellanAn</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
