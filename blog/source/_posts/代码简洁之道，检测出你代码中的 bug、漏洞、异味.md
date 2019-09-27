@@ -1,4 +1,9 @@
-﻿####  代码简洁的重要性
+
+
+title: 代码简洁之道，检测出你代码中的 bug、漏洞、异味
+
+####  代码简洁的重要性
+
 代码就是衔接人脑理解需求的含糊性和机器指令的精确性的桥梁。哪怕未来会有对现在高级编程语言的再一次抽象——但这个抽象规范自身仍旧是代码。所以既然代码会一直存在下去。所以才会出现那么多的祖传代码，
 基本上我们读代码时间往往比写代码的时间多，而简洁的代码可以增加可读性，可以让别人快速的理解你代码想要表达或是想做的事情。从而能够更好的拓展和修改。
 
@@ -99,12 +104,12 @@ If(!readOnly){…}可以使用卫函数，改成if(readOnly){return };然后对�
 关于代码的可读性，就是不要隐藏真实意图，不需要阅读者做太多的思考，所以有几点建议
 
 1. 判断中尽量少用非，禁止多重否定。看下面例子
-![enter image description here](https://images.gitbook.cn/1acd2370-9720-11e9-ae98-dfdddc232198)
-这个结果是多少呢？相信一不小心就判断错了吧，这种写在代码中就严重影响了代码可读性，如果你觉得这个还无所谓，那我们在来看看“我不得不否认,我不是个笨蛋”，这句话是什么意思呢？这种语句就是让你费解，需要思考。所以在代码中尽量少用非，不要多重否定。
+   ![enter image description here](https://images.gitbook.cn/1acd2370-9720-11e9-ae98-dfdddc232198)
+   这个结果是多少呢？相信一不小心就判断错了吧，这种写在代码中就严重影响了代码可读性，如果你觉得这个还无所谓，那我们在来看看“我不得不否认,我不是个笨蛋”，这句话是什么意思呢？这种语句就是让你费解，需要思考。所以在代码中尽量少用非，不要多重否定。
 
 2. 命令查询分离原则，比如下面这种代码
-![enter image description here](https://images.gitbook.cn/91b5da80-9721-11e9-ae98-dfdddc232198)
-是先自增还是先返回结果呢？多线程情况下呢，这种就很让人费解，由于运行环境的不同，有些返回1，有些返回0。所以在写代码的时候最好控制语句和运算语句最好分离。像我们公司禁止使用三元表达式，虽然多花几行但是能让人一眼就看懂不好么。特别是那种嵌套的三元表达式这些只使用在面试中为难面试者，在实际项目中不建议使用，可读性太差。
+   ![enter image description here](https://images.gitbook.cn/91b5da80-9721-11e9-ae98-dfdddc232198)
+   是先自增还是先返回结果呢？多线程情况下呢，这种就很让人费解，由于运行环境的不同，有些返回1，有些返回0。所以在写代码的时候最好控制语句和运算语句最好分离。像我们公司禁止使用三元表达式，虽然多花几行但是能让人一眼就看懂不好么。特别是那种嵌套的三元表达式这些只使用在面试中为难面试者，在实际项目中不建议使用，可读性太差。
 
 ##### 代码健壮性
 注意代码中的空指针异常，比如下面代码
@@ -136,30 +141,30 @@ bug和漏洞，异味的标识都不一样。大家优先清除bug和漏洞，�
 这里我就调一些我觉得项目中比较常见的讲一下。
 
 1. Use an “instanceof” comparison instead.
-![enter image description here](https://img-blog.csdnimg.cn/20190415104831783.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
-上面代码都是报这个bug,提示不应该按照名称来比较类。
-不要求类名是唯一的，只要它们在包中是唯一的。 因此，尝试根据类名确定对象的类型是一种充满危险的练习。 其中一个危险是恶意用户将发送与受信任类同名的对象，从而获得可信访问。
-相反，应该使用instanceof运算符或Class.isAssignableFrom（）方法来检查对象的基础类型。
-下面我是通过isAssignableFrom（）来消除bug的。如下图：
-![enter image description here](https://img-blog.csdnimg.cn/20190415104846217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415104831783.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
+   上面代码都是报这个bug,提示不应该按照名称来比较类。
+   不要求类名是唯一的，只要它们在包中是唯一的。 因此，尝试根据类名确定对象的类型是一种充满危险的练习。 其中一个危险是恶意用户将发送与受信任类同名的对象，从而获得可信访问。
+   相反，应该使用instanceof运算符或Class.isAssignableFrom（）方法来检查对象的基础类型。
+   下面我是通过isAssignableFrom（）来消除bug的。如下图：
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415104846217.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
 
 2. Use try-with-resources or close this “FileInputStream” in a “finally” clause.
-![enter image description here](https://img-blog.csdnimg.cn/20190415104306231.png)
-提示资源没有关闭，需要在finally中进行资源关闭，但是把资源关闭放到finally中由提示这样写不规范有异味。所以它推荐的写法是将创建资源流的代码放在try()中，这样系统会自动的关闭资源，不需要我们写.close()方法，如图：
-![enter image description here](https://img-blog.csdnimg.cn/20190415104336886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415104306231.png)
+   提示资源没有关闭，需要在finally中进行资源关闭，但是把资源关闭放到finally中由提示这样写不规范有异味。所以它推荐的写法是将创建资源流的代码放在try()中，这样系统会自动的关闭资源，不需要我们写.close()方法，如图：
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415104336886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
 
 3. Do something with the “boolean” value returned by “delete”
-![enter image description here](https://img-blog.csdnimg.cn/20190415120900471.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
-提示当包含操作状态代码时，不应忽略返回值。也就是说不应该忽略文件删除操作的结果。
-所以进行如下修改，但是如下修改虽然修复了漏洞，但是新增了异味。
-![enter image description here](https://img-blog.csdnimg.cn/20190415120911365.png)
-异味提示"java.nio.Files#delete" should be preferred (squid:S4042)。应该使用Files.delete()方法，而不能之间文件delete.所以最后修改成：
-![enter image description here](https://img-blog.csdnimg.cn/20190415120918496.png)
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415120900471.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
+   提示当包含操作状态代码时，不应忽略返回值。也就是说不应该忽略文件删除操作的结果。
+   所以进行如下修改，但是如下修改虽然修复了漏洞，但是新增了异味。
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415120911365.png)
+   异味提示"java.nio.Files#delete" should be preferred (squid:S4042)。应该使用Files.delete()方法，而不能之间文件delete.所以最后修改成：
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415120918496.png)
 
 4. Reorder the modifiers to comply with the Java Language Specification.
-![enter image description here](https://img-blog.csdnimg.cn/20190415121828384.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
-提示修饰符的顺序应该符合java语言规范，它给出的参考如下：
-![enter image description here](https://img-blog.csdnimg.cn/20190415121838632.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415121828384.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
+   提示修饰符的顺序应该符合java语言规范，它给出的参考如下：
+   ![enter image description here](https://img-blog.csdnimg.cn/20190415121838632.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
 
 这里就给出这几个吧，更多的大家可以查看我的博客和我提供的文档。
 
