@@ -64,7 +64,7 @@ footer:
     color: "#ff0000"
 
   # If not defined, `author` from Hexo main config will be used.
-  copyright: Pyker
+  copyright: Quellanan
 
   powered:
     # Hexo link (Powered by Hexo).
@@ -81,7 +81,7 @@ footer:
   # Beian icp information for Chinese users. In China, every legal website should have a beian icp in website footer.
   # http://www.beian.miit.gov.cn
   beian:
-    enable: true
+    enable: false
     icp: 粤ICP备19028706号
 
   # Any custom text can be defined here.
@@ -102,7 +102,7 @@ creative_commons:
 # `Follow me on GitHub` banner in the top-right corner.
 github_banner:
   enable: false
-  permalink: https://github.com/ipyker
+  permalink: https://github.com/quellanan
   title: Follow me on GitHub
 
 
@@ -119,7 +119,7 @@ disable_baidu_transformation: false
 canonical: true
 
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post / page titles for better SEO-optimization.
-seo: false
+seo: true
 
 # If true, will add site-subtitle to index page, added in main hexo config.
 # subtitle: Subtitle
@@ -145,7 +145,7 @@ exturl: false
 #baidu_site_verification:
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO.
-baidu_push: false
+baidu_push: true
 
 
 # ---------------------------------------------------------------
@@ -202,7 +202,7 @@ site_state: true
 social:
   GitHub: https://github.com/ipyker || github
   E-Mail: mailto:pyker@qq.com || envelope
-  Weibo: https://weibo.com/viszhang || weibo
+  CSDN: https://blog.csdn.net/qq_27790011 || CSDN
   QQ: tencent://message/?uin=123435796&Site=&menu=yes || qq
   #Twitter: https://twitter.com/yourname || twitter
   #FB Page: https://www.facebook.com/yourname || facebook
@@ -223,11 +223,8 @@ links_title: 推荐阅读
 #links_layout: block
 links_layout: inline
 links:
-  运维生存时间: http://www.ttlsa.com/
-  爱运维: https://www.iyunw.cn
-  Nginxconfig: https://nginxconfig.io/
-  Linux命令手册: http://linux.51yip.com/
-  echarts可视化库: https://echarts.baidu.com/index.html
+  springBoot实战: https://blog.csdn.net/qq_27790011/article/category/9361908
+  Redis 必知必会: https://blog.csdn.net/qq_27790011/article/category/9187012
 
 # Sidebar Avatar
 avatar:
@@ -652,7 +649,7 @@ valine:
 
 # LiveRe comments system
 # You can get your uid from https://livere.com/insight/myCode (General web site)
-livere_uid: MTAyMC80NDM5Mi8yMDkyNA==
+livere_uid: MTAyMC80NjgzNy8yMzMzOA==
 
 # Gitment
 # Introduction: https://github.com/imsun/gitment
@@ -1219,5 +1216,5 @@ passage_end_tag:
   enabled: true
 
 # Online contact 
-daovoice: true
+daovoice: false
 daovoice_app_id: bd399fce
