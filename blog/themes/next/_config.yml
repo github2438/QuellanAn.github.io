@@ -216,6 +216,8 @@ social_icons:
   enable: true
   icons_only: false
   transition: false
+  csdn: crosshairs
+
 
 # Blog rolls
 links_icon: book
@@ -1216,5 +1218,5 @@ passage_end_tag:
   enabled: true
 
 # Online contact 
-daovoice: false
-daovoice_app_id: bd399fce
+daovoice: true
+daovoice_app_id: b5fbffa8
