@@ -757,7 +757,7 @@ needmoreshare2:
 #growingio_analytics: #your projectId
 
 # Google Analytics
-#google_analytics:
+google_analytics: UA-148880969-1
 #  tracking_id:
 #  localhost_ignored: true
 
