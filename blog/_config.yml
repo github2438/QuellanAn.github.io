@@ -79,8 +79,17 @@ theme: nexT
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: git@github.com:QuellanAn/QuellanAn.github.io.git
+  repository: 
+    github: git@github.com:QuellanAn/QuellanAn.github.io.git
+    coding: git@git.dev.tencent.com:quellanan/QuellanAn.git
   branch: master
+
+# hexo sitemap
+sitemap:
+  path: sitemap.xml
+
+baidusitemap:
+  path: baidusitemap.xml
 
 search:
   path: search.xml
