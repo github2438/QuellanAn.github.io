@@ -154,18 +154,28 @@
   daovoice('update');
   </script>
 
-  <meta name="description" content="第一次见面你好，同学！欢迎你使用基于hexo搭建的next主题的博客系统。 关于Markdown当你能够正常访问这个页面时，相信你已经知道以后写博客文章是基于Markdown语法的，请熟练使用他。 祝你好运">
-<meta name="keywords" content="linux,os,java,python">
+  <meta name="description" content="前言好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修">
+<meta name="keywords" content="java,springboot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第一篇博客">
-<meta property="og:url" content="https://quellanan.github.io/2018/11/30/第一篇博客.html">
+<meta property="og:title" content="四、springBoot 优雅的创建定时任务">
+<meta property="og:url" content="https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务.html">
 <meta property="og:site_name" content="QuellanAn">
-<meta property="og:description" content="第一次见面你好，同学！欢迎你使用基于hexo搭建的next主题的博客系统。 关于Markdown当你能够正常访问这个页面时，相信你已经知道以后写博客文章是基于Markdown语法的，请熟练使用他。 祝你好运">
+<meta property="og:description" content="前言好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-27T09:17:41.241Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161157924.jpeg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161158434.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161158769.jpeg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161159239.jpeg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161159580.jpeg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161159969.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161200531.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161201238.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019092616120288.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-28T01:50:32.015Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="第一篇博客">
-<meta name="twitter:description" content="第一次见面你好，同学！欢迎你使用基于hexo搭建的next主题的博客系统。 关于Markdown当你能够正常访问这个页面时，相信你已经知道以后写博客文章是基于Markdown语法的，请熟练使用他。 祝你好运">
+<meta name="twitter:title" content="四、springBoot 优雅的创建定时任务">
+<meta name="twitter:description" content="前言好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190926161157924.jpeg">
 
 
 
@@ -175,7 +185,7 @@
 
   
   
-  <link rel="canonical" href="https://quellanan.github.io/2018/11/30/第一篇博客">
+  <link rel="canonical" href="https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务">
 
 
 
@@ -185,7 +195,7 @@
   };
 </script>
 
-  <title>第一篇博客 | QuellanAn</title>
+  <title>四、springBoot 优雅的创建定时任务 | QuellanAn</title>
   
 
 
@@ -447,7 +457,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/2018/11/30/第一篇博客.html">
+    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="QuellanAn">
@@ -464,7 +474,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">第一篇博客
+          <h2 class="post-title" itemprop="name headline">四、springBoot 优雅的创建定时任务
 
               
             
@@ -507,7 +517,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-27 17:17:41" itemprop="dateModified" datetime="2019-09-27T17:17:41+08:00">2019-09-27</time>
+                <time title="修改时间：2019-09-28 09:50:32" itemprop="dateModified" datetime="2019-09-28T09:50:32+08:00">2019-09-28</time>
               
             
           </span>
@@ -567,7 +577,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">104</span>
+                <span title="本文字数">5k</span>
               
 
               
@@ -581,7 +591,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">5 分钟</span>
               
             </div>
           
@@ -601,9 +611,163 @@
       
 
       
-        <h2 id="第一次见面"><a href="#第一次见面" class="headerlink" title="第一次见面"></a>第一次见面</h2><p>你好，同学！欢迎你使用基于hexo搭建的next主题的博客系统。</p>
-<h2 id="关于Markdown"><a href="#关于Markdown" class="headerlink" title="关于Markdown"></a>关于Markdown</h2><p>当你能够正常访问这个页面时，相信你已经知道以后写博客文章是基于Markdown语法的，请熟练使用他。</p>
-<p><strong>祝你好运</strong></p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。<br>总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。<br>不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修改，每次都得重新编译，所以想将定时时间存在数据库，然后项目读取数据库执行定时任务，所以就有了基于接口的定时任务。下面就分基于注解和基于接口详细讲解。</p>
+<h1 id="基于注解"><a href="#基于注解" class="headerlink" title="基于注解"></a>基于注解</h1><p>pom.xml 文件不用修改，我们原本的项目就支持，其实定时器是springboot框架自带的，不用引入什么依赖。我们直接创建一个autotask 包，创建一个AutoTask类。<br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@EnableScheduling</span></span><br><span class="line"><span class="variable">@Component</span></span><br><span class="line"><span class="variable">@Slf4j</span></span><br><span class="line">public class AutoTask &#123;</span><br><span class="line">    <span class="variable">@Scheduled</span>(cron=<span class="string">"*/6 * * * * ?"</span>)</span><br><span class="line">    private void process()&#123;</span><br><span class="line">        <span class="selector-tag">log</span><span class="selector-class">.info</span>(<span class="string">"autoTask "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样一个定时器就创建啦，在项目启动后，会每隔6s 打印“autoTask”的日志。是不是很简单。主要用到的两个注解就是@EnableScheduling 和 @Scheduled。<br>注解@EnableScheduling 就是开启定时任务的。哪个类的中的方法想要定期执行，就在这个类上加入这个注解。当然这个这个注解也可以加在启动类上。加在启动类上表示项目中所有的类都可以创建定时任务。<br><img src="https://img-blog.csdnimg.cn/20190926161157924.jpeg" alt="file"></p>
+<p>@Scheduled 注解就是我们常见的定时器啦，后面的cron 就是定时任务表达式。在方法上注解，表示这个方法定期执行。<br><img src="https://img-blog.csdnimg.cn/20190926161158434.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"><br>不过@Scheduled 可以进行两种配置，我们熟悉的cron ,还有一种是fixedRate。比如fixedRate=6000 表示方法每6秒钟执行一次。<br>我们来启动项目看一下，可以看到两个方法都在定期执行。<br><img src="https://img-blog.csdnimg.cn/20190926161158769.jpeg" alt="file"></p>
+<h1 id="基于接口"><a href="#基于接口" class="headerlink" title="基于接口"></a>基于接口</h1><p>上面可以看到springboot 基于注解是非常方便的。但是对于频繁变动或者一个项目中有很多的定时器那就不方便管理了。所以统一将定时器信息存放在数据库中。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`scheduled`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`scheduled`</span>  (</span><br><span class="line">  <span class="string">`cron_id`</span> <span class="built_in">varchar</span>(<span class="number">30</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> PRIMARY <span class="keyword">KEY</span>,</span><br><span class="line">  <span class="string">`cron_name`</span> <span class="built_in">varchar</span>(<span class="number">30</span>) <span class="literal">NULL</span>,</span><br><span class="line">  <span class="string">`cron`</span> <span class="built_in">varchar</span>(<span class="number">30</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`scheduled`</span> <span class="keyword">VALUES</span> (<span class="string">'1'</span>,<span class="string">'定时器任务一'</span>,<span class="string">'0/6 * * * * ?'</span>);</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://img-blog.csdnimg.cn/20190926161159239.jpeg" alt="file"></p>
+<p>在dao 层mapper1包下创建一个CronMapper接口，很简单的就获取cron<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public<span class="built_in"> interface </span>CronMapper &#123;</span><br><span class="line"></span><br><span class="line">    @Select(<span class="string">"select cron from scheduled where cron_id = #&#123;id&#125;"</span>)</span><br><span class="line">    public String getCron(int id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://img-blog.csdnimg.cn/20190926161159580.jpeg" alt="file"></p>
+<p>这里我们就不写service 层了。直接在autotask 包下创建一个AutoTaskFromDB类<br><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Component</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">AutoTaskFromDB</span> <span class="title">implements</span> <span class="title">SchedulingConfigurer</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    @Autowired</span><br><span class="line">    protected CronMapper cronMapper;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public <span class="literal">void</span> configureTasks(ScheduledTaskRegistrar scheduledTaskRegistrar) &#123;</span><br><span class="line"></span><br><span class="line">        scheduledTaskRegistrar.addTriggerTask<span class="function"><span class="params">(() -&gt; process(),</span></span></span><br><span class="line"><span class="function"><span class="params">                triggerContext -&gt; &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">                    String cron = cronMapper.getCron(<span class="number">1</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">if</span> (cron.isEmpty()) &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">                       log.info(<span class="string">"cron 为空"</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">                    &#125;</span></span></span><br><span class="line"><span class="function"><span class="params">                    <span class="keyword">return</span> <span class="keyword">new</span> CronTrigger(cron).nextExecutionTime(triggerContext);</span></span></span><br><span class="line"><span class="function"><span class="params">                &#125;</span></span></span><br><span class="line"><span class="function"><span class="params">        )</span>;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    <span class="title">private</span>  <span class="title">void</span> <span class="title">process</span><span class="params">()</span>&#123;</span></span><br><span class="line"><span class="function">        <span class="title">log</span>.<span class="title">info</span><span class="params">(<span class="string">"formDB "</span>)</span>;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>可以看到也很简单，就是实现SchedulingConfigurer 这个吧接口，addTriggerTask（）是添加一个定时器。<br>process（）方法是我们需要定时执行的方法体。<br>CronTrigger(cron).nextExecutionTime(triggerContext) 就是从数据库读取的cron 创建定时器。</p>
+<p>这个类我没有加上@EnableScheduling 注解，因为我在启动类上加上了，如果你们启动类上没有加，这里记得加上。</p>
+<p>测试一下;下图可以看到三个定时任务都执行了，fromDB 是从数据库读取的。<br><img src="https://img-blog.csdnimg.cn/20190926161159969.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
+<h1 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h1><p>cron 用法网上有很多，也没有什么讲的这里就附带记录下</p>
+<h2 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h2><p>cron表达式是一个字符串，分为6或7个域，每两个域之间用空格分隔，<br>其语法格式为：”秒域 分域 时域 日域 月域 周域 年域”</p>
+<h2 id="取值范围"><a href="#取值范围" class="headerlink" title="取值范围"></a>取值范围</h2><table>
+<thead>
+<tr>
+<th>域名</th>
+<th>可取值</th>
+<th>可取符号（仅列部分常用）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>秒域</td>
+<td>0~59的整数</td>
+<td>*    -    ,    /</td>
+</tr>
+<tr>
+<td>分域</td>
+<td>0~59的整数</td>
+<td>*    -    ,    /</td>
+</tr>
+<tr>
+<td>时域</td>
+<td>0~23的整数</td>
+<td>*    -    ,    /</td>
+</tr>
+<tr>
+<td>日域</td>
+<td>1~31的整数</td>
+<td>*    -    ,    /    ?    L</td>
+</tr>
+<tr>
+<td>月域</td>
+<td>1~12的整数或JAN~DEC</td>
+<td>*    -    ,    /</td>
+</tr>
+<tr>
+<td>周域</td>
+<td>1~7的整数或SUN~SAT</td>
+<td>*    -    ,    /    ?    L    # </td>
+</tr>
+<tr>
+<td>年域</td>
+<td>1970~2099的整数</td>
+<td>*    -    ,    /</td>
+</tr>
+</tbody>
+</table>
+<h2 id="常例"><a href="#常例" class="headerlink" title="常例"></a>常例</h2><table>
+<thead>
+<tr>
+<th>表达式</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>每隔5秒钟执行一次</td>
+<td>*/5  *  * *  *  ?</td>
+</tr>
+<tr>
+<td>每隔1分钟执行一次</td>
+<td>0  * /1  * * *  ?</td>
+</tr>
+<tr>
+<td>每天1点执行一次</td>
+<td>0  0  1  *  *  ?</td>
+</tr>
+<tr>
+<td>每天23点55分执行一次</td>
+<td>0  55  23 *  * ？</td>
+</tr>
+<tr>
+<td>每月最后一天23点执行一次</td>
+<td>0  0  23  L  *  ？</td>
+</tr>
+<tr>
+<td>每周六8点执行一次</td>
+<td>0  0  8  ?  *  L</td>
+</tr>
+<tr>
+<td>每月最后一个周五，每隔2小时执行一次</td>
+<td>0  0  */2  ?  *  6L</td>
+</tr>
+<tr>
+<td>每月的第三个星期五上午10:15执行一次</td>
+<td>0  15  10  ? *  5#3</td>
+</tr>
+<tr>
+<td>在每天下午2点到下午2:05期间的每1分钟执行</td>
+<td>0  0-5  14  *  *  ?</td>
+</tr>
+<tr>
+<td>表示周一到周五每天上午10:15执行</td>
+<td>0  15  10  ? *  2-6</td>
+</tr>
+<tr>
+<td>每个月的最后一个星期五上午10:15执行</td>
+<td>0  15  10  ?  *  6L</td>
+</tr>
+<tr>
+<td>每天上午10点，下午2点，4点执行一次</td>
+<td>0  0  10,14,16  * * ?</td>
+</tr>
+<tr>
+<td>朝九晚五工作时间内每半小时执行一次</td>
+<td>0  0/30  9-17  <em>  </em> ?</td>
+</tr>
+<tr>
+<td>每个星期三中午12点执行一次</td>
+<td>0  0  12  ?  *  4</td>
+</tr>
+<tr>
+<td>每年三月的星期三的下午2:10和2:44各执行一次</td>
+<td>0  10,44  14  ?  3  4</td>
+</tr>
+<tr>
+<td>每月的第三个星期五上午10:15执行一次</td>
+<td>0  15  10  ?  *  6#3</td>
+</tr>
+<tr>
+<td>每月一日凌晨2点30执行一次</td>
+<td>0  30  2  1  *  ?</td>
+</tr>
+<tr>
+<td>每分钟的第10秒与第20秒都会执行</td>
+<td>10,20  *  *  *  * ?</td>
+</tr>
+<tr>
+<td>每月的第2个星期的周5，凌晨执行</td>
+<td>0  0  0  ?  *  6#2</td>
+</tr>
+</tbody>
+</table>
+<h1 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h1><p>本来这个知识点不应该放在这里讲的，但是不多，顺带写了，刚好也能做定时器。我们项目中往往有一些需求需要在项目启动的时候就执行，那这个我们怎么实现了。其实spring boot 使用起来也非常简单，只用实现 ApplicationRunner  就好了。<br>我们在autotask 包下创建一个AutoTaskFromSpringRunner类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AutoTaskFromSpringRunner</span> <span class="keyword">implements</span> <span class="title">ApplicationRunner</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">(ApplicationArguments args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        process();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">process</span><span class="params">()</span></span>&#123;</span><br><span class="line">        log.info(<span class="string">" run ApplicationArguments"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动项目看一下，可以发现这个会在项目启动后执行，但是只会执行一次。</p>
+<p><img src="https://img-blog.csdnimg.cn/20190926161200531.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"><br>那这个怎么用来做定时器呢？当然是结合线程来做啦，但是这个方法其实不建议，b毕竟线程很容易出问题，但是提供一种思路：</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@Slf4j</span><br><span class="line">@Component</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">AutoTaskFromSpringRunner</span> <span class="title">implements</span> <span class="title">ApplicationRunner</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public <span class="literal">void</span> run(ApplicationArguments args) throws Exception &#123;</span><br><span class="line">        process();</span><br><span class="line">        <span class="keyword">new</span> Thread<span class="function"><span class="params">(() -&gt; &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">            <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">                process2();</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">try</span> &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">                    Thread.sleep(<span class="number">6000</span>);</span></span></span><br><span class="line"><span class="function"><span class="params">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span></span></span><br><span class="line"><span class="function"><span class="params">                    log.error(<span class="string">"&#123;&#125;"</span>,e);</span></span></span><br><span class="line"><span class="function"><span class="params">                &#125;</span></span></span><br><span class="line"><span class="function"><span class="params">            &#125;</span></span></span><br><span class="line"><span class="function"><span class="params">        &#125;)</span>.<span class="title">start</span><span class="params">()</span>;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">    <span class="title">private</span> <span class="title">void</span> <span class="title">process</span><span class="params">()</span>&#123;</span></span><br><span class="line"><span class="function">        <span class="title">log</span>.<span class="title">info</span><span class="params">(<span class="string">" run ApplicationArguments"</span>)</span>;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">    <span class="title">private</span> <span class="title">void</span> <span class="title">process2</span><span class="params">()</span>&#123;</span></span><br><span class="line"><span class="function">        <span class="title">log</span>.<span class="title">info</span><span class="params">(<span class="string">"线程定时器"</span>)</span>;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>启动项目看下，发现也是可以起到定时器的作用的。<br><img src="https://img-blog.csdnimg.cn/20190926161201238.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
+<p>好了，就说这么多啦，今天项目的代码也同步到github 上啦。<br>github地址：<a href="https://github.com/QuellanAn/zlflovemm" target="_blank" rel="noopener">https://github.com/QuellanAn/zlflovemm</a></p>
+<p>后续加油♡</p>
+<p>欢迎大家关注个人公众号 “程序员爱酸奶”</p>
+<p>分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。</p>
+<p>如果大家喜欢记得关注和分享哟❤<br><img src="https://img-blog.csdnimg.cn/2019092616120288.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
 
       
     </div>
@@ -667,11 +831,11 @@
 
 <ul class="post-copyright">
   <li class="post-copyright-author">
-    <strong>本文作者： </strong>Pyker</li>
+    <strong>本文作者： </strong>QuellanAn</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="https://quellanan.github.io/2018/11/30/第一篇博客.html" title="第一篇博客">https://quellanan.github.io/2018/11/30/第一篇博客.html</a>
+    <a href="https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务.html" title="四、springBoot 优雅的创建定时任务">https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -693,13 +857,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
-          
-            <a href="/tags/os/" rel="tag"><i class="fa fa-tag"></i> os</a>
-          
             <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
           
-            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+            <a href="/tags/springboot/" rel="tag"><i class="fa fa-tag"></i> springboot</a>
           
         </div>
       
@@ -826,7 +986,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -936,7 +1098,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一次见面"><span class="nav-number">1.</span> <span class="nav-text">第一次见面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Markdown"><span class="nav-number">2.</span> <span class="nav-text">关于Markdown</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于注解"><span class="nav-number">2.</span> <span class="nav-text">基于注解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于接口"><span class="nav-number">3.</span> <span class="nav-text">基于接口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cron"><span class="nav-number">4.</span> <span class="nav-text">cron</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构"><span class="nav-number">4.1.</span> <span class="nav-text">结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取值范围"><span class="nav-number">4.2.</span> <span class="nav-text">取值范围</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常例"><span class="nav-number">4.3.</span> <span class="nav-text">常例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#番外"><span class="nav-number">5.</span> <span class="nav-text">番外</span></a></li></ol></div>
             
 
           </div>
@@ -976,7 +1138,7 @@
       <i class="fa fa-area-chart"> 站点字数合计:</i>
     </span>
     
-    <span title="站点总字数">0k</span>
+    <span title="站点总字数">5k</span>
   
   
 </div>
@@ -1176,7 +1338,7 @@
   
     <script>
   window.livereOptions = {
-    refer: '2018/11/30/第一篇博客.html'
+    refer: '2018/11/30/四、springBoot 优雅的创建定时任务.html'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
