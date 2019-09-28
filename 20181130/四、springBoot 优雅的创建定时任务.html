@@ -155,10 +155,10 @@
   </script>
 
   <meta name="description" content="前言好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修">
-<meta name="keywords" content="java,springboot">
+<meta name="keywords" content="springboot,java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="四、springBoot 优雅的创建定时任务">
-<meta property="og:url" content="https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务.html">
+<meta property="og:title" content="四、springBoot优雅的创建定时任务">
+<meta property="og:url" content="https://quellanan.github.io/20181130/四、springBoot 优雅的创建定时任务.html">
 <meta property="og:site_name" content="QuellanAn">
 <meta property="og:description" content="前言好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修">
 <meta property="og:locale" content="zh-CN">
@@ -171,9 +171,9 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161200531.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190926161201238.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2019092616120288.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-09-28T01:50:32.015Z">
+<meta property="og:updated_time" content="2019-09-28T12:10:16.196Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="四、springBoot 优雅的创建定时任务">
+<meta name="twitter:title" content="四、springBoot优雅的创建定时任务">
 <meta name="twitter:description" content="前言好几天没写了，工作有点忙，最近工作刚好做一个定时任务统计的，所以就将springboot 如何创建定时任务整理了一下。总的来说，springboot创建定时任务是非常简单的，不用像spring 或者springmvc 需要在xml 文件中配置，在项目启动的时候加载。spring boot 使用注解的方式就可以完全支持定时任务。不过基础注解的话，可能有的需求定时任务的时间会经常变动，注解就不好修">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190926161157924.jpeg">
 
@@ -185,7 +185,7 @@
 
   
   
-  <link rel="canonical" href="https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务">
+  <link rel="canonical" href="https://quellanan.github.io/20181130/四、springBoot 优雅的创建定时任务">
 
 
 
@@ -195,7 +195,7 @@
   };
 </script>
 
-  <title>四、springBoot 优雅的创建定时任务 | QuellanAn</title>
+  <title>四、springBoot优雅的创建定时任务 | QuellanAn</title>
   
 
 
@@ -457,7 +457,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务.html">
+    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/20181130/四、springBoot 优雅的创建定时任务.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="QuellanAn">
@@ -474,7 +474,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">四、springBoot 优雅的创建定时任务
+          <h2 class="post-title" itemprop="name headline">四、springBoot优雅的创建定时任务
 
               
             
@@ -517,7 +517,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-28 09:50:32" itemprop="dateModified" datetime="2019-09-28T09:50:32+08:00">2019-09-28</time>
+                <time title="修改时间：2019-09-28 20:10:16" itemprop="dateModified" datetime="2019-09-28T20:10:16+08:00">2019-09-28</time>
               
             
           </span>
@@ -534,14 +534,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/develop/" itemprop="url" rel="index"><span itemprop="name">develop</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/develop/test/" itemprop="url" rel="index"><span itemprop="name">test</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/springBoot/" itemprop="url" rel="index"><span itemprop="name">springBoot</span></a></span>
 
                 
                 
@@ -835,7 +828,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务.html" title="四、springBoot 优雅的创建定时任务">https://quellanan.github.io/2018/11/30/四、springBoot 优雅的创建定时任务.html</a>
+    <a href="https://quellanan.github.io/20181130/四、springBoot 优雅的创建定时任务.html" title="四、springBoot优雅的创建定时任务">https://quellanan.github.io/20181130/四、springBoot 优雅的创建定时任务.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -857,9 +850,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
-          
             <a href="/tags/springboot/" rel="tag"><i class="fa fa-tag"></i> springboot</a>
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
           
         </div>
       
@@ -961,7 +954,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">2</span>
+                      
+                    
+                    <span class="site-state-item-count">1</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -977,12 +972,6 @@
                     
                   
                     
-                    
-                      
-                    
-                      
-                    
-                      
                     
                       
                     
@@ -1338,7 +1327,7 @@
   
     <script>
   window.livereOptions = {
-    refer: '2018/11/30/四、springBoot 优雅的创建定时任务.html'
+    refer: '20181130/四、springBoot 优雅的创建定时任务.html'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
@@ -1725,7 +1714,7 @@
 
   
 
-<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"react":{"opacity":0.7},"log":false});</script></body>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"left","width":250,"height":500},"mobile":{"show":false},"react":{"opacity":0.7},"log":false});</script></body>
 </html>
 <!-- 页面点击小红心 -->
 <script type="text/javascript" src="/js/src/clicklove.js"></script>
