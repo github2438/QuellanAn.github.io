@@ -200,10 +200,10 @@ site_state: true
 # Value before `||` delimeter is the target permalink.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.
 social:
-  GitHub: https://github.com/ipyker || github
+  GitHub: https://github.com/quellanan || github
   E-Mail: mailto:pyker@qq.com || envelope
   CSDN: https://blog.csdn.net/qq_27790011 || CSDN
-  QQ: tencent://message/?uin=123435796&Site=&menu=yes || qq
+  QQ: tencent://message/?uin=1186154608&Site=&menu=yes || qq
   #Twitter: https://twitter.com/yourname || twitter
   #FB Page: https://www.facebook.com/yourname || facebook
   #VK Group: https://vk.com/yourname || vk
@@ -216,7 +216,7 @@ social_icons:
   enable: true
   icons_only: false
   transition: false
-  csdn: crosshairs
+  CSDN: crosshairs
 
 
 # Blog rolls
