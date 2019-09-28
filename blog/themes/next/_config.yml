@@ -201,8 +201,10 @@ site_state: true
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.
 social:
   GitHub: https://github.com/quellanan || github
-  E-Mail: mailto:pyker@qq.com || envelope
   CSDN: https://blog.csdn.net/qq_27790011 || CSDN
+  博客园: https://www.cnblogs.com/quellanan/
+  简书: https://www.jianshu.com/u/50ba1aa097c8
+  掘金: https://juejin.im/user/5bfb4ce9f265da611204b096
   QQ: tencent://message/?uin=1186154608&Site=&menu=yes || qq
   #Twitter: https://twitter.com/yourname || twitter
   #FB Page: https://www.facebook.com/yourname || facebook
@@ -214,9 +216,13 @@ social:
 
 social_icons:
   enable: true
+  CSDN: copyright
+  博客园: wifi
+  简书: heartbeat
+  掘金: crosshairs
   icons_only: false
   transition: false
-  CSDN: crosshairs
+  
 
 
 # Blog rolls
