@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://quellanan.github.io/about/index.html</loc>
+    
+    <lastmod>2019-09-28T12:36:13.808Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://quellanan.github.io/20181130/%E5%9B%9B%E3%80%81springBoot%20%E4%BC%98%E9%9B%85%E7%9A%84%E5%88%9B%E5%BB%BA%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1.html</loc>
     
     <lastmod>2019-09-28T12:10:16.196Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>https://quellanan.github.io/categories/index.html</loc>
     
     <lastmod>2019-09-27T09:17:41.248Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://quellanan.github.io/about/index.html</loc>
-    
-    <lastmod>2019-09-27T09:17:41.245Z</lastmod>
     
   </url>
   
