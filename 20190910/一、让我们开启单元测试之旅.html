@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"shrinkIn","post_header":"slideLeftIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideDownIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "b5fbffa8"
+    });
+  daovoice('update');
+  </script>
+
+  <meta name="description" content="前言思量良久在考虑要不要写这一篇，是不是直接看门见山将在项目中怎么进行单元测试。最后想想觉得是不是太猴急了写那样，就好比你想和一个姑娘滚床单，是不是先应该请姑娘吃顿饭、送点礼物什么的。所以我才决定写这篇序言，让我们一起慢慢的揭开单元测试的面纱。 什么是单元测试这个在网上有很详细的解释。我这就简单的给出一个概念：单元测试是开发者编写一小段代码，用于检测被测代码的一个很小的、很明确的功能是否正确。 单">
+<meta name="keywords" content="java,Junit,单元测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一、让我们开启单元测试之旅">
+<meta property="og:url" content="https://quellanan.github.io/20190910/一、让我们开启单元测试之旅.html">
+<meta property="og:site_name" content="QuellanAn">
+<meta property="og:description" content="前言思量良久在考虑要不要写这一篇，是不是直接看门见山将在项目中怎么进行单元测试。最后想想觉得是不是太猴急了写那样，就好比你想和一个姑娘滚床单，是不是先应该请姑娘吃顿饭、送点礼物什么的。所以我才决定写这篇序言，让我们一起慢慢的揭开单元测试的面纱。 什么是单元测试这个在网上有很详细的解释。我这就简单的给出一个概念：单元测试是开发者编写一小段代码，用于检测被测代码的一个很小的、很明确的功能是否正确。 单">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910202707791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190910203310419.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190911091719454.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190911110536460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190911110726313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190911110830274.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190911112006427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-29T01:18:18.439Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一、让我们开启单元测试之旅">
+<meta name="twitter:description" content="前言思量良久在考虑要不要写这一篇，是不是直接看门见山将在项目中怎么进行单元测试。最后想想觉得是不是太猴急了写那样，就好比你想和一个姑娘滚床单，是不是先应该请姑娘吃顿饭、送点礼物什么的。所以我才决定写这篇序言，让我们一起慢慢的揭开单元测试的面纱。 什么是单元测试这个在网上有很详细的解释。我这就简单的给出一个概念：单元测试是开发者编写一小段代码，用于检测被测代码的一个很小的、很明确的功能是否正确。 单">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190910202707791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="QuellanAn" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://quellanan.github.io/20190910/一、让我们开启单元测试之旅">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>一、让我们开启单元测试之旅 | QuellanAn</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+ 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">QuellanAn</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-互动">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/guestbook/" rel="section"><i class="menu-item-icon fa fa-fw fa-comments"></i> <br>互动</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/20190910/一、让我们开启单元测试之旅.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="QuellanAn">
+      <meta itemprop="description" content="别让生活成为梦想的羁绊">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QuellanAn">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">一、让我们开启单元测试之旅
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-10 19:43:45" itemprop="dateCreated datePublished" datetime="2019-09-10T19:43:45+08:00">2019-09-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-29 09:18:18" itemprop="dateModified" datetime="2019-09-29T09:18:18+08:00">2019-09-29</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/单元测试/" itemprop="url" rel="index"><span itemprop="name">单元测试</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">9.3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">8 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>思量良久在考虑要不要写这一篇，是不是直接看门见山将在项目中怎么进行单元测试。最后想想觉得是不是太猴急了写那样，就好比你想和一个姑娘滚床单，是不是先应该请姑娘吃顿饭、送点礼物什么的。所以我才决定写这篇序言，让我们一起慢慢的揭开单元测试的面纱。</p>
+<h1 id="什么是单元测试"><a href="#什么是单元测试" class="headerlink" title="什么是单元测试"></a>什么是单元测试</h1><p>这个在网上有很详细的解释。我这就简单的给出一个概念：<br><strong>单元测试是开发者编写一小段代码，用于检测被测代码的一个很小的、很明确的功能是否正确。</strong></p>
+<p>单元测试是对软件基本单元进行的测试，实际应用中是对public 函数进行的测试。<br>执行单元测试，是为了验证某段代码的行为确实和开发者所期望的一致。</p>
+<h1 id="为什么要进行单元测试"><a href="#为什么要进行单元测试" class="headerlink" title="为什么要进行单元测试"></a>为什么要进行单元测试</h1><p>理由千千万，我只宠这三点：</p>
+<ul>
+<li>减少调试时间<ul>
+<li>自动化测试</li>
+<li>令设计变得更好</li>
+</ul>
+</li>
+</ul>
+<p>我们或多或少也都听说过单元测试，只知道用来检测写的代码有没有问题，这导致之前都没有写过测试用例，测试一些重要的方法最多也一个 main方法正常的数据调通了就过了，这样导致后期出现各种各样的问题，一遍遍的改代码，一遍遍的改bug。费时费力还不一定能处理好。我以为这是软件开发的诟病，其实不然，是因为我们不能确认我们写的那部分代码没有问题，所以总花费很长时间找问题上。所以才需要进行单元测试，虽然在刚开始写单元测试会花费时间，但是我们单元测试全都通过之后，我们对自己写的代码更有自信，可以确定没有代码没有问题了，而不是自己认为没有问题的那种。这样后期修复bug,也可以通过单元测试哪些执行成功哪些执行失败可以快速的定位到问题。我觉得这一点就足以让我们为我们写的代码编写相应的单元测试啦，毕竟找问题真是太痛苦，大家应该也深有体会。</p>
+<h1 id="单元测试怎么做"><a href="#单元测试怎么做" class="headerlink" title="单元测试怎么做"></a>单元测试怎么做</h1><p>简单而言，就是对一个 public 方法编写测试用例，那测试用例又怎么写呢？<br>测试用例说白了也是一个方法，用来验证目标方法是否符合我们的预期。<br>那这样就知道怎么写了吧，就是和我们平时写方法一样，但是它有一个标准<br>俗称 “3A 模式” Arrange-Act-Assert（准备上下文环境–执行被测函数–断言）。也就是说一个测试用例的方法包含三部分就可以了。</p>
+<h1 id="测试用例应该具备的特征"><a href="#测试用例应该具备的特征" class="headerlink" title="测试用例应该具备的特征"></a>测试用例应该具备的特征</h1><p>上面说的测试用例包含这三部分就可以了，那我们的测试用例应该具备怎样的特征呢，<strong>短小精悍且快准繁</strong></p>
+<blockquote>
+<p>小：一个测试几行代码（15）<br>精准：一个测试之测一个场景<br>隔离：每个测试都可以独立、重复运行，无耦合<br>快：每个测试都应该是毫秒级别的<br>频繁：应该频繁的执行，没增加、修改、删除一个测试都要运行一遍</p>
+</blockquote>
+<p>那什么样的是好的单元测试呢？<br>自动化<br>可重复的<br>彻底的<br>独立的<br>专业的</p>
+<h1 id="好的测试用例"><a href="#好的测试用例" class="headerlink" title="好的测试用例"></a>好的测试用例</h1><p>测试用例应该短小精悍且快准狠。这些是对测试用例的函数本身而言的，但在实际项目中出问题往往就是某些情况没有考虑到导致程序出错的，我们在自测的时候往往会测试正常数据的情况然而却忽略的了错误情况和边界值的测试，这些才是校验一个项目的健壮性的标准。所以好的测试用例必定是有全面的测试数据。那怎样获取全面的测试数据呢？<br>在这之前需要知道哪些是好的测试数据</p>
+<ul>
+<li>最优可能抓住错误的</li>
+<li>不是重复的，多余的</li>
+<li>一组相似测试用例中最有效的</li>
+<li>既不是太简单，也不是太复杂</li>
+</ul>
+<p>那怎样获取好的测试数据呢？有等价类划分法、边界值法、路径分析法。</p>
+<h2 id="等价类划分法"><a href="#等价类划分法" class="headerlink" title="等价类划分法"></a>等价类划分法</h2><p>等价类划分法是把所有可能的输入数据，划分成若干个子集，然后从每个子集中选取少数的具有代表性的数据作为测试用例。<br>该方法是一种重要的、常用的黑盒测试用例设计方法。</p>
+<p>有效等价类：对程序的规范说明是合理的，有意义的输入数据构成的集合。<br>无效等价类：对程序的规范说明不是合理的或者无意义的输入数据构成的集合。</p>
+<p>我们来看一个例子：计算两个点距离的函数</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public <span class="keyword">double</span> getDistance(<span class="keyword">double</span> <span class="keyword">x</span><span class="number">1</span>, <span class="keyword">double</span> y<span class="number">1</span>, <span class="keyword">double</span> <span class="keyword">x</span><span class="number">2</span>, <span class="keyword">double</span> y<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190910202707791.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="边界值法"><a href="#边界值法" class="headerlink" title="边界值法"></a>边界值法</h2><p>边界值分析法是对输入或者输出的边界值进行测试的一组黑盒测试方法。</p>
+<p>通常情况下，边界值分析法是作为等价类划分法的补充，这种情况下，其测试用例来自等价类的边界。</p>
+<p>比如上面一个例子中取边界值做为测试用例。</p>
+<h2 id="路径分析法"><a href="#路径分析法" class="headerlink" title="路径分析法"></a>路径分析法</h2><p>基本路径测试是一种白盒测试方法，它在程序控制图的基础上，通过分析程序的流程，构造导出基本可执行路径集合，从而设计测试用例的方法。</p>
+<p>设计出的测试用例要保证在测试程序中的每一个可执行语句至少执行一次。<br>我们来看一个例子<br><img src="https://img-blog.csdnimg.cn/20190910203310419.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可能的路径为：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="number">-2</span><span class="number">-3</span><span class="number">-4</span><span class="number">-5</span></span><br><span class="line"><span class="number">1</span><span class="number">-2</span><span class="number">-3</span><span class="number">-4</span><span class="number">-6</span></span><br><span class="line"><span class="number">1</span><span class="number">-2</span><span class="number">-4</span><span class="number">-5</span></span><br><span class="line"><span class="number">1</span><span class="number">-2</span><span class="number">-4</span><span class="number">-6</span></span><br></pre></td></tr></table></figure>
+<h1 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h1><p>我们这里说的断言只是Junit断言，java 本身也有断言的，但是貌似我们使用的很少以至于我们都忘记了它的存在。<br>Junit 断言说是断言，其实也就是一份方法，没有什么语法。我们测试用例中使用断言，也就是使用这些方法来进行验证是否达到我们的预期。<br>方法有很多，大家可以看看源码，我这里给出几个常见的。<br>|函数名|描述  |<br>|–|–|<br>|  assertEquals|  判断实际产生的值与期望值是否相等|<br>|assertNull|判断对象是否为null|<br>|assertNotNull|判断对象是否为非null|<br>|assertSame|判断实际产生的对象与期望对象是否为同一个对象|<br>|assertNotSame|判断实际产生的对象与期望对象是否为不同的对象|<br>|assertTrue|判断bool变量是否为真|<br>|assertFalse|判断bool变量是否为假|<br>|Fail|使测试立即失败|</p>
+<p>上面这样说好像没有什么效果，我们先来看其中一个断言方法的源代码。我们就看第一个assertEquals 吧<br><img src="https://img-blog.csdnimg.cn/20190911091719454.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到有很多assertEquals方法。这样的方法的重载在底层很常见。我们来看下三个参数类似是Object的这个吧。</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> assertEquals(<span class="keyword">String</span> message, <span class="keyword">Object</span> expected, <span class="keyword">Object</span> actual) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!equalsRegardingNull(expected, actual)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (expected <span class="keyword">instanceof</span> <span class="keyword">String</span> &amp;&amp; actual <span class="keyword">instanceof</span> <span class="keyword">String</span>) &#123;</span><br><span class="line">                <span class="keyword">String</span> cleanMessage = message == <span class="keyword">null</span> ? <span class="string">""</span> : message;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> ComparisonFailure(cleanMessage, (<span class="keyword">String</span>)expected, (<span class="keyword">String</span>)actual);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                failNotEquals(message, expected, actual);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">boolean</span> equalsRegardingNull(<span class="keyword">Object</span> expected, <span class="keyword">Object</span> actual) &#123;</span><br><span class="line">        <span class="keyword">if</span> (expected == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> actual == <span class="keyword">null</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> isEquals(expected, actual);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">boolean</span> isEquals(<span class="keyword">Object</span> expected, <span class="keyword">Object</span> actual) &#123;</span><br><span class="line">        <span class="keyword">return</span> expected.equals(actual);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> failNotEquals(<span class="keyword">String</span> message, <span class="keyword">Object</span> expected, <span class="keyword">Object</span> actual) &#123;</span><br><span class="line">        fail(format(message, expected, actual));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">String</span> format(<span class="keyword">String</span> message, <span class="keyword">Object</span> expected, <span class="keyword">Object</span> actual) &#123;</span><br><span class="line">        <span class="keyword">String</span> formatted = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">if</span> (message != <span class="keyword">null</span> &amp;&amp; !message.equals(<span class="string">""</span>)) &#123;</span><br><span class="line">            formatted = message + <span class="string">" "</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">String</span> expectedString = <span class="keyword">String</span>.valueOf(expected);</span><br><span class="line">        <span class="keyword">String</span> actualString = <span class="keyword">String</span>.valueOf(actual);</span><br><span class="line">        <span class="keyword">return</span> expectedString.equals(actualString) ? formatted + <span class="string">"expected: "</span> + formatClassAndValue(expected, expectedString) + <span class="string">" but was: "</span> + formatClassAndValue(actual, actualString) : formatted + <span class="string">"expected:&lt;"</span> + expectedString + <span class="string">"&gt; but was:&lt;"</span> + actualString + <span class="string">"&gt;"</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>equalsRegardingNull() 函数就是判断两个值是否相等，底层还是相当于用的object.equals()。如果两个值相等就断言通过，如果不相等就判断expected和actual是否是string类型，如果是直接将message输出。如果不是就failNotEquals().failNotEquals方法的源码我也贴出来了，可以看也很简单，就是message、expected、actual转换成string格式输出出来，并执行fail()使得测试失败。</p>
+<p>从上面看断言也就不过如此(Junit 断言)。我们会使用常用的方法就可以写好测试用例啦，至于其他的方法，我们用到的时候可以直接其源代码，毕竟也不会很复杂。</p>
+<h1 id="简单案例"><a href="#简单案例" class="headerlink" title="简单案例"></a>简单案例</h1><h2 id="目标代码及功能说明"><a href="#目标代码及功能说明" class="headerlink" title="目标代码及功能说明"></a>目标代码及功能说明</h2><p><img src="https://img-blog.csdnimg.cn/20190911110536460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这段代码在项目中的作用是对特殊字段的对应的值进行处理并返回。<br>如果字段是包含time，那将值改成日期格式返回。<br>如果字段是包含iphone,那将值截取后11位返回。<br>其他情况，直接返回。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DataHandle</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> final String REGEX_MOBILE = <span class="string">"^((13[0-9])|(15[0-9])|(17[0-9])|(18[0-9])|(19[0-9])|(14[0-9]))\\d&#123;8&#125;$"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">fieldDataHandle</span>(<span class="params">String key,String <span class="keyword">value</span></span>)</span>&#123;</span><br><span class="line">        <span class="comment">//如果是时间类型，将时间戳转成时间</span></span><br><span class="line">         <span class="keyword">if</span>(key.toLowerCase().contains(<span class="string">"ipone"</span>))&#123;  <span class="comment">//如果手机号长于11位，截取后11位</span></span><br><span class="line">            <span class="keyword">if</span>(<span class="keyword">value</span>.length()&gt;<span class="number">11</span>)&#123;</span><br><span class="line">                <span class="keyword">value</span>=<span class="keyword">value</span>.substring(<span class="keyword">value</span>.length()<span class="number">-11</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(!isMobile(<span class="keyword">value</span>))&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(key.toLowerCase().contains(<span class="string">"time"</span>))&#123;</span><br><span class="line">            <span class="keyword">value</span>=timeStampToDate(<span class="keyword">value</span>,<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">value</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">timeStampToDate</span>(<span class="params">String time,String timeFormat</span>)</span> &#123;</span><br><span class="line">        Long timeLong = Long.parseLong(time);</span><br><span class="line">        SimpleDateFormat sdf = <span class="keyword">new</span> SimpleDateFormat(timeFormat);<span class="comment">//要转换的时间格式</span></span><br><span class="line">        Date date;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            date = sdf.parse(sdf.format(timeLong));</span><br><span class="line">            <span class="keyword">return</span> sdf.format(date);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> boolean <span class="title">isMobile</span>(<span class="params">String mobile</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> Pattern.matches(REGEX_MOBILE, mobile);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="单元测试设计"><a href="#单元测试设计" class="headerlink" title="单元测试设计"></a>单元测试设计</h2><p>等价类设计</p>
+<table>
+<thead>
+<tr>
+<th>等价类划分</th>
+<th>有效等价类</th>
+<th>无效等价类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>key</td>
+<td>包含time, 包含ipone,包含time和ipone</td>
+<td>不包含time 和ipone</td>
+</tr>
+<tr>
+<td>value</td>
+<td>时间戳，手机号，带区号的手机号</td>
+<td>不是时间戳，也不是手机号</td>
+</tr>
+</tbody>
+</table>
+<p>我们根据这个来设计测试用例<br>|key|value  |预期值|<br>|–|–|–|<br>|字段包含time  | 时间戳 | 返回日期格式的的字符串 |<br>| 字段包含time | 不是时间戳 | null |<br>| 字段包含ipone |不是手机号  | null |<br>| 字段包含ipone |是11位的手机号  | 返回11位手机号字符串 |<br>|字段包含ipone  | 是手机号，但位数大于11位 |  返回11位手机号字符串|<br>| 字段包含time,ipone |时间戳  |  返回日期格式的的字符串|<br>|字段包含time,ipone  |不是手机号，也不是时间戳  | null |<br>|字段包含time,ipone|    手机号|    null|<br>|字段不包含time 和ipone    |时间戳|    时间戳字符串|<br>|字段不包含time 和ipone    |11位手机号|    手机号字符串|<br>|字段不包含time 和ipone    |大于11位手机号    |返回值字符串|<br>|字段不包含time 和ipone|    不是手机号，也不是时间戳    |值对应字符串    |</p>
+<p>编写测试用例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataHandleTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    DataHandle dataHandle = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setup</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        dataHandle = <span class="keyword">new</span> DataHandle();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@After</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">tearDown</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        dataHandle = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含time是时间戳_返回日期字符串()&#123;</span><br><span class="line">        assertEquals(<span class="string">"2019-09-10 19:02:30"</span>, dataHandle.fieldDataHandle(<span class="string">"atime"</span>,<span class="string">"1568113350000"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含time不是时间戳_返回NULL()&#123;</span><br><span class="line">        assertNull(dataHandle.fieldDataHandle(<span class="string">"atime"</span>,<span class="string">"1568113350aaa"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含ipone不是手机号_返回NULL()&#123;</span><br><span class="line">        assertNull(dataHandle.fieldDataHandle(<span class="string">"bipone"</span>,<span class="string">"aaa"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含ipone是<span class="number">11</span>位手机号_返回手机号字符串()&#123;</span><br><span class="line">        assertEquals(<span class="string">"13265459362"</span>,dataHandle.fieldDataHandle(<span class="string">"bipone"</span>,<span class="string">"13265459362"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含ipone是大于<span class="number">11</span>位手机号_返回手机号字符串()&#123;</span><br><span class="line">        assertEquals(<span class="string">"13265459362"</span>,dataHandle.fieldDataHandle(<span class="string">"bipone"</span>,<span class="string">"+8613265459362"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含time和ipone是时间戳_返回NULL()&#123;</span><br><span class="line">        assertNull(dataHandle.fieldDataHandle(<span class="string">"atimebipone"</span>,<span class="string">"1568168656000"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含time和ipone是手机号_返回手机号字符串()&#123;</span><br><span class="line">        assertEquals(<span class="string">"13265459362"</span>,dataHandle.fieldDataHandle(<span class="string">"atimebipone"</span>,<span class="string">"13265459362"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含time和ipone不是时间戳手机号_返回NULL()&#123;</span><br><span class="line">        assertNull(dataHandle.fieldDataHandle(<span class="string">"atimebipone"</span>,<span class="string">"aaabbb"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_不包含time和ipone是时间戳_返回时间戳字符串()&#123;</span><br><span class="line">        assertEquals(<span class="string">"1568114439"</span>,dataHandle.fieldDataHandle(<span class="string">"ccc"</span>,<span class="string">"1568114439"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_不包含time和ipone是<span class="number">11</span>位手机号_返回时间手机号字符串()&#123;</span><br><span class="line">        assertEquals(<span class="string">"13112341234"</span>,dataHandle.fieldDataHandle(<span class="string">"ccc"</span>,<span class="string">"13112341234"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_不包含time和ipone是大于<span class="number">11</span>位手机号_返回值字符串()&#123;</span><br><span class="line">        assertEquals(<span class="string">"+8613412341234"</span>,dataHandle.fieldDataHandle(<span class="string">"ccc"</span>,<span class="string">"+8613412341234"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_不包含time和ipone不是时间戳手机号_返回值字符串()&#123;</span><br><span class="line">        assertEquals(<span class="string">"abcdefg"</span>,dataHandle.fieldDataHandle(<span class="string">"ccc"</span>,<span class="string">"abcdefg"</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们执行一下测试用例；<br><img src="https://img-blog.csdnimg.cn/20190911110726313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到有一个地方的测试用例是不通过的，那就说明有问题，我们看一下。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含time不是时间戳_返回<span class="literal">NULL</span>()&#123;</span><br><span class="line">       assertNull(dataHandle.fieldDataHandle(<span class="string">"atime"</span>,<span class="string">"1568113350aaa"</span>));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>这个是抛异常了，因为日期格式转换错误，但是我们在日期转换的时候已经捕获了呀，并且返回为null 。<br><img src="https://img-blog.csdnimg.cn/20190911110830274.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>那为什么测试用例没有通过呢，而是直接抛异常出来了，调试发现这个方法没有捕获到异常，而是直接抛出给Junit了。所以这里提示代码不能这么写。一般异常了不建议返回null.而是打印出异常把信息抛出。这里我们就不改了。我们将测试用例改一下，在测试用例中捕获一下异常。<br>改成如下：</p>
+<figure class="highlight d"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@Test</span>(expected = NumberFormatException.<span class="keyword">class</span>)</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">void</span> testFieldDataHandle_包含time不是时间戳_throwsException()&#123;</span><br><span class="line">       dataHandle.fieldDataHandle(<span class="string">"atime"</span>,<span class="string">"1568113350aaa"</span>);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>再全部执行一下<br><img src="https://img-blog.csdnimg.cn/20190911112006427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这样就不抱错了。<br>好啦这个就是一个简单的测试用例啦。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>最后总结一下吧，我觉得应该知道以下几点</p>
+<ul>
+<li>认识到单元测试的必要性</li>
+<li>好的测试用例是关键</li>
+<li>测试用例中断言必不可少</li>
+<li>编写测试用例的规范要遵循</li>
+</ul>
+<p>看到这啦的小伙伴，如果觉得喜欢就点个赞吧嘿嘿。如果有什么意见，欢迎给我提。嘿嘿。后续想写一下测试用例的规范，喜欢的可以持续关注❤</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>Thank you for your accept. mua！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/wechatpay.png" alt="QuellanAn 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/alipay.png" alt="QuellanAn 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>QuellanAn</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://quellanan.github.io/20190910/一、让我们开启单元测试之旅.html" title="一、让我们开启单元测试之旅">https://quellanan.github.io/20190910/一、让我们开启单元测试之旅.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:16px;">-------------本文结束<i class="fa fa-heart"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/Junit/" rel="tag"><i class="fa fa-tag"></i> Junit</a>
+          
+            <a href="/tags/单元测试/" rel="tag"><i class="fa fa-tag"></i> 单元测试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20190905/内网穿透ngrok_ngrokcc_cpolar.html" rel="next" title="内网穿透ngrok_ngrokcc_cpolar">
+                <i class="fa fa-chevron-left"></i> 内网穿透ngrok_ngrokcc_cpolar
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20190918/一、springboot起航.html" rel="prev" title="一、springboot起航">
+                一、springboot起航 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjgzNy8yMzMzOA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="QuellanAn">
+            
+              <p class="site-author-name" itemprop="name">QuellanAn</p>
+              <div class="site-description motion-element" itemprop="description">别让生活成为梦想的羁绊</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/quellanan" title="GitHub &rarr; https://github.com/quellanan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/qq_27790011" title="CSDN &rarr; https://blog.csdn.net/qq_27790011" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/quellanan/" title="博客园 &rarr; https://www.cnblogs.com/quellanan/" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.jianshu.com/u/50ba1aa097c8" title="简书 &rarr; https://www.jianshu.com/u/50ba1aa097c8" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>简书</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://juejin.im/user/5bfb4ce9f265da611204b096" title="掘金 &rarr; https://juejin.im/user/5bfb4ce9f265da611204b096" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>掘金</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="tencent://message/?uin=1186154608&Site=&menu=yes" title="QQ &rarr; tencent://message/?uin=1186154608&Site=&menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_27790011/article/category/9361908" title="https://blog.csdn.net/qq_27790011/article/category/9361908" rel="noopener" target="_blank">springBoot实战</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_27790011/article/category/9187012" title="https://blog.csdn.net/qq_27790011/article/category/9187012" rel="noopener" target="_blank">Redis 必知必会</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是单元测试"><span class="nav-number">2.</span> <span class="nav-text">什么是单元测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么要进行单元测试"><span class="nav-number">3.</span> <span class="nav-text">为什么要进行单元测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单元测试怎么做"><span class="nav-number">4.</span> <span class="nav-text">单元测试怎么做</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试用例应该具备的特征"><span class="nav-number">5.</span> <span class="nav-text">测试用例应该具备的特征</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#好的测试用例"><span class="nav-number">6.</span> <span class="nav-text">好的测试用例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#等价类划分法"><span class="nav-number">6.1.</span> <span class="nav-text">等价类划分法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#边界值法"><span class="nav-number">6.2.</span> <span class="nav-text">边界值法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#路径分析法"><span class="nav-number">6.3.</span> <span class="nav-text">路径分析法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#断言"><span class="nav-number">7.</span> <span class="nav-text">断言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单案例"><span class="nav-number">8.</span> <span class="nav-text">简单案例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标代码及功能说明"><span class="nav-number">8.1.</span> <span class="nav-text">目标代码及功能说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单元测试设计"><span class="nav-number">8.2.</span> <span class="nav-text">单元测试设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" style=" text-align:center;">&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Quellanan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"> 站点字数合计:</i>
+    </span>
+    
+    <span title="站点总字数">85k</span>
+  
+  
+</div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+<div class="run_time" style=" text-align:center;">
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("07/23/2017 10:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+    setInterval("createtime()",250);
+  </script>
+</div>
+        
+<div class="busuanzi-count" style=" text-align:center;">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="255,0,255" opacity="0.7" zindex="-1" count="140" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1.0.0/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.1" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+  
+  
+
+  
+
+  
+  
+  
+
+
+  
+
+
+  
+    <script>
+  window.livereOptions = {
+    refer: '20190910/一、让我们开启单元测试之旅.html'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script>
+  
+    bookmark.scrollToMark('auto', "#更多");
+  
+  </script>
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":250,"height":500},"mobile":{"show":false},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

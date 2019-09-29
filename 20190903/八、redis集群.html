@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"shrinkIn","post_header":"slideLeftIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideDownIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "b5fbffa8"
+    });
+  daovoice('update');
+  </script>
+
+  <meta name="description" content="前言前面写完了 Redis 的主从复制、哨兵模式、Redis 持久化方式。这篇文章开始写 Redis 集群啦。 我们项目中使用 Redis 一般都不是使用单台 Redis 提供服务，除非是很小的项目，不过很小的项目也没有必要使用Redis了。所以一般使用 Redis 都会配上 Redis主从备（就是前面将的主从复制），配上哨兵模式实现故障转移。更大的项目就搭建一个 Redis 集群。 但是呢，我们">
+<meta name="keywords" content="java,redis,linux,集群">
+<meta property="og:type" content="article">
+<meta property="og:title" content="八、redis集群">
+<meta property="og:url" content="https://quellanan.github.io/20190903/八、redis集群.html">
+<meta property="og:site_name" content="QuellanAn">
+<meta property="og:description" content="前言前面写完了 Redis 的主从复制、哨兵模式、Redis 持久化方式。这篇文章开始写 Redis 集群啦。 我们项目中使用 Redis 一般都不是使用单台 Redis 提供服务，除非是很小的项目，不过很小的项目也没有必要使用Redis了。所以一般使用 Redis 都会配上 Redis主从备（就是前面将的主从复制），配上哨兵模式实现故障转移。更大的项目就搭建一个 Redis 集群。 但是呢，我们">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190828163053884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190828175641528.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190829142130721.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190829142604241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190829143706226.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190829202739916.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190829203246860.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190829203446966.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190830150256224.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190902113443323.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190902131512152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190902180531659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190902181223836.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190902181442458.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903083508917.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903084627953.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903091254964.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903092754288.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903093105713.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903093408249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903093544690.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903100959947.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903101643703.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903103718865.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903112941564.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019090311331399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903113444307.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903171721569.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903174849583.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903174857678.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190903174943654.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019090317530193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-29T01:11:46.729Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="八、redis集群">
+<meta name="twitter:description" content="前言前面写完了 Redis 的主从复制、哨兵模式、Redis 持久化方式。这篇文章开始写 Redis 集群啦。 我们项目中使用 Redis 一般都不是使用单台 Redis 提供服务，除非是很小的项目，不过很小的项目也没有必要使用Redis了。所以一般使用 Redis 都会配上 Redis主从备（就是前面将的主从复制），配上哨兵模式实现故障转移。更大的项目就搭建一个 Redis 集群。 但是呢，我们">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190828163053884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="QuellanAn" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://quellanan.github.io/20190903/八、redis集群">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>八、redis集群 | QuellanAn</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+ 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">QuellanAn</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-互动">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/guestbook/" rel="section"><i class="menu-item-icon fa fa-fw fa-comments"></i> <br>互动</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/20190903/八、redis集群.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="QuellanAn">
+      <meta itemprop="description" content="别让生活成为梦想的羁绊">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QuellanAn">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">八、redis集群
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-03 20:21:09" itemprop="dateCreated datePublished" datetime="2019-09-03T20:21:09+08:00">2019-09-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-29 09:11:46" itemprop="dateModified" datetime="2019-09-29T09:11:46+08:00">2019-09-29</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">13k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">12 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>前面写完了 Redis 的主从复制、哨兵模式、Redis 持久化方式。这篇文章开始写 Redis 集群啦。</p>
+<p>我们项目中使用 Redis 一般都不是使用单台 Redis 提供服务，除非是很小的项目，不过很小的项目也没有必要使用Redis了。所以一般使用 Redis 都会配上 Redis主从备（就是前面将的主从复制），配上哨兵模式实现故障转移。更大的项目就搭建一个 Redis 集群。</p>
+<p>但是呢，我们大多数在项目中即使使用了 Redis ，都是直接使用的，框架什么的都已经被前面的人搭建好了。所以我们在使用的时候其实就是配置的时候有些不同，代码中使用起来和单机的 Redis 是没有什么区别的。所以并不能说我们对 Redis 集群有多了解。</p>
+<p>所以接下来，就让我们来了解一下 Redis 集群吧，手把手搭建一个 Redis 集群 ，让我们对 Redis 集群有更多的了解 。</p>
+<h1 id="什么是-Redis-集群"><a href="#什么是-Redis-集群" class="headerlink" title="什么是 Redis 集群"></a>什么是 Redis 集群</h1><p>进入正文啦，既然学习 Redis 集群，那什么是 Redis 集群呢？</p>
+<p><strong>Redis 集群是 Redis 提供的分布式数据库方案，集群通过分片( sharding )来实现数据共享，并提供复制和故障转移。</strong></p>
+<p>可以说上面这句话是对 redis 集群的高度概括了，redis 集群提供分布式数据库方案，前面我们将的主从复制和哨兵模式可以知道，只会有一个主服务器( master )。主从复制，只会有一个 master ，可以有多个 slave。而哨兵模式是在主从复制的基础上，发现 master 挂掉，会自动的将其中一个 salve 升级成 master 。但是最终结果还是只有一个 master。所以如果系统很大，对Redis 写操作的压力就会很大，所以才出现的集群的模式。集群模式可以有多个 master 。来看下面集群模式的图(下面的图不是最终版，便于理解的。后文有最终版的)：<br><img src="https://img-blog.csdnimg.cn/20190828163053884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>手动画的可能有点丑，但是大概的意思就是这样啦。单个节点就是我们之前了解的主从复制的一主多从(图中是一主两从)，加上哨兵模式，来监听节点的 master 是否正常。 那集群就是多个节点组成的，多个节点的 master 数据共享，横向分担单个节点 master 的压力。那从上图可以看出 哨兵模式 其实是 集群模式的一个子集，集群模式是哨兵模式的一个拓展。</p>
+<h1 id="Redis-集群有什么好处，用在哪些场景"><a href="#Redis-集群有什么好处，用在哪些场景" class="headerlink" title="Redis 集群有什么好处，用在哪些场景"></a>Redis 集群有什么好处，用在哪些场景</h1><p>上面讲了什么是 Reids 集群，那为什么要使用 Redis 集群呢，不直接使用哨兵模式呢？使用 Redis 集群有什么好处呢？</p>
+<p>要回答上面这个问题，其实在上一节已经差不多介绍了，集群模式是哨兵模式的一种拓展，既然是拓展，当时是因为哨兵模式不能满足需求才会产生的。</p>
+<p>在没有Redis 集群的时候，人们使用哨兵模式，所有的数据都存在 master 上面，master 的压力越来越大，垂直扩容再多的 salve 已经不能分担 master 的压力的，因为所有的写操作集中都集中在 master 上。所以人们就想到了水平扩容，就是搭建多个 master 节点。客户端进行分片，手动的控制访问其中某个节点。但是这几个节点之间的数据是不共享的。 并且如果增加一个节点，需要手动的将数据进行迁移，维护起来很麻烦。所以才产生了 Redis 集群。</p>
+<p>所以 Redis 集群有什么好处，就是进一步提升 Redis 性能，分布式部署实现高可用性，更加的稳定。当然还包含主从复制的数据热备份以及哨兵模式的故障转移等有点啦。</p>
+<p>那 Redis 集群用在哪些场景呢？</p>
+<p>其实我感觉一般较大的项目使用了 redis 的话，都会使用 redis 集群。毕竟在部署的时候先做好充分的拓展准备，比到时候项目出现瓶颈再去拓展成本就要小太多了。并且 Redis 是轻量级的，采用 redis 集群，也许在项目初期根本就用不上多个节点，单个节点就够用，多节点造成浪费。但是其实我们启动多个节点没有用到的话，节点所占用的内存和CPU 是非常小的。所以建议一般项目使用 Redis的话，尽量使用 Redis 集群吧。</p>
+<h1 id="集群的主从复制和故障转移"><a href="#集群的主从复制和故障转移" class="headerlink" title="集群的主从复制和故障转移"></a>集群的主从复制和故障转移</h1><p>Redis 集群的主从复制，其实和单机的主从复制是一样的。前面 Redis 集群结构图可以看到。单个节点中有一个 master 和多个 slave 。这些 slave 会自动的同步 master中的数据。注意的是，这些 salve 只会同步 所属的 master 中的数据，集群中其他的 master 数据是不会同步的。</p>
+<p>同样的 ，当个节点中可以配置多个哨兵，来监控这个节点中的master 是否下线了，如果下线了就会将这个节点的slave 选择一个升级成 master 并继承之前 master 的分片，继续工作。</p>
+<p>但是其实啊，在集群模式中，并没有配置哨兵，我们也能实现故障的自动转移。其实真正的集群的图是这样的：<br><img src="https://img-blog.csdnimg.cn/20190828175641528.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如图可以看到并没有为每个节点配置 sentinel 。那怎么实现对 master 的监听，实现故障的自动转移呢？</p>
+<p>我们在讲哨兵模式的时候说过，其实哨兵也是一种特殊的 redis 服务对吧。我们master 是通过 <code>redis-server</code> 启动的。我们哨兵是通过 <code>redis-sentinel</code>启动的。然后哨兵的作用就是定期的给 master 发送 <code>ping</code>检测 master 是否下线，然后通过选举的方式选择 slave 升级成 master<br>那放在集群中可以发现，哨兵的这些工作，完全可以交给master 来做。之前单个节点，master 做不了才交给 sentinel 的。现在有多个 master ，当然就可以用 master 来代替salve 的工作啦<br>在集群中，每个节点的master 定期的向其他节点 master 发送 <code>ping</code>命令，如果没有收到<code>pong</code> 响应，则会认为主观下线，并将这个消息发送给其他的 master。其他的 master 在接收到这个消息后就保存起来。当某个节点的 master 收到 半数以上的消息认为这个节点主观下线后，就会判定这个节点客观下线。并将这个节点客观下线的消息通知给其他的master。<br>这个客观节点下线后，其他的  master 节点 就会选举 下线的master中的 slave 一个变成 新的master 继续工作。从而实现故障自动转移。这个选举过程和哨兵模式中是一样的，只不过是 master 代替了 sentinel 的工作。</p>
+<h1 id="搭建一个-Redis-集群的实例"><a href="#搭建一个-Redis-集群的实例" class="headerlink" title="搭建一个 Redis 集群的实例"></a>搭建一个 Redis 集群的实例</h1><p>好接下来让我们一起来搭建一个集群模式吧，因为我只有一台服务器，所以我集群就搭建在一台服务器上，在实际项目中肯定是多台服务器搭建集群的。但是搭建的方式都是一样的。这里我将两种集群的搭建方式，第一种是手动的搭建集群，手动分片，这种方便我们对集群有更多的了解，第二种的话借助 Redis 自带的辅助工具来搭建集群，方便快捷。</p>
+<h2 id="方式一"><a href="#方式一" class="headerlink" title="方式一"></a>方式一</h2><p>好了，让我们开始吧，在开始之前，我们不用觉得搭建集群很麻烦，其实一样的是修改redis.conf配置文件中的内容。只需要将配置文件中集群模式打开就可以了。如下：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cluster-enabled</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure></p>
+<p>是不是很简单，还是不说废话的，搞起来。</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>先创建一个 cluster 目录，然后在 cluster 目录下创建6个文件夹。因为的演示中我的cluster 目录已经占用了，我就再创建是cluster2 目录。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cd</span>  /usr/<span class="keyword">local</span>/redis/etc</span><br><span class="line"><span class="keyword">mkdir</span> cluster2</span><br><span class="line"><span class="keyword">cd</span>  cluster2</span><br><span class="line"><span class="keyword">mkdir</span> 8000</span><br><span class="line"><span class="keyword">mkdir</span> 8001</span><br><span class="line"><span class="keyword">mkdir</span> 8002</span><br><span class="line"><span class="keyword">mkdir</span> 8003</span><br><span class="line"><span class="keyword">mkdir</span> 8004</span><br><span class="line"><span class="keyword">mkdir</span> 8005</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190829142130721.png" alt="在这里插入图片描述"><br>然后将redis.conf文件copy到这六个文件中。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cp ~/workSpace/redis-<span class="number">4.0</span>.<span class="number">9</span>/redis<span class="selector-class">.conf</span> ./<span class="number">8000</span>/redis.conf</span><br><span class="line">cp ~/workSpace/redis-<span class="number">4.0</span>.<span class="number">9</span>/redis<span class="selector-class">.conf</span> ./<span class="number">8001</span>/redis.conf</span><br><span class="line">cp ~/workSpace/redis-<span class="number">4.0</span>.<span class="number">9</span>/redis<span class="selector-class">.conf</span> ./<span class="number">8002</span>/redis.conf</span><br><span class="line">cp ~/workSpace/redis-<span class="number">4.0</span>.<span class="number">9</span>/redis<span class="selector-class">.conf</span> ./<span class="number">8003</span>/redis.conf</span><br><span class="line">cp ~/workSpace/redis-<span class="number">4.0</span>.<span class="number">9</span>/redis<span class="selector-class">.conf</span> ./<span class="number">8004</span>/redis.conf</span><br><span class="line">cp ~/workSpace/redis-<span class="number">4.0</span>.<span class="number">9</span>/redis<span class="selector-class">.conf</span> ./<span class="number">8005</span>/redis.conf</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190829142604241.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>准备工作做好了，现在我们来修改这六个目录下的配置文件吧。都将开启集群模式。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">vim</span> ./<span class="number">8000</span>/redis.<span class="keyword">conf</span></span><br></pre></td></tr></table></figure>
+<p>修改配置文件如下，我们为了方便就先不进行太复杂的配置，我们就配置搭建集群最小力度修改。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">port 8000</span><br><span class="line">daemonize yes</span><br><span class="line"><span class="keyword">cluster</span>-enabled yes</span><br><span class="line"><span class="keyword">cluster</span>-config-<span class="keyword">file</span> nodes.<span class="keyword">conf</span></span><br><span class="line"><span class="keyword">cluster</span>-node-timeout 5000</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190829143706226.png" alt="在这里插入图片描述"><br>上面修改的是8000这个目录下的redis.conf ，接下来我们按部就班的把其他几个文件中的配置也进行修改。和上面的基本一样。这里就不一一写出来了。贴一个8002的修改，大家就一目了然了。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">port 8002</span><br><span class="line">daemonize yes</span><br><span class="line"><span class="keyword">cluster</span>-enabled yes</span><br><span class="line"><span class="keyword">cluster</span>-config-<span class="keyword">file</span> nodes.<span class="keyword">conf</span></span><br><span class="line"><span class="keyword">cluster</span>-node-timeout 5000</span><br></pre></td></tr></table></figure>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>修改好这几个配置文件后，然后就启动这些服务</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc<span class="meta-keyword">/cluster2/</span><span class="number">8000</span>/</span><br><span class="line">redis-server ./redis.conf </span><br><span class="line"></span><br><span class="line">cd <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc<span class="meta-keyword">/cluster2/</span><span class="number">8001</span>/</span><br><span class="line">redis-server ./redis.conf </span><br><span class="line"></span><br><span class="line">cd <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc<span class="meta-keyword">/cluster2/</span><span class="number">8002</span>/</span><br><span class="line">redis-server ./redis.conf </span><br><span class="line"></span><br><span class="line">cd <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc<span class="meta-keyword">/cluster2/</span><span class="number">8003</span>/</span><br><span class="line">redis-server ./redis.conf </span><br><span class="line"></span><br><span class="line">cd <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc<span class="meta-keyword">/cluster2/</span><span class="number">8004</span>/</span><br><span class="line">redis-server ./redis.conf </span><br><span class="line"></span><br><span class="line">cd <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc<span class="meta-keyword">/cluster2/</span><span class="number">8005</span>/</span><br><span class="line">redis-server ./redis.conf</span><br></pre></td></tr></table></figure>
+<p>如下图：<br><img src="https://img-blog.csdnimg.cn/20190829202739916.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>上图可以看到，会先进入到对应的文件夹，然后启动redis服务，为什么要先进入对应的文件夹呢？因为我们配置了<code>cluster-config-file nodes.conf</code> 这个会在你启动目录下生成一个node.conf 文件，用来存放当前节点信息。所以你不先进入对应目录的话，很很可能就启动不成功哟。下图可以看到生成了 node.conf 以及里面的内容。<br><img src="https://img-blog.csdnimg.cn/20190829203246860.png" alt="在这里插入图片描述"><br>我们在来通过线程的方式查看一下</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ps</span> -ef |<span class="keyword">grep</span> redis</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190829203446966.png" alt="在这里插入图片描述"><br>可以发现我们启动的6个节点都已经启动了，并且后面都带有 cluster 的标识。和 6379 单机模式有区别。</p>
+<h3 id="节点互通"><a href="#节点互通" class="headerlink" title="节点互通"></a>节点互通</h3><p>到此准备工作算是真正的做完了，我们启动了六个节点，但是现在这六个节点是相互独立的，没有任何关联，那我们怎么将它们关联起来呢？<br>我们先用客户端进入到8000节点。查看一下节点信息</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-<span class="keyword">cli</span> -p 8000</span><br><span class="line"><span class="keyword">cluster</span> nodes</span><br></pre></td></tr></table></figure>
+<p>可以看到只有自身这个节点的信息。现在我们和其他节点建立连接</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cluster meet <span class="built_in"> ip </span> port</span><br></pre></td></tr></table></figure>
+<p>下图可以看我们和8001节点建立连接，这个时候再查看nodes节点信息，发现就有两个节点信息啦，说明这个集群中现在存在了8000 和8001 两个节点。<br><img src="https://img-blog.csdnimg.cn/20190830150256224.png" alt="在这里插入图片描述"><br>我们现在把8002 节点也加进来。这样原本的各自独立的节点就在同一个集群中啦，大概就是下面这张图（有点丑，将就看）<br><img src="https://img-blog.csdnimg.cn/20190902113443323.gif" alt="在这里插入图片描述"></p>
+<h3 id="槽指派"><a href="#槽指派" class="headerlink" title="槽指派"></a>槽指派</h3><p>上面已经进行了节点互通了，多个节点在同一个集群中了，那我们是不是就可以使用集群了呢？<br>其实不行，我们来看一下<code>cluster info</code><img src="https://img-blog.csdnimg.cn/20190902131512152.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>发现 cluster_status 还是fail。表明还是不可用的。因为我们还没有进行卡槽的分派。<br>Redis 集群是通过分片的方式来保存数据库中的键值对的，集群整个数据库被分成16384个槽（slot）。也就是说所有数据的key都会映射到对应的 slot 中。只有当数据库中16384 个槽都在节点上有分派，集群才会上线，否则集群的状态就是 fail。<br>所以接下来开始槽指派吧</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cluster addslots  slots[slots]</span><br><span class="line">样例：</span><br><span class="line">cluster addslots <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> </span><br><span class="line">cluster addslots <span class="number">0</span> <span class="number">1</span> <span class="number">2</span> ... <span class="number">5000</span></span><br><span class="line">cluster addslots &#123;<span class="number">0.</span><span class="number">.5000</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>网上说的可以支持范围分配的，但是我电脑上试了 N 种方法都不行，我的 redis 版本是4.0.9 的。最后没办法，写了一个脚本跑的。<br><img src="https://img-blog.csdnimg.cn/20190902180531659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>如果大家也不行的话，可以用脚本跑吧。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">start</span>=<span class="variable">$1</span></span><br><span class="line"><span class="attribute">end</span>=<span class="variable">$2</span></span><br><span class="line"><span class="attribute">port</span>=<span class="variable">$3</span></span><br><span class="line"><span class="keyword">for</span> slot <span class="keyword">in</span> `seq <span class="variable">$&#123;start&#125;</span> <span class="variable">$&#123;end&#125;</span>`</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">           echo <span class="string">"slot:<span class="variable">$&#123;slot&#125;</span>"</span></span><br><span class="line">              redis-cli -p <span class="variable">$&#123;port&#125;</span> cluster addslots <span class="variable">$&#123;slot&#125;</span></span><br><span class="line">      done</span><br><span class="line">~</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190902181223836.png" alt="在这里插入图片描述"><br>然后执行：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sh add-slots.sh <span class="number">0</span> <span class="number">5000</span> <span class="number">8000</span></span><br><span class="line">sh add-slots.sh <span class="number">5001</span> <span class="number">10000</span> <span class="number">8001</span></span><br><span class="line">sh add-slots.sh <span class="number">10000</span> <span class="number">16384</span> <span class="number">8002</span></span><br></pre></td></tr></table></figure>
+<p>这样就可以把16384个卡槽分配到三个节点上啦，如果有多个节点，自己调整分配哈，我这里是以三个节点为例的。</p>
+<p>卡槽分配完成以后，我们在来看看 cluster  的状态<br><img src="https://img-blog.csdnimg.cn/20190902181442458.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>发现 cluster_status 变成 ok 了。说明我们的卡槽分配是成功的。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>那现在集群上线了，是不是就可以用了呢?<br>答案是是的，但是配到现在为止还有点瑕疵，瑕疵我们待会再说，先来看看集群能不能操作命令。<br><img src="https://img-blog.csdnimg.cn/20190903083508917.png" alt="在这里插入图片描述"><br>可以看到，进行槽指派之后是可以进行正常的操作的，这里的<code>set a 123</code>提示我移动到8002端口执行。因为a 对应的卡槽为15495.<br>这里有一个命令和可以查看key值在哪一个卡槽，从而属于哪一个节点。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:8000</span>&gt; <span class="selector-tag">CLUSTER</span> <span class="selector-tag">KEYSLOT</span> <span class="selector-tag">a</span></span><br><span class="line">(<span class="selector-tag">integer</span>) 15495</span><br><span class="line">127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span><span class="selector-pseudo">:8000</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>那假如我就想set a 呢，难道要先切换到8002端口，那岂不是很麻烦，还有另一种方法：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -c -<span class="selector-tag">p</span> <span class="number">8000</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190903084627953.png" alt="在这里插入图片描述"><br>可以看到这样启动客户端，会自动的将数据存入到对应的节点上，并切换到这个节点，并且之前我在8000 端口上<code>set data 123</code>,我现在在8002端口上<code>get data</code> 会自动的找到key值并切换到8000端口上，这样在客户端就感觉这三个节点是一个整体啦，是不是很方便。</p>
+<h3 id="配置主从"><a href="#配置主从" class="headerlink" title="配置主从"></a>配置主从</h3><p>前面为止，集群模式已经搭建好了，但是呢前文说的还有点瑕疵，现在就来说说，我们现在搭建的集群只有三个主节点，任何一个主节点挂掉了，就会导致集群不可用，因为集群可用的标志是 16384 个卡槽全部都分配到可用的节点上。所以我们现在搭建的集群还是不稳定的。所以为了解决这个问题，我们需要为每一个主节点配置一个从节点。<br>从节点的作用是数据热备份和当主节点出现故障时可以替代主节点进行工作。</p>
+<p>好了，我们来搭建主从吧，前文中我们创建了6个节点，还有三个没用，其实就是用来搭建主从的哈哈。还没有用到的这三个节点 和搭建好的这个集群是独立的现在。<br>第一步，将这三个节点加入到集群中来。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cluster meet  <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">8003</span></span><br><span class="line">cluster meet  <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">8004</span></span><br><span class="line">cluster meet  <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">8005</span></span><br></pre></td></tr></table></figure>
+<p>第二步，查找主节点的 nodesId。通过 <code>cluster nodes</code>可以查到到集群中所有节点的信息，第一列就是每个节点的nodesId.<br><img src="https://img-blog.csdnimg.cn/20190903091254964.png" alt="在这里插入图片描述"><br>第三步，将从节点和主节点关联起来。</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -p <span class="number">8003</span> cluster replicate <span class="number">9</span>a<span class="number">86</span>d<span class="number">899</span>be<span class="number">55</span>a<span class="number">37</span>d<span class="number">3</span>ac<span class="number">1</span><span class="keyword">c</span><span class="number">8</span>be<span class="number">6</span><span class="keyword">c</span><span class="number">342</span><span class="keyword">c</span><span class="number">7</span>f<span class="number">59513076</span></span><br><span class="line">redis-cli -p <span class="number">8004</span> cluster replicate <span class="number">03</span>efbb<span class="number">8782</span>a<span class="number">705</span>d<span class="number">5978</span>f<span class="number">5</span><span class="keyword">c</span><span class="number">1</span>b<span class="number">14</span>d<span class="number">4</span>dcba<span class="number">14</span>a<span class="number">167e8</span></span><br><span class="line">redis-cli -p <span class="number">8005</span> cluster replicate <span class="number">01</span>f<span class="number">6</span><span class="keyword">c</span><span class="number">1888</span>b<span class="number">7</span>a<span class="number">103</span><span class="keyword">c</span><span class="number">10</span>fffe<span class="number">9</span>cf<span class="number">6</span>be<span class="number">8</span>a<span class="number">5</span>fff<span class="number">8</span>ae<span class="number">985</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190903092754288.png" alt="在这里插入图片描述"><br>我们再来看看节点信息<br><img src="https://img-blog.csdnimg.cn/20190903093105713.png" alt="在这里插入图片描述"><br>可以看到从节点已经搭建成功啦，那到底有没有成功呢，我们再来试试，我们手动模拟主节点8000故障了。我们用<code>shutdown</code>可以关闭当前节点的服务。<br><img src="https://img-blog.csdnimg.cn/20190903093408249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>看一下进程确定8000已经关闭了<br><img src="https://img-blog.csdnimg.cn/20190903093544690.png" alt="在这里插入图片描述"><br>我们现在进入8001端口看一下，<code>get data</code>可以看到切换到8003端口上了，8003端口是8000端口的从节点，现在8000端口挂掉了，8003端口会代替8000端口继续工作。<br><img src="https://img-blog.csdnimg.cn/20190903100959947.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>我们看一下<code>cluster nodes</code> 发现8000端口节点是 fail 的，8003端口升级成master了。我们现在修复了8000端口问题，将其重启起来看看。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">quellanan@quellanan-Lenovo-G400:/usr/local/redis/etc/cluster2/8000$ redis-server ./redis.conf </span><br><span class="line">26401:C 03 Sep 10:13:31.777 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo</span><br><span class="line">26401:C 03 Sep 10:13:31.777 # Redis <span class="attribute">version</span>=4.0.9, <span class="attribute">bits</span>=64, <span class="attribute">commit</span>=00000000, <span class="attribute">modified</span>=0, <span class="attribute">pid</span>=26401, just started</span><br><span class="line">26401:C 03 Sep 10:13:31.777 # Configuration loaded</span><br></pre></td></tr></table></figure>
+<p>然后看看节点信息，发现8003端口变成了主节点，8000端口变成了8003端口的从节点。这和我们之前哨兵模式是一样的。<br><img src="https://img-blog.csdnimg.cn/20190903101643703.png" alt="在这里插入图片描述"><br>好啦，到此为止，一个集群算是真正的搭建好啦。一步一步的来，不难，就几个命令而已，可能我写得比较啰嗦嘿嘿。</p>
+<h2 id="方式二"><a href="#方式二" class="headerlink" title="方式二"></a>方式二</h2><h3 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a>准备工作</h3><p>第二种方法搭建集群就简单讲啦，准备工作和启动都是一样的，只是不用我们自己进行节点互通和分配卡槽啦。如下图，我已经启动 7000~7005 六个节点。<br><img src="https://img-blog.csdnimg.cn/20190903103718865.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="安装软件"><a href="#安装软件" class="headerlink" title="安装软件"></a>安装软件</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> ruby</span><br><span class="line">yum <span class="keyword">install</span> rubygems</span><br><span class="line">gem <span class="keyword">install</span> redis</span><br></pre></td></tr></table></figure>
+<p>我这里已经安装好了，就不演示啦。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>执行以下命令，就会自动的帮我们进行节点互通，分配卡槽以及设置从节点。<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-trib.rb create --replicas <span class="number">1</span> <span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">7000</span> <span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">7001</span> <span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">7002</span> <span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">7003</span> <span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">7004</span> <span class="number">127.0</span><span class="meta">.0</span><span class="meta">.1</span>:<span class="number">7005</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>特别提醒，这里的IP用主机的IP，如果使用127.0.0.1的话，在我们代码中访问会出错，我也是在项目中使用的时候碰到的</strong><br><img src="https://img-blog.csdnimg.cn/20190903112941564.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>上面就已经搭建好集群啦，简单吧。</p>
+<h3 id="验证-1"><a href="#验证-1" class="headerlink" title="验证"></a>验证</h3><p>我们现在简单验证一下，进入7000节点；</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -c -<span class="selector-tag">p</span> <span class="number">7000</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/2019090311331399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到集群是上线状态，可以正常使用啦，我们简单操作一波<br><img src="https://img-blog.csdnimg.cn/20190903113444307.png" alt="在这里插入图片描述"><br>好啦，集群搭建的实例就说这么多吧，两种方式，第一种是原生的，第二种是借助工具的，效果是一样的。还有一个内容就是重新分片。这个用到的不多，我们前期在搭建集群的时候先预留多个节点就好，不然后面要扩容，就需要用到重新分片，感兴趣的可以在讨论区讨论下吧，也不难，这里就不写了(文章太长啦)。</p>
+<h1 id="在项目中使用集群"><a href="#在项目中使用集群" class="headerlink" title="在项目中使用集群"></a>在项目中使用集群</h1><p>在项目中使用集群，我这里就简单的给一个样例给大家参考。</p>
+<h2 id="创建一个springboot-项目"><a href="#创建一个springboot-项目" class="headerlink" title="创建一个springboot 项目"></a>创建一个springboot 项目</h2><p><img src="https://img-blog.csdnimg.cn/20190903171721569.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>基本上一直next 就好了。</p>
+<h2 id="修改pom-xml文件"><a href="#修改pom-xml文件" class="headerlink" title="修改pom.xml文件"></a>修改pom.xml文件</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">&lt;!--Redis使用starter--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">      </span><br><span class="line">        <span class="comment">&lt;!--注解日志/get/set--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.commons<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-pool2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.sf.json-lib<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>json-lib<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">classifier</span>&gt;</span>jdk15<span class="tag">&lt;/<span class="name">classifier</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        </span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="修改application-yml"><a href="#修改application-yml" class="headerlink" title="修改application.yml"></a>修改application.yml</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">server</span>:</span><br><span class="line">  <span class="selector-tag">port</span>: 9090</span><br><span class="line"></span><br><span class="line"># <span class="selector-tag">redis</span> 集群配置</span><br><span class="line"><span class="selector-tag">spring</span>:</span><br><span class="line">  <span class="selector-tag">redis</span>:</span><br><span class="line">    <span class="selector-tag">cluster</span>:</span><br><span class="line">      <span class="selector-tag">nodes</span>: 192<span class="selector-class">.168</span><span class="selector-class">.252</span><span class="selector-class">.53</span><span class="selector-pseudo">:7000</span>,192<span class="selector-class">.168</span><span class="selector-class">.252</span><span class="selector-class">.53</span><span class="selector-pseudo">:7001</span>,192<span class="selector-class">.168</span><span class="selector-class">.252</span><span class="selector-class">.53</span><span class="selector-pseudo">:7002</span>,192<span class="selector-class">.168</span><span class="selector-class">.252</span><span class="selector-class">.53</span><span class="selector-pseudo">:7003</span>,192<span class="selector-class">.168</span><span class="selector-class">.252</span><span class="selector-class">.53</span><span class="selector-pseudo">:7004</span>,192<span class="selector-class">.168</span><span class="selector-class">.252</span><span class="selector-class">.53</span><span class="selector-pseudo">:7005</span></span><br><span class="line">      <span class="selector-tag">timeout</span>: 6000<span class="selector-tag">ms</span> # 连接池超时时间（毫秒）</span><br><span class="line">    # 密码没有可以不填</span><br><span class="line">    <span class="selector-tag">password</span>:</span><br><span class="line">    <span class="selector-tag">database</span>: 0 # 数据库索引</span><br><span class="line">    <span class="selector-tag">lettuce</span>:</span><br><span class="line">      <span class="selector-tag">pool</span>:</span><br><span class="line">        <span class="selector-tag">max-active</span>: 8 # 连接池最大活跃连接数（使用负值表示没有限制）</span><br><span class="line">        <span class="selector-tag">max-idle</span>: 8 # 连接池最大空闲连接数</span><br><span class="line">        <span class="selector-tag">max-wait</span>: <span class="selector-tag">-1ms</span> # 连接池最大阻塞等待时间 毫秒（使用负值表示没有限制）</span><br><span class="line">        <span class="selector-tag">min-idle</span>: 0  #最小空闲连接数</span><br></pre></td></tr></table></figure>
+<h2 id="配置dao层"><a href="#配置dao层" class="headerlink" title="配置dao层"></a>配置dao层</h2><p>这个样例是我写的另一篇博客样例改编过来的，大家不知道项目结构的可以看一下我这篇博客中样例的项目结构。<br><a href="https://blog.csdn.net/qq_27790011/article/details/98344732" target="_blank" rel="noopener">Redis在SpringBoot中使用案例</a><br>创建dao 包，创建一个User 类,这里使用了lombok提供的@Getter 和@Setter 非常方便，代码看着也很简洁。</p>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@Getter</span><br><span class="line">@Setter</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword"><span class="keyword">implements</span> <span class="type">Serializable</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> final long serialVersionUID = <span class="number">1</span>L;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> userName;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> password;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> email;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> nickname;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">String</span> regTime;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> User(<span class="keyword">String</span> email, <span class="keyword">String</span> nickname, <span class="keyword">String</span> password, <span class="keyword">String</span> userName, <span class="keyword">String</span> regTime) &#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.email = email;</span><br><span class="line">        <span class="built_in">this</span>.nickname = nickname;</span><br><span class="line">        <span class="built_in">this</span>.password = password;</span><br><span class="line">        <span class="built_in">this</span>.userName = userName;</span><br><span class="line">        <span class="built_in">this</span>.regTime = regTime;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="创建service层"><a href="#创建service层" class="headerlink" title="创建service层"></a>创建service层</h2><p>创建一个service 包，创建一个RedisService类，代码如下：</p>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">@Slf4j</span><br><span class="line"><span class="keyword">public</span> class RedisService &#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    <span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">boolean</span> setUserBystringRedisTemplate(User user)&#123;</span><br><span class="line">        ValueOperations ops=stringRedisTemplate.opsForValue();</span><br><span class="line">        ops.<span class="built_in">set</span>(user.getNickname(),<span class="keyword">JSONObject</span>.fromObject(user).toString());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> getUserBystringRedisTemplate(<span class="keyword">String</span> name)&#123;</span><br><span class="line">        ValueOperations ops=stringRedisTemplate.opsForValue();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">JSONObject</span>.fromObject(ops.<span class="built_in">get</span>(name)).toString();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">boolean</span> setString(<span class="keyword">String</span> <span class="built_in">key</span>,<span class="keyword">String</span> value)&#123;</span><br><span class="line">        ValueOperations ops=stringRedisTemplate.opsForValue();</span><br><span class="line">        ops.<span class="built_in">set</span>(<span class="built_in">key</span>,value);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">String</span> getString(<span class="keyword">String</span> <span class="built_in">key</span>)&#123;</span><br><span class="line">        ValueOperations ops=stringRedisTemplate.opsForValue();</span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">String</span>)ops.<span class="built_in">get</span>(<span class="built_in">key</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="创建Controller层"><a href="#创建Controller层" class="headerlink" title="创建Controller层"></a>创建Controller层</h2><p>创建一个controller 包，创建一个RedisController类代码如下：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> RedisController &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisService redisService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/setUser"</span>)</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span> setUser()&#123;</span><br><span class="line">        User user=<span class="keyword">new</span> User(<span class="string">"aa@qq.com"</span>,<span class="string">"quellan"</span>,<span class="string">"123456"</span>,<span class="string">"朱"</span>,<span class="keyword">new</span> <span class="built_in">Date</span>().getTime()+<span class="string">""</span>);</span><br><span class="line">        redisService.setUserBystringRedisTemplate(user);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"添加成功"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/getUserByStringRedisTemplate"</span>)</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span>  getUserByStringRedisTemplate()&#123;</span><br><span class="line">        <span class="built_in">String</span> name=<span class="string">"quellan"</span>;</span><br><span class="line">        <span class="keyword">return</span> redisService.getUserBystringRedisTemplate(name);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/setString"</span>)</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span> setString(<span class="built_in">String</span> key ,<span class="built_in">String</span> value)&#123;</span><br><span class="line">        redisService.setString(key,value);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"添加成功"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/getString"</span>)</span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">String</span> setString(<span class="built_in">String</span> key)&#123;</span><br><span class="line">        <span class="keyword">return</span> redisService.getString(key);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>到此为止，代码就已经写完啦，我们来启动项目测试一下。<br>项目启动成功之后，我们调接口看看</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">http:</span><span class="comment">//localhost:9090/setString?key=a&amp;value=123</span></span><br><span class="line"><span class="symbol">http:</span><span class="comment">//localhost:9090/setString?key=b&amp;value=1qaz</span></span><br><span class="line"><span class="symbol">http:</span><span class="comment">//localhost:9090/setString?key=data&amp;value=wsxcd</span></span><br><span class="line"><span class="symbol">http:</span><span class="comment">//localhost:9090/getString?key=a</span></span><br><span class="line"><span class="symbol">http:</span><span class="comment">//localhost:9090/getString?key=data</span></span><br><span class="line"><span class="symbol">http:</span><span class="comment">//localhost:9090/setUser</span></span><br><span class="line"><span class="symbol">http:</span><span class="comment">//localhost:9090/getUser</span></span><br></pre></td></tr></table></figure>
+<p>我就截图看其中两个<br><img src="https://img-blog.csdnimg.cn/20190903174849583.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190903174857678.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190903174943654.png" alt="在这里插入图片描述"><br>界面上没有问题啦，我们再用客户端看一下。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -c -<span class="selector-tag">p</span> <span class="number">7000</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/2019090317530193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>数据在集群中正常的读取是没有问题哒。</p>
+<p>好了，在项目中简单使用集群就讲到这里啦，源代码我github上了，感兴趣的同学可以看下。<br><a href="https://github.com/QuellanAn/SpringBootLearning" target="_blank" rel="noopener">demo源代码</a></p>
+<p>总算写完了，可能写的不是很好，大家有疑问的，可以提出来，我知道的尽量给大家解答，谢谢大家！</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>Thank you for your accept. mua！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/wechatpay.png" alt="QuellanAn 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/alipay.png" alt="QuellanAn 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>QuellanAn</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://quellanan.github.io/20190903/八、redis集群.html" title="八、redis集群">https://quellanan.github.io/20190903/八、redis集群.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:16px;">-------------本文结束<i class="fa fa-heart"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
+          
+            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          
+            <a href="/tags/集群/" rel="tag"><i class="fa fa-tag"></i> 集群</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20190822/七、Redis持久化的两种方式RDB和AOF理解.html" rel="next" title="七、Redis持久化的两种方式RDB和AOF理解">
+                <i class="fa fa-chevron-left"></i> 七、Redis持久化的两种方式RDB和AOF理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20190905/内网穿透ngrok_ngrokcc_cpolar.html" rel="prev" title="内网穿透ngrok_ngrokcc_cpolar">
+                内网穿透ngrok_ngrokcc_cpolar <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjgzNy8yMzMzOA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="QuellanAn">
+            
+              <p class="site-author-name" itemprop="name">QuellanAn</p>
+              <div class="site-description motion-element" itemprop="description">别让生活成为梦想的羁绊</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/quellanan" title="GitHub &rarr; https://github.com/quellanan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/qq_27790011" title="CSDN &rarr; https://blog.csdn.net/qq_27790011" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/quellanan/" title="博客园 &rarr; https://www.cnblogs.com/quellanan/" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.jianshu.com/u/50ba1aa097c8" title="简书 &rarr; https://www.jianshu.com/u/50ba1aa097c8" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>简书</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://juejin.im/user/5bfb4ce9f265da611204b096" title="掘金 &rarr; https://juejin.im/user/5bfb4ce9f265da611204b096" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>掘金</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="tencent://message/?uin=1186154608&Site=&menu=yes" title="QQ &rarr; tencent://message/?uin=1186154608&Site=&menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_27790011/article/category/9361908" title="https://blog.csdn.net/qq_27790011/article/category/9361908" rel="noopener" target="_blank">springBoot实战</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_27790011/article/category/9187012" title="https://blog.csdn.net/qq_27790011/article/category/9187012" rel="noopener" target="_blank">Redis 必知必会</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是-Redis-集群"><span class="nav-number">2.</span> <span class="nav-text">什么是 Redis 集群</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis-集群有什么好处，用在哪些场景"><span class="nav-number">3.</span> <span class="nav-text">Redis 集群有什么好处，用在哪些场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#集群的主从复制和故障转移"><span class="nav-number">4.</span> <span class="nav-text">集群的主从复制和故障转移</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建一个-Redis-集群的实例"><span class="nav-number">5.</span> <span class="nav-text">搭建一个 Redis 集群的实例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方式一"><span class="nav-number">5.1.</span> <span class="nav-text">方式一</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">5.1.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改配置文件"><span class="nav-number">5.1.2.</span> <span class="nav-text">修改配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">5.1.3.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#节点互通"><span class="nav-number">5.1.4.</span> <span class="nav-text">节点互通</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#槽指派"><span class="nav-number">5.1.5.</span> <span class="nav-text">槽指派</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">5.1.6.</span> <span class="nav-text">验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置主从"><span class="nav-number">5.1.7.</span> <span class="nav-text">配置主从</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方式二"><span class="nav-number">5.2.</span> <span class="nav-text">方式二</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作-1"><span class="nav-number">5.2.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装软件"><span class="nav-number">5.2.2.</span> <span class="nav-text">安装软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">5.2.3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证-1"><span class="nav-number">5.2.4.</span> <span class="nav-text">验证</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在项目中使用集群"><span class="nav-number">6.</span> <span class="nav-text">在项目中使用集群</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建一个springboot-项目"><span class="nav-number">6.1.</span> <span class="nav-text">创建一个springboot 项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改pom-xml文件"><span class="nav-number">6.2.</span> <span class="nav-text">修改pom.xml文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改application-yml"><span class="nav-number">6.3.</span> <span class="nav-text">修改application.yml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置dao层"><span class="nav-number">6.4.</span> <span class="nav-text">配置dao层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建service层"><span class="nav-number">6.5.</span> <span class="nav-text">创建service层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建Controller层"><span class="nav-number">6.6.</span> <span class="nav-text">创建Controller层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">6.7.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" style=" text-align:center;">&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Quellanan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"> 站点字数合计:</i>
+    </span>
+    
+    <span title="站点总字数">85k</span>
+  
+  
+</div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+<div class="run_time" style=" text-align:center;">
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("07/23/2017 10:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+    setInterval("createtime()",250);
+  </script>
+</div>
+        
+<div class="busuanzi-count" style=" text-align:center;">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="255,0,255" opacity="0.7" zindex="-1" count="140" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1.0.0/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.1" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+  
+  
+
+  
+
+  
+  
+  
+
+
+  
+
+
+  
+    <script>
+  window.livereOptions = {
+    refer: '20190903/八、redis集群.html'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script>
+  
+    bookmark.scrollToMark('auto', "#更多");
+  
+  </script>
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":250,"height":500},"mobile":{"show":false},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"shrinkIn","post_header":"slideLeftIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideDownIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "b5fbffa8"
+    });
+  daovoice('update');
+  </script>
+
+  <meta name="description" content="什么是redis主从复制总所周知redis之所以火因为它有着读取速度快，可持久化的优点。redis的持久化保证了断电或重启数据不会丢失。但仅仅这样是不够的的，持久化是将数据定期写入磁盘中，万一哪一天这一台服务器挂掉了，那所有数据依旧会丢失。为了解决这个单点故障问题，所以就有了主从复制。 主从复制就是 将一台redis服务器的数据自动的复制到其他redis服务器上。 一台服务器出故障的概率很高，但是">
+<meta name="keywords" content="java,redis,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="六、主从复制原来这么简单">
+<meta property="og:url" content="https://quellanan.github.io/20190821/六、主从复制原来这么简单.html">
+<meta property="og:site_name" content="QuellanAn">
+<meta property="og:description" content="什么是redis主从复制总所周知redis之所以火因为它有着读取速度快，可持久化的优点。redis的持久化保证了断电或重启数据不会丢失。但仅仅这样是不够的的，持久化是将数据定期写入磁盘中，万一哪一天这一台服务器挂掉了，那所有数据依旧会丢失。为了解决这个单点故障问题，所以就有了主从复制。 主从复制就是 将一台redis服务器的数据自动的复制到其他redis服务器上。 一台服务器出故障的概率很高，但是">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190813165546849.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190813194440695.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190813195006162.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190813195032867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190814165622388.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190814170847658.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190814170859987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190814173343385.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815090311411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815090259886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815095853692.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815100329824.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815100527603.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815104726714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815104938516.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815104950100.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815102021318.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815112038766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815131816123.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815132646227.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815152630854.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815150540245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815162950354.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815163249800.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815173136849.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815155415330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815165048966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815165745396.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019081516595840.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190815170006704.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190816112211295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190816112223157.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190816112236544.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190816115256106.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190816115310470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190816115633540.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-29T01:08:19.896Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="六、主从复制原来这么简单">
+<meta name="twitter:description" content="什么是redis主从复制总所周知redis之所以火因为它有着读取速度快，可持久化的优点。redis的持久化保证了断电或重启数据不会丢失。但仅仅这样是不够的的，持久化是将数据定期写入磁盘中，万一哪一天这一台服务器挂掉了，那所有数据依旧会丢失。为了解决这个单点故障问题，所以就有了主从复制。 主从复制就是 将一台redis服务器的数据自动的复制到其他redis服务器上。 一台服务器出故障的概率很高，但是">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190813165546849.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="QuellanAn" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://quellanan.github.io/20190821/六、主从复制原来这么简单">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>六、主从复制原来这么简单 | QuellanAn</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+ 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">QuellanAn</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-互动">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/guestbook/" rel="section"><i class="menu-item-icon fa fa-fw fa-comments"></i> <br>互动</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/20190821/六、主从复制原来这么简单.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="QuellanAn">
+      <meta itemprop="description" content="别让生活成为梦想的羁绊">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QuellanAn">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">六、主从复制原来这么简单
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-21 17:54:57" itemprop="dateCreated datePublished" datetime="2019-08-21T17:54:57+08:00">2019-08-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-29 09:08:19" itemprop="dateModified" datetime="2019-09-29T09:08:19+08:00">2019-09-29</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">10k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">9 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是redis主从复制"><a href="#什么是redis主从复制" class="headerlink" title="什么是redis主从复制"></a>什么是redis主从复制</h1><p>总所周知redis之所以火因为它有着读取速度快，可持久化的优点。redis的持久化保证了断电或重启数据不会丢失。但仅仅这样是不够的的，持久化是将数据定期写入磁盘中，万一哪一天这一台服务器挂掉了，那所有数据依旧会丢失。为了解决这个单点故障问题，所以就有了主从复制。</p>
+<p><strong>主从复制就是 将一台redis服务器的数据自动的复制到其他redis服务器上。</strong> 一台服务器出故障的概率很高，但是多台服务器同时出故障的概率就很低了吧。所谓主从主从，当然是有主服务器 (master) 和从服务器 (slave) 啦，一个 master 可以将数据复制到多个 slave，但是特别注意的是，复制是单向的，只能从 master 到 slave 。一个master 可以有多个 slave ，一个slave 也可以有多个slave ,但是一个 slave 只能从属一个master 。如下图这样就是错误的。<br><img src="https://img-blog.csdnimg.cn/20190813165546849.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="主从复制的作用及场景"><a href="#主从复制的作用及场景" class="headerlink" title="主从复制的作用及场景"></a>主从复制的作用及场景</h1><p>1、数据冗余： 主从复制实现了数据的热备份，相当于一份数据在多个服务器上存储了，是持久化之外的一种数据冗余方式，这样做的目的是以空间换取安全性。如果主服务器挂掉了，可以通过从服务将数据恢复。</p>
+<p>2、故障快速修复：当 master 出现问题的时候，可以快速的将一个 slave 切换成 master 继续提供服务 ，保证项目稳定性。</p>
+<p>3、读写分离： 主从复制实现读写分离非常简单，写入的时候只操作 master ，读取的时候只操作 slave ，这样读的话可以多个slave 满足项目高并发的操作。</p>
+<p>4、负载均衡：既然实现了读写分离，当然就能实现负载均衡，多个 slave 承担 数据读取操作 ，从而分担 master 服务器的压力。</p>
+<p>5、高可用的基石：主从复制还是哨兵模式和集群模式能够实施的基础。</p>
+<p>既然主从复制有这些作用，那在实际应用中会用在哪些场景呢？</p>
+<p>1、如果项目对数据安全性稳定性要求较高，就会使用主从复制搭建哨兵模式或者搭建集群。</p>
+<p>2、海量数据读写，需要做读写分离提高防蚊效率，就会用到主从复制</p>
+<p>3、容灾恢复，如果对数据依赖度很高，害怕数据在服务器挂掉后丢失，就可以通过主从复制防止数据丢失。</p>
+<h1 id="主从复制的模式"><a href="#主从复制的模式" class="headerlink" title="主从复制的模式"></a>主从复制的模式</h1><h2 id="一主一从"><a href="#一主一从" class="headerlink" title="一主一从"></a>一主一从</h2><p>这种模式在实际应用中还是比较少见的其实，一主一从主要是实现读写分离和容灾恢复。考虑到成本的问题，所以采用两台服务器，一个redis服务器master 负责读操作，并定期的复制到 另个一服务器slave 。slave 服务器负责读写操作。在项目中配置的时候配置两个redis连接。</p>
+<h2 id="一主多从"><a href="#一主多从" class="headerlink" title="一主多从"></a>一主多从</h2><p>一主多从有可以分为几种，如下图：<br><img src="https://img-blog.csdnimg.cn/20190813194440695.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这种就是所有的 slave 都从 master 中 进行复制，这样的好处是 配置简单，所有的slave 都只用关系 master 就好了，但是要考虑到其实复制也是会侵占CPU内存的，所有的slave 都从 master 复制，可能增大 master的负荷。</p>
+<p>再来看看下图：<br><img src="https://img-blog.csdnimg.cn/20190813195006162.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190813195032867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这种模式也是一主多从，但是和上面的所有的 slave 都从 master 复制不一样。它是使一个到两个slave 从master 直接复制，其他的slave 从这两个slave 中复制。存在层级关系。这样的好处的降低的master 服务器的负荷，但是这样会导致如果中间某个 slave 挂掉了，那依附于它的所有slave 都不能用了。</p>
+<h1 id="主从复制部署"><a href="#主从复制部署" class="headerlink" title="主从复制部署"></a>主从复制部署</h1><p>这里我使用的是Ubuntu安装的redis，redis怎么安装，可以看我这篇文章<br><a href="https://blog.csdn.net/qq_27790011/article/details/98057637" target="_blank" rel="noopener">Redis安装</a>。<br>安装好redis后，我们启动看看是否正常</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-server /usr/local/redis/etc/redis.conf</span><br><span class="line">redis-cli -<span class="selector-tag">a</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190814165622388.png" alt="在这里插入图片描述"><br>证明是redis是正常启动的，那现在怎么配置主从模式呢？<br>按理说主次模式的redis服务器当然是搭建在不同的服务器上，但是我们条件有限，我这里的三台redis服务都搭建在一个服务器上，只是他们监听的端口不同。</p>
+<h2 id="1、修改redis-conf"><a href="#1、修改redis-conf" class="headerlink" title="1、修改redis.conf"></a>1、修改redis.conf</h2><p>我们先修改master的配置文件redis.conf 的一些配置</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bind 0.0.0.0    表示可以被所有机器访问。</span><br><span class="line">daemonize <span class="literal">yes</span>  表示可以后台启动</span><br><span class="line">port 6379</span><br><span class="line">pidfile /var/run/redis_6379.pid</span><br><span class="line">logfile <span class="string">"/usr/local/redis/logs/log_redis.log"</span></span><br><span class="line">requirepass 123456</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190814170847658.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190814170859987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="2、复制两份redis-config"><a href="#2、复制两份redis-config" class="headerlink" title="2、复制两份redis.config"></a>2、复制两份redis.config</h2><p>改好redis.conf 后，将/usr/local/redis/etc/ 目录下的redis.config 复制两份为redis_slave1.conf<br>redis_slave2.config<br><img src="https://img-blog.csdnimg.cn/20190814173343385.png" alt="在这里插入图片描述"></p>
+<h2 id="3、修改rdis-slave1-conf"><a href="#3、修改rdis-slave1-conf" class="headerlink" title="3、修改rdis_slave1.conf"></a>3、修改rdis_slave1.conf</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">bind 本机ip      表示只能本机访问</span><br><span class="line">daemonize <span class="literal">yes</span> </span><br><span class="line">port 6389</span><br><span class="line">pidfile /var/run/redis_6389.pid</span><br><span class="line">logfile <span class="string">"/usr/local/redis/logs/log_redis_slaveof6389.log"</span></span><br><span class="line">requirepass 123456 </span><br><span class="line">---上面的这些配置和redis.conf中基本一样修改一下就好了，日志是为了方便查看。下面看重点配置</span><br><span class="line"></span><br><span class="line">slaveof 192.168.252.53 6379  设置master的ip 和port</span><br><span class="line">masterauth 123456  设置master的登录密码，就是redis.conf 中配置的requirepass</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190815090311411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190815090259886.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="4、修改redis-slave2-conf"><a href="#4、修改redis-slave2-conf" class="headerlink" title="4、修改redis_slave2.conf"></a>4、修改redis_slave2.conf</h2><p>同样的<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">bind 192.168.252.53</span><br><span class="line">daemonize <span class="literal">yes</span> </span><br><span class="line">port 6399</span><br><span class="line">pidfile /var/run/redis_6399.pid</span><br><span class="line">logfile <span class="string">"/usr/local/redis/logs/log_redis_slaveof6399.log"</span></span><br><span class="line">requirepass 123456 </span><br><span class="line">slaveof 192.168.252.53 6379  </span><br><span class="line">masterauth 123456</span><br></pre></td></tr></table></figure></p>
+<h2 id="5、启动redis服务"><a href="#5、启动redis服务" class="headerlink" title="5、启动redis服务"></a>5、启动redis服务</h2><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-server <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc/redis.conf</span><br><span class="line">redis-server <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc/redis_slaveof1.conf</span><br><span class="line">redis-server <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc/redis_slaveof2.conf</span><br></pre></td></tr></table></figure>
+<p>查看一下进程</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ps</span> -ef | <span class="keyword">grep</span> redis</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190815095853692.png" alt="在这里插入图片描述"></p>
+<h2 id="6、启动客户端"><a href="#6、启动客户端" class="headerlink" title="6、启动客户端"></a>6、启动客户端</h2><p>都启动来了，现在连到单个redis服务器看看</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">主服务</span><br><span class="line">redis-cli -a <span class="number">123456</span></span><br><span class="line">从服务</span><br><span class="line">redis-cli -h <span class="number">192.168</span><span class="number">.252</span><span class="number">.53</span> -p <span class="number">6389</span> -a <span class="number">123456</span></span><br><span class="line">redis-cli -h <span class="number">192.168</span><span class="number">.252</span><span class="number">.53</span> -p <span class="number">6399</span> -a <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190815100329824.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190815100527603.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="7、测试"><a href="#7、测试" class="headerlink" title="7、测试"></a>7、测试</h2><p>启动3台客户端，分别连上master和两个slave<br>在master中</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> c <span class="comment">122</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190815104726714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>在slave1和slave2 中分别</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">get</span> c</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190815104938516.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190815104950100.png" alt="在这里插入图片描述"><br>这样就说明你的主从复制服务已经搭建好啦。</p>
+<h2 id="8、问题记录"><a href="#8、问题记录" class="headerlink" title="8、问题记录"></a>8、问题记录</h2><p>上面的是一个完美的过程搭建的主从复制的例子，但是我相信在实际搭建的时候肯定会出现各种问题，现在记录下我搭建的时候出现的问题吧<br>1、权限问题<br>在搭建好主从服务后，进入从节点查看<code>info replication</code>发现<br><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">master_link_status:</span>down</span><br></pre></td></tr></table></figure></p>
+<p>表明主从节点并没有建立连接，但是但是为什么一直是down 呢，看了一下日志<br><img src="https://img-blog.csdnimg.cn/20190815102021318.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>提示不能打开rdb这个快照，当然就不能将内容复制到从节点啦，再一看这个路径，是我自己建的路径，第一反应就是权限问题，然后进这个目录一看，发现我的etc目录是root用户的。所以就修改了文件的用户和用户组。在进到etc目录下，就发现了两个快照，再去看的时候发现down变成up 了。</p>
+<figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">quellanan@quellanan-Lenovo-G400:/usr/local/redis$ sudo chown quellanan etc</span><br><span class="line">[sudo] quellanan 的密码： </span><br><span class="line">quellanan@quellanan-Lenovo-G400:/usr/local/redis$ sudo chgrp quellanan etc</span><br><span class="line">quellanan@quellanan-Lenovo-G400:/usr/local/redis$ ll</span><br><span class="line">总用量 20</span><br><span class="line">drwxr-xr-x <span class="number"> 5 </span>root      root     <span class="number"> 4096 </span>8月  <span class="number"> 8 </span>16:50 ./</span><br><span class="line">drwxr-xr-x<span class="number"> 13 </span>root      root     <span class="number"> 4096 </span>8月  <span class="number"> 1 </span>16:28 ../</span><br><span class="line">drwxr-xr-x <span class="number"> 2 </span>root      root     <span class="number"> 4096 </span>8月  <span class="number"> 1 </span>16:57 bin/</span><br><span class="line">drwxr-xr-x <span class="number"> 2 </span>quellanan quellanan<span class="number"> 4096 </span>8月 <span class="number"> 15 </span>09:50 etc/</span><br><span class="line">drwxrwxrwx <span class="number"> 2 </span>root      root     <span class="number"> 4096 </span>8月 <span class="number"> 15 </span>09:16 logs/</span><br><span class="line">quellanan@quellanan-Lenovo-G400:/usr/local/redis$ cd etc/</span><br><span class="line">quellanan@quellanan-Lenovo-G400:/usr/local/redis/etc$ ll</span><br><span class="line">总用量 196</span><br><span class="line">drwxr-xr-x<span class="number"> 2 </span>quellanan quellanan <span class="number"> 4096 </span>8月 <span class="number"> 15 </span>09:50 ./</span><br><span class="line">drwxr-xr-x<span class="number"> 5 </span>root      root      <span class="number"> 4096 </span>8月  <span class="number"> 8 </span>16:50 ../</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>quellanan quellanan  <span class="number"> 188 </span>8月 <span class="number"> 15 </span>09:50 dump6389.rdb</span><br><span class="line">-rw-rw-r--<span class="number"> 1 </span>quellanan quellanan  <span class="number"> 188 </span>8月 <span class="number"> 15 </span>09:50 dump.rdb</span><br><span class="line">-rw-rw-r--<span class="number"> 1 </span>quellanan quellanan<span class="number"> 58810 </span>8月 <span class="number"> 14 </span>09:18 redis.conf</span><br><span class="line">-rw-rw-r--<span class="number"> 1 </span>quellanan quellanan<span class="number"> 58882 </span>8月 <span class="number"> 14 </span>09:16 redis_slaveof1.conf</span><br><span class="line">-rw-r--r--<span class="number"> 1 </span>quellanan quellanan<span class="number"> 58882 </span>8月 <span class="number"> 15 </span>09:11 redis_slaveof2.conf</span><br></pre></td></tr></table></figure>
+<p>权限问题我感觉还是挺大的，因为我们一般都是远程到服务器上操作，所以用户权限很多都需要注意。</p>
+<p>2、还有一个也是发现master_link_status:down，但是并不是用户权限问题导致的，查看一下防火墙的状态，将防火墙关闭了试试。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ufw status  查看防火墙状态</span><br><span class="line">ufw <span class="builtin-name">enable</span> 开启防火墙</span><br><span class="line">ufw <span class="builtin-name">disable</span> 关闭防火墙</span><br></pre></td></tr></table></figure>
+<p>3、在主节点插入数据的时候出现问题</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; <span class="keyword">set</span> a <span class="number">1</span>qaz</span><br><span class="line">(<span class="keyword">error</span>) MISCONF Redis <span class="keyword">is</span> configured <span class="keyword">to</span> save RDB snapshots, <span class="keyword">but</span> <span class="keyword">it</span> <span class="keyword">is</span> currently <span class="keyword">not</span> able <span class="keyword">to</span> persist <span class="keyword">on</span> disk. Commands <span class="keyword">that</span> may modify <span class="keyword">the</span> data <span class="keyword">set</span> are disabled, because this instance <span class="keyword">is</span> configured <span class="keyword">to</span> report errors during writes <span class="keyword">if</span> RDB snapshotting fails (stop-writes-<span class="keyword">on</span>-bgsave-<span class="keyword">error</span> option). Please check <span class="keyword">the</span> Redis logs <span class="keyword">for</span> details <span class="keyword">about</span> <span class="keyword">the</span> RDB <span class="keyword">error</span>.</span><br></pre></td></tr></table></figure>
+<p>执行这个</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; <span class="built_in"> config </span><span class="builtin-name">set</span> stop-writes-on-bgsave-<span class="builtin-name">error</span> <span class="literal">no</span></span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; <span class="builtin-name">set</span> a 123456</span><br><span class="line">OK</span><br><span class="line">127.0.0.1:6379&gt; <span class="builtin-name">get</span> a</span><br><span class="line"><span class="string">"123456"</span></span><br></pre></td></tr></table></figure>
+<h1 id="主从复制的原理"><a href="#主从复制的原理" class="headerlink" title="主从复制的原理"></a>主从复制的原理</h1><p>上面以及搭建了一个主从复制的样例，是一主两从的，那是怎么redis是怎么具体实现的呢？<br>在将原理之前，先来看看主从复制的几个概念。启动master后</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>:<span class="number">6379</span>&gt; info server</span><br><span class="line"><span class="meta"># Server</span></span><br><span class="line"><span class="symbol">redis_version:</span><span class="number">4.0</span><span class="number">.9</span></span><br><span class="line"><span class="symbol">redis_git_sha1:</span><span class="number">00000000</span></span><br><span class="line"><span class="symbol">redis_git_dirty:</span><span class="number">0</span></span><br><span class="line"><span class="symbol">redis_build_id:</span><span class="number">514e9</span>a11b2a67dfc</span><br><span class="line"><span class="symbol">redis_mode:</span>standalone</span><br><span class="line"><span class="symbol">os:</span>Linux <span class="number">5.0</span><span class="number">.0</span><span class="number">-23</span>-generic x86_64</span><br><span class="line"><span class="symbol">arch_bits:</span><span class="number">64</span></span><br><span class="line"><span class="symbol">multiplexing_api:</span>epoll</span><br><span class="line"><span class="symbol">atomicvar_api:</span>atomic-builtin</span><br><span class="line"><span class="symbol">gcc_version:</span><span class="number">7.4</span><span class="number">.0</span></span><br><span class="line"><span class="symbol">process_id:</span><span class="number">19688</span></span><br><span class="line"><span class="symbol">run_id:</span><span class="number">136</span>de716105e54294144003a881ba29cdfbccfb2</span><br><span class="line"><span class="symbol">tcp_port:</span><span class="number">6379</span></span><br><span class="line"><span class="symbol">uptime_in_seconds:</span><span class="number">4515</span></span><br><span class="line"><span class="symbol">uptime_in_days:</span><span class="number">0</span></span><br><span class="line"><span class="symbol">hz:</span><span class="number">10</span></span><br><span class="line"><span class="symbol">lru_clock:</span><span class="number">5556386</span></span><br><span class="line"><span class="symbol">executable:</span><span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc/redis-server</span><br><span class="line"><span class="symbol">config_file:</span><span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc/redis.conf</span><br></pre></td></tr></table></figure>
+<p>这个run_id 就是redis服务的唯一标识，重启redis服务号，这个run_id 会改变，多个redis客户端连接到同一个服务端，其run_id 是一样的，也就是说run_id 指的是服务端的id</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">127.0.0.1:6379&gt; info replication</span></span><br><span class="line"><span class="comment"># Replication</span></span><br><span class="line"><span class="section">role:master</span></span><br><span class="line"><span class="section">connected_slaves:2</span></span><br><span class="line"><span class="section">slave0:ip=192.168.252.53,port=6389,state=online,offset=5541,lag=1</span></span><br><span class="line"><span class="section">slave1:ip=192.168.252.53,port=6399,state=online,offset=5541,lag=0</span></span><br><span class="line"><span class="section">master_replid:f0c89aa8040dfe869de82ee623a1212240456d76</span></span><br><span class="line"><span class="section">master_replid2:0000000000000000000000000000000000000000</span></span><br><span class="line"><span class="section">master_repl_offset:5541</span></span><br><span class="line"><span class="section">second_repl_offset:-1</span></span><br><span class="line"><span class="section">repl_backlog_active:1</span></span><br><span class="line"><span class="section">repl_backlog_size:1048576</span></span><br><span class="line"><span class="section">repl_backlog_first_byte_offset:1</span></span><br><span class="line"><span class="section">repl_backlog_histlen:5541</span></span><br></pre></td></tr></table></figure>
+<p>其中repl_backlog_size 复制缓存区大小，默认大小为1M，如果mater_repl_offset在这个范围内，就看是部分复制，否则就开始全量复制。</p>
+<h2 id="全量复制"><a href="#全量复制" class="headerlink" title="全量复制"></a>全量复制</h2><p>先看下图，图画的不是很好见谅<br><img src="https://img-blog.csdnimg.cn/20190815112038766.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>1、首先slave会向 master发送一个 psync 命令，因为是第一次，所以不知道run_id 和offset，所以传过来-1表示全量复制<br>2、 master在接收到psync 后，将run_id 和offset 发送给slave，slave存储起来<br>3、master进行bgsave生成rdb ,并将rdb 文件发送给slave<br>4、在bgsave 和send rdb 的过程中可能会产生write 的数据，那么就会把数据存到repl_back_buffer 中 并将buffer发送给slave .<br>5、slave 会清空就数据，然后加载rdb和buffer 将数据存储起来。</p>
+<h2 id="部分复制"><a href="#部分复制" class="headerlink" title="部分复制"></a>部分复制</h2><p><img src="https://img-blog.csdnimg.cn/20190815131816123.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>既然是部分复制，那就是slave已经知道了master的run_id 和offset ,所以发送psync 命令带上这两个参数，master 就知道这是部分复制，然后通过偏移量将需要复制的数据发送给slave。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>主从复制的过程中既用到了全量复制也用到了部分复制，二者是相互配合使用的。看下面的流程图：<br><img src="https://img-blog.csdnimg.cn/20190815132646227.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>还有一点需要注意的是，如果master 重启了，那么它的run_id发生了改变，那么依赖它的slave都会进行一次全量复制后在进行部分复制。 </p>
+<h1 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h1><h2 id="哨兵模式介绍"><a href="#哨兵模式介绍" class="headerlink" title="哨兵模式介绍"></a>哨兵模式介绍</h2><p>在将哨兵模式之前，先来说说主从复制的缺点吧。<br>如果主节点出了问题，那么主节点不在提供服务，需要手动的将从节点切换成主节点。</p>
+<p>所以这个时候哨兵模式就出现啦，当主节出现故障时，Redis Sentinel会自动的发现主节点的故障并转移，并通知应用方，实现高可用。</p>
+<p>下面是Redis官方文档对于哨兵功能的描述：<br>1、监控（Monitoring）：哨兵会不断地检查主节点和从节点是否运作正常。<br>2、自动故障转移（Automatic failover）：当主节点不能正常工作时，哨兵会开始自动故障转移操作，它会将失效主节点的其中一个从节点升级为新的主节点，并让其他从节点改为复制新的主节点。<br>3、配置提供者（Configuration provider）：客户端在初始化时，通过连接哨兵来获得当前Redis服务的主节点地址。<br>4、通知（Notification）：哨兵可以将故障转移的结果发送给客户端。</p>
+<p>哨兵模式的结构拓扑图大概如下，也是照书上画的哈哈<br><img src="https://img-blog.csdnimg.cn/20190815152630854.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>大意就是<br>1、每一个哨兵节点会监听其他的哨兵节点以及master 和所有的slave<br>2、所有哨兵节点会定期的ping 主节点，监控是否正常<br>3、如果认为主节点出现故障的哨兵数量达到阙zhi，就判定主节点死掉，主节点就会客观下线<br>4、主节点客观下线后，哨兵节点通过选举模式在 slave 中选择出一个升级为主节点<br>5、其他的salve 指向新的主节点<br>6、原来的master 变成 slave ，并且指向新的主节点</p>
+<p>引用官方哨兵模式处理流程</p>
+<blockquote>
+<p>每个Sentinel（哨兵）进程以每秒钟一次的频率向整个集群中的Master主服务器，Slave从服务器以及其他Sentinel（哨兵）进程发送一个 PING 命令。<br>●如果一个实例（instance）距离最后一次有效回复 PING 命令的时间超过 down-after-milliseconds 选项所指定的值， 则这个实例会被 Sentinel（哨兵）进程标记为主观下线（SDOWN）。<br>●如果一个Master主服务器被标记为主观下线（SDOWN），则正在监视这个Master主服务器的所有 Sentinel（哨兵）进程要以每秒一次的频率确认Master主服务器的确进入了主观下线状态。<br>●当有足够数量的 Sentinel（哨兵）进程（大于等于配置文件指定的值）在指定的时间范围内确认Master主服务器进入了主观下线状态（SDOWN）， 则Master主服务器会被标记为客观下线（ODOWN）。<br>●在一般情况下， 每个 Sentinel（哨兵）进程会以每 10 秒一次的频率向集群中的所有Master主服务器、Slave从服务器发送 INFO 命令。<br>●当Master主服务器被 Sentinel（哨兵）进程标记为客观下线（ODOWN）时，Sentinel（哨兵）进程向下线的 Master主服务器的所有 Slave从服务器发送 INFO 命令的频率会从 10 秒一次改为每秒一次。<br>●若没有足够数量的 Sentinel（哨兵）进程同意 Master主服务器下线， Master主服务器的客观下线状态就会被移除。若 Master主服务器重新向 Sentinel（哨兵）进程发送 PING 命令返回有效回复，Master主服务器的主观下线状态就会被移除。</p>
+</blockquote>
+<h2 id="哨兵模式部署"><a href="#哨兵模式部署" class="headerlink" title="哨兵模式部署"></a>哨兵模式部署</h2><p>1、首先到我们redis安装目录下，发现有sentinel.conf ，我们把它移到我们自己定义的文件夹中，和redis.conf 放在一起。<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv sentinel.conf <span class="regexp">/usr/</span>local<span class="regexp">/redis/</span>etc<span class="regexp">/</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="https://img-blog.csdnimg.cn/20190815150540245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>2、修改sentinel.conf文件</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">port 26379</span><br><span class="line">dir /usr/local/redis/etc  </span><br><span class="line">这里默认的是“/tmp”，如果你没有这个目录的权限就需要换啦，换一个你有权限的目录，不然后果自负哈哈，我就是从坑里爬起来的</span><br><span class="line">sentinel<span class="built_in"> monitor </span>mymaster 192.168.252.53 6379 2</span><br><span class="line">sentinel auth-pass mymaster 123456</span><br><span class="line">设置监控的主节点，2是一个阈值，代表有两台或两台以上哨兵判断主节点redis不通的话就认定这个节点有问题，实行故障转移。</span><br><span class="line"></span><br><span class="line">daemonize yes 后台启动</span><br><span class="line">logfile <span class="string">"/usr/local/redis/logs/redis_sentinel-26379.log"</span> 加上日志 ，不加也无所谓</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190815162950354.png" alt="在这里插入图片描述"><br>注意，这个auth-pass 要放在放在monitor 下面，不然会报错<br><img src="https://img-blog.csdnimg.cn/20190815163249800.png" alt="在这里插入图片描述"><br>配上一些参数说明：<br><img src="https://img-blog.csdnimg.cn/20190815173136849.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>3、将sentinel.conf 复制两份，分别为sentinel26389.conf,sentinel26399.conf并修改这个文件中的prot 和logfile</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">port 26389</span><br><span class="line">logfile <span class="string">"/usr/local/redis/logs/redis_sentinel-26389.log"</span> </span><br><span class="line"></span><br><span class="line">port 26399</span><br><span class="line">logfile <span class="string">"/usr/local/redis/logs/redis_sentinel-26399.log"</span></span><br></pre></td></tr></table></figure>
+<p>4、启动哨兵</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc/sentinel.conf</span><br><span class="line">redis-sentinel <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc/sentinel26389.conf</span><br><span class="line">redis-sentinel <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/redis/</span>etc/sentinel26399.conf</span><br></pre></td></tr></table></figure>
+<p>查看一下，三个哨兵都已经启动了。<br><img src="https://img-blog.csdnimg.cn/20190815155415330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>5、验证<br>先看看启动日志,，下图所示表明监控了三个节点。如果没有监控到这三个节点，证明没有配置成功。<br><img src="https://img-blog.csdnimg.cn/20190815165048966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190815165745396.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>没有配置成功的原因可能是防火墙导致的，关闭调防火墙。还有就是如果redis-server重启过，那在sentinel.conf中生成的pid 和最后的运行添加的几行需要删除掉，下图这些。然后重新运行。<br><img src="https://img-blog.csdnimg.cn/2019081516595840.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190815170006704.png" alt="在这里插入图片描述"></p>
+<p>好的，日志看的没有问题，如果不想看日志，我们来这样验证，我们已经启动了三个redis服务，三个哨兵。我们现在把 master 杀死看看是什么情况。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill <span class="number">-9</span> <span class="number">19688</span></span><br></pre></td></tr></table></figure>
+<p>看日志，三个哨兵的监控日志基本上是一样的，下图贴出三个哨兵的日志，我们就看一下第一个哨兵的日志分析一下。<br><img src="https://img-blog.csdnimg.cn/20190816112211295.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>看上图，启动哨兵的时候，监控到了master 6379 和两个slave 6389和6399，以及另外两个哨兵，26389和26399.<br>然后sdown master mymaster 192.168.252.53 6379 表示刚刚我们杀死的master服务。<br>这个时候有一个哨兵表示其主观下线，等到odown 达到我们设置的2时，表明有两个哨兵表示其主观下线，那么就认为6379这个master 已经客观下线。<br>然后通过选举，选取26399 这个哨兵为这三个哨兵的领导者(leader)。<br>23699 这个leader 在salve中选择6399转为 master<br>将6389 这个slave 指向新的 master 6399<br>这个时候重启6379 这个redis服务<br>将6379 这个slave指向新的master 6399<br><img src="https://img-blog.csdnimg.cn/20190816112223157.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190816112236544.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>好，下面我们来看看界面<br><img src="https://img-blog.csdnimg.cn/20190816115256106.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190816115310470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>可以看到master已经切换到6399 服务了，现在我们再切换一下，看下面这张图应该很清晰啦<br><img src="https://img-blog.csdnimg.cn/20190816115633540.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>到此为止，哨兵模式就搭建好啦，当 master 挂掉时，会自动的将一个slave 升级成 master 并将其他的 slave 指向新的master ，从新把原来的master启动后，会变成slave 执行新的master 。</p>
+<h1 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h1><p>写到这，其实还有一部分没有写完，但是感觉实在是太长了，就先写这么多吧，还差一个怎么在项目中使用搭建的哨兵模式，也就是集群模式，怎么做到读写分离，实现高可用的。<br>因为前面这些讲的都是在redis数据库上直接操作，那现在部署好了，怎么在项目代码中使用呢，所以下篇接着将在项目中怎么使用redis集群。喜欢的小伙伴可以持续关注啦。 </p>
+<p>好了，上面都是题外话，下面总结一下这篇文章吧。<br>1、主从复制是什么以及作用。<br>2、怎样部署一个主从复制（案例一主两从）<br>3、怎样部署哨兵模式（三哨兵）<br>其实我感觉如果你通过这篇文章学会了这三点，就够了，其他的看看当了解。</p>
+<p>谢谢大家</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>Thank you for your accept. mua！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/wechatpay.png" alt="QuellanAn 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/alipay.png" alt="QuellanAn 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>QuellanAn</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://quellanan.github.io/20190821/六、主从复制原来这么简单.html" title="六、主从复制原来这么简单">https://quellanan.github.io/20190821/六、主从复制原来这么简单.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:16px;">-------------本文结束<i class="fa fa-heart"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
+          
+            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20190808/五、redis配置信息以及常用命令.html" rel="next" title="五、redis配置信息以及常用命令">
+                <i class="fa fa-chevron-left"></i> 五、redis配置信息以及常用命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20190822/七、Redis持久化的两种方式RDB和AOF理解.html" rel="prev" title="七、Redis持久化的两种方式RDB和AOF理解">
+                七、Redis持久化的两种方式RDB和AOF理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjgzNy8yMzMzOA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="QuellanAn">
+            
+              <p class="site-author-name" itemprop="name">QuellanAn</p>
+              <div class="site-description motion-element" itemprop="description">别让生活成为梦想的羁绊</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/quellanan" title="GitHub &rarr; https://github.com/quellanan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/qq_27790011" title="CSDN &rarr; https://blog.csdn.net/qq_27790011" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/quellanan/" title="博客园 &rarr; https://www.cnblogs.com/quellanan/" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.jianshu.com/u/50ba1aa097c8" title="简书 &rarr; https://www.jianshu.com/u/50ba1aa097c8" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>简书</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://juejin.im/user/5bfb4ce9f265da611204b096" title="掘金 &rarr; https://juejin.im/user/5bfb4ce9f265da611204b096" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>掘金</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="tencent://message/?uin=1186154608&Site=&menu=yes" title="QQ &rarr; tencent://message/?uin=1186154608&Site=&menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_27790011/article/category/9361908" title="https://blog.csdn.net/qq_27790011/article/category/9361908" rel="noopener" target="_blank">springBoot实战</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_27790011/article/category/9187012" title="https://blog.csdn.net/qq_27790011/article/category/9187012" rel="noopener" target="_blank">Redis 必知必会</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是redis主从复制"><span class="nav-number">1.</span> <span class="nav-text">什么是redis主从复制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主从复制的作用及场景"><span class="nav-number">2.</span> <span class="nav-text">主从复制的作用及场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主从复制的模式"><span class="nav-number">3.</span> <span class="nav-text">主从复制的模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一主一从"><span class="nav-number">3.1.</span> <span class="nav-text">一主一从</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一主多从"><span class="nav-number">3.2.</span> <span class="nav-text">一主多从</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主从复制部署"><span class="nav-number">4.</span> <span class="nav-text">主从复制部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、修改redis-conf"><span class="nav-number">4.1.</span> <span class="nav-text">1、修改redis.conf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、复制两份redis-config"><span class="nav-number">4.2.</span> <span class="nav-text">2、复制两份redis.config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、修改rdis-slave1-conf"><span class="nav-number">4.3.</span> <span class="nav-text">3、修改rdis_slave1.conf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、修改redis-slave2-conf"><span class="nav-number">4.4.</span> <span class="nav-text">4、修改redis_slave2.conf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、启动redis服务"><span class="nav-number">4.5.</span> <span class="nav-text">5、启动redis服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、启动客户端"><span class="nav-number">4.6.</span> <span class="nav-text">6、启动客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、测试"><span class="nav-number">4.7.</span> <span class="nav-text">7、测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8、问题记录"><span class="nav-number">4.8.</span> <span class="nav-text">8、问题记录</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主从复制的原理"><span class="nav-number">5.</span> <span class="nav-text">主从复制的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#全量复制"><span class="nav-number">5.1.</span> <span class="nav-text">全量复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部分复制"><span class="nav-number">5.2.</span> <span class="nav-text">部分复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#哨兵模式"><span class="nav-number">6.</span> <span class="nav-text">哨兵模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵模式介绍"><span class="nav-number">6.1.</span> <span class="nav-text">哨兵模式介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵模式部署"><span class="nav-number">6.2.</span> <span class="nav-text">哨兵模式部署</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结-1"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" style=" text-align:center;">&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Quellanan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"> 站点字数合计:</i>
+    </span>
+    
+    <span title="站点总字数">85k</span>
+  
+  
+</div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+<div class="run_time" style=" text-align:center;">
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("07/23/2017 10:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+    setInterval("createtime()",250);
+  </script>
+</div>
+        
+<div class="busuanzi-count" style=" text-align:center;">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="255,0,255" opacity="0.7" zindex="-1" count="140" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1.0.0/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.1" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+  
+  
+
+  
+
+  
+  
+  
+
+
+  
+
+
+  
+    <script>
+  window.livereOptions = {
+    refer: '20190821/六、主从复制原来这么简单.html'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script>
+  
+    bookmark.scrollToMark('auto', "#更多");
+  
+  </script>
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":250,"height":500},"mobile":{"show":false},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>

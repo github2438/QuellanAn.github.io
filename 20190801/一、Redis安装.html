@@ -154,16 +154,28 @@
   daovoice('update');
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="留言互动">
-<meta property="og:url" content="https://quellanan.github.io/guestbook/index.html">
+  <meta name="description" content="1、前言其实Redis安装教程网上有很多，这里记录下来主要是记录自己的实践流程。之前学习过一些Redis的知识，但是都是朦朦胧胧的，现在Redis技术越来越火。不管多小的项目都会凑一凑热闹，所以了解一下Redis还是很有必要的。所以才有了现在的开篇。从安装开始吧。 2、windows安装软件：链接：https://pan.baidu.com/s/1JzjuFM30AAJd6jkf5pG7XQ提取码">
+<meta name="keywords" content="java,redis,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一、Redis安装">
+<meta property="og:url" content="https://quellanan.github.io/20190801/一、Redis安装.html">
 <meta property="og:site_name" content="QuellanAn">
+<meta property="og:description" content="1、前言其实Redis安装教程网上有很多，这里记录下来主要是记录自己的实践流程。之前学习过一些Redis的知识，但是都是朦朦胧胧的，现在Redis技术越来越火。不管多小的项目都会凑一凑热闹，所以了解一下Redis还是很有必要的。所以才有了现在的开篇。从安装开始吧。 2、windows安装软件：链接：https://pan.baidu.com/s/1JzjuFM30AAJd6jkf5pG7XQ提取码">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558956326532&di=82cc9907fc903cfb978a35206986d3f6&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160809%2F31283a3e2d7f411492d3fb27297180ec_th.jpg">
-<meta property="og:updated_time" content="2019-09-27T09:17:41.252Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801144431193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801144832245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801162227287.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801151515183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801151750393.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801152019785.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801172840195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801173056126.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190801173240679.png">
+<meta property="og:updated_time" content="2019-09-29T01:01:08.963Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="留言互动">
-<meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558956326532&di=82cc9907fc903cfb978a35206986d3f6&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160809%2F31283a3e2d7f411492d3fb27297180ec_th.jpg">
+<meta name="twitter:title" content="一、Redis安装">
+<meta name="twitter:description" content="1、前言其实Redis安装教程网上有很多，这里记录下来主要是记录自己的实践流程。之前学习过一些Redis的知识，但是都是朦朦胧胧的，现在Redis技术越来越火。不管多小的项目都会凑一凑热闹，所以了解一下Redis还是很有必要的。所以才有了现在的开篇。从安装开始吧。 2、windows安装软件：链接：https://pan.baidu.com/s/1JzjuFM30AAJd6jkf5pG7XQ提取码">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190801144431193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
 
 
 
@@ -173,7 +185,7 @@
 
   
   
-  <link rel="canonical" href="https://quellanan.github.io/guestbook/">
+  <link rel="canonical" href="https://quellanan.github.io/20190801/一、Redis安装">
 
 
 
@@ -183,7 +195,7 @@
   };
 </script>
 
-  <title>留言互动 | QuellanAn</title>
+  <title>一、Redis安装 | QuellanAn</title>
   
 
 
@@ -222,9 +234,6 @@
   </style>
 </noscript>
  
-<link rel="stylesheet" href="\assets\css\APlayer.min.css" class="aplayer-style-marker">
-<script src="\assets\js\APlayer.min.js" class="aplayer-script-marker"></script>
-<script src="\assets\js\Meting.min.js" class="meting-script-marker"></script>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
@@ -357,7 +366,7 @@
         
         
           
-          <li class="menu-item menu-item-互动 menu-item-active">
+          <li class="menu-item menu-item-互动">
 
     
     
@@ -386,31 +395,6 @@
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -459,49 +443,329 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/20190801/一、Redis安装.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="QuellanAn">
+      <meta itemprop="description" content="别让生活成为梦想的羁绊">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QuellanAn">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-<h2 class="post-title" itemprop="name headline">留言互动
-
-</h2>
-
-<div class="post-meta">
-  
-  
-
-
-
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div align="center"><br><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558956326532&di=82cc9907fc903cfb978a35206986d3f6&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160809%2F31283a3e2d7f411492d3fb27297180ec_th.jpg"><br></div>
+          <h2 class="post-title" itemprop="name headline">一、Redis安装
 
-
-    <div id="aplayer-tuLpZdBr" class="aplayer aplayer-tag-marker meting-tag-marker" data-id="2250011882" data-server="netease" data-type="playlist" data-mode="circulation" data-autoplay="true" data-mutex="false" data-listmaxheight="250px" data-preload="none" data-theme="#f7f7f7" data-order="random"></div>
-
+              
+            
+          </h2>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-08-01 16:12:02" itemprop="dateCreated datePublished" datetime="2019-08-01T16:12:02+08:00">2019-08-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-09-29 09:01:08" itemprop="dateModified" datetime="2019-09-29T09:01:08+08:00">2019-09-29</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">1.8k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <h1 id="1、前言"><a href="#1、前言" class="headerlink" title="1、前言"></a>1、前言</h1><p>其实Redis安装教程网上有很多，这里记录下来主要是记录自己的实践流程。之前学习过一些Redis的知识，但是都是朦朦胧胧的，现在Redis技术越来越火。不管多小的项目都会凑一凑热闹，所以了解一下Redis还是很有必要的。所以才有了现在的开篇。<br>从安装开始吧。</p>
+<h1 id="2、windows安装"><a href="#2、windows安装" class="headerlink" title="2、windows安装"></a>2、windows安装</h1><p>软件：链接：<a href="https://pan.baidu.com/s/1JzjuFM30AAJd6jkf5pG7XQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1JzjuFM30AAJd6jkf5pG7XQ</a><br>提取码：oowy </p>
+<p>我使用的是安装版的，下载下来运行，下一步下一步就可以，注意安装路径，并且将路径加入Path 中就可以了。<br><img src="https://img-blog.csdnimg.cn/20190801144431193.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>安装完成后，在服务中就可以找到Redis 服务。如果没有启动就启动，如果启动了，那么就可以直接使用Redis了。</p>
+<p>然后在控制台输入<code>redis-cli</code>redis-cli就可以进去Redis啦，进行相关的操作。这里是没有设置密码，使用的是默认的6370端口。<br><img src="https://img-blog.csdnimg.cn/20190801144832245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>上面输入的<code>keys *</code> 表示查询出redis 中所有的key。</p>
+<h1 id="3、Linux安装"><a href="#3、Linux安装" class="headerlink" title="3、Linux安装"></a>3、Linux安装</h1><p>本人装了一个Linux虚拟机，xshell6连接上去的。</p>
+<h2 id="3-1-下载解压"><a href="#3-1-下载解压" class="headerlink" title="3.1 下载解压"></a>3.1 下载解压</h2><p>首先下载资源：最新的应该是4.0.9<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http:<span class="comment">//download.redis.io/releases/redis-4.0.9.tar.gz</span></span><br><span class="line"></span><br><span class="line">tar xzvf redis-<span class="number">4.0</span>.<span class="number">8</span><span class="selector-class">.tar</span><span class="selector-class">.gz</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="3-2-安装"><a href="#3-2-安装" class="headerlink" title="3.2 安装"></a>3.2 安装</h2><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd redis<span class="number">-4.0</span><span class="number">.9</span>/                           						<span class="comment">//进入解压目录</span></span><br><span class="line"><span class="built_in">make</span>                                     						 <span class="comment">//编译</span></span><br><span class="line">cd src 														<span class="comment">//进入src 目录</span></span><br><span class="line"><span class="built_in">make</span> install PREFIX=/usr/<span class="keyword">local</span>/redis							<span class="comment">//进行安装到usr/local/下，方便部署开机启动</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190801162227287.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="3-3-部署"><a href="#3-3-部署" class="headerlink" title="3.3 部署"></a>3.3 部署</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将conf文件放大etc目录下</span></span><br><span class="line">mkdir <span class="regexp">/usr/</span>local<span class="regexp">/redis/</span>etc</span><br><span class="line"></span><br><span class="line">mv redis.conf <span class="regexp">/usr/</span>local<span class="regexp">/redis/</span>etc</span><br></pre></td></tr></table></figure>
+<p>进入src目录，移动 mkreleasehdr.sh redis-benchmark redis-check-aof redis-check-rdb redis-cli redis-server到/usr/local/redis/bin/</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv mkreleasehdr.sh redis-benchmark redis-<span class="keyword">check</span>-aof redis-<span class="keyword">check</span>-rdb redis-cli redis-<span class="keyword">server</span> /usr/<span class="keyword">local</span>/redis/<span class="keyword">bin</span>/</span><br></pre></td></tr></table></figure>
+<p>配置redis为后台启动</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">vi</span> <span class="string">/usr/local/redis/etc/redis.conf</span> <span class="string">//将daemonize</span> <span class="literal">no</span> <span class="string">改成daemonize</span> <span class="literal">yes</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-4-启动"><a href="#3-4-启动" class="headerlink" title="3.4 启动"></a>3.4 启动</h2><p>启动服务端：<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-server <span class="regexp">/usr/</span>local<span class="regexp">/redis/</span>etc<span class="regexp">/redis.conf</span></span><br></pre></td></tr></table></figure></p>
+<p>启动客户端</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
+<p>　　</p>
+<h1 id="4、设置登录密码"><a href="#4、设置登录密码" class="headerlink" title="4、设置登录密码"></a>4、设置登录密码</h1><p>刚刚上面也看到了，直接输入</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-<span class="keyword">cli</span></span><br></pre></td></tr></table></figure>
+<p>就直接进去了，这样总感觉不安全，并且我们后面肯定不是通过命令行来访问Redis的，还是需要在项目中使用才行，总会配置Redis的密码的。那怎么设置呢。<br>先来看看我们Redis的密码：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">config</span> <span class="built_in">get</span> requirepass</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190801151515183.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>发现是没有密码的，现在设置一个，用了get 获取，当然用set设置啦。</p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config <span class="keyword">set</span> requirepass <span class="comment">123456</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190801151750393.png" alt="在这里插入图片描述"><br>设置好之后，在想看看自己设置的密码是什么，发现没有权限，哈哈，这就证明你密码设置成功了，现在需要登录密码才能访问数据库。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auth 123456</span><br><span class="line">config <span class="builtin-name">get</span> requirepass</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190801152019785.png" alt="在这里插入图片描述"><br>但是这样设置的密码有一个问题，那就是把控制台关了，从新进入就会发现密码失效啦，这显然不是我们想要的，原来我们那样设置没有写到conf文件中，是不会重启生效的（<strong>如果配置文件中没添加密码 那么redis重启后，密码失效</strong>）。</p>
+<p>所以我们需要修改redis.conf中的requirepass并重新启动。<br><img src="https://img-blog.csdnimg.cn/20190801172840195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>杀死Redis服务端<br><figure class="highlight perl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#找到PID</span></span><br><span class="line">netstat -anp|<span class="keyword">grep</span> <span class="number">6379</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">kill</span> -<span class="number">9</span> PID</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://img-blog.csdnimg.cn/20190801173056126.png" alt="在这里插入图片描述"><br>重启后再进去就发现需要密码啦<br><img src="https://img-blog.csdnimg.cn/20190801173240679.png" alt="在这里插入图片描述"></p>
+<p>也可以这样进入</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -<span class="selector-tag">p</span> <span class="number">6379</span> -<span class="selector-tag">a</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
+
     
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>Thank you for your accept. mua！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/wechatpay.png" alt="QuellanAn 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/alipay.png" alt="QuellanAn 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
 
 
 
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>QuellanAn</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
     
+    <a href="https://quellanan.github.io/20190801/一、Redis安装.html" title="一、Redis安装">https://quellanan.github.io/20190801/一、Redis安装.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
     
+    <div>
+      
+        <div>
     
+        <div style="text-align:center;color: #ccc;font-size:16px;">-------------本文结束<i class="fa fa-heart"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/redis/" rel="tag"><i class="fa fa-tag"></i> redis</a>
+          
+            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/20190802/二、设置Redis远程访问.html" rel="prev" title="二、设置Redis远程访问">
+                二、设置Redis远程访问 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
   </div>
 
 
@@ -535,8 +799,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -738,6 +1011,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、前言"><span class="nav-number">1.</span> <span class="nav-text">1、前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、windows安装"><span class="nav-number">2.</span> <span class="nav-text">2、windows安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、Linux安装"><span class="nav-number">3.</span> <span class="nav-text">3、Linux安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-下载解压"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 下载解压</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-安装"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-部署"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-启动"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 启动</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、设置登录密码"><span class="nav-number">4.</span> <span class="nav-text">4、设置登录密码</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -972,7 +1262,7 @@
   
     <script>
   window.livereOptions = {
-    refer: 'guestbook/index.html'
+    refer: '20190801/一、Redis安装.html'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
@@ -1348,7 +1638,7 @@
   <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
   <script>
   
-    bookmark.loadBookmark();
+    bookmark.scrollToMark('auto', "#更多");
   
   </script>
 
