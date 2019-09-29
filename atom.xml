@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://quellanan.github.io/"/>
-  <updated>2019-09-29T00:58:21.201Z</updated>
+  <updated>2019-09-29T09:24:38.785Z</updated>
   <id>https://quellanan.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>如何优雅实现属性的动态注入</title>
+    <link href="https://quellanan.github.io/20190929/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%AE%9E%E7%8E%B0%E5%B1%9E%E6%80%A7%E7%9A%84%E5%8A%A8%E6%80%81%E6%B3%A8%E5%85%A5.html"/>
+    <id>https://quellanan.github.io/20190929/如何优雅实现属性的动态注入.html</id>
+    <published>2019-09-29T09:11:48.154Z</published>
+    <updated>2019-09-29T09:24:38.785Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="Java" scheme="https://quellanan.github.io/categories/Java/"/>
+    
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
+    
+      <category term="动态注入" scheme="https://quellanan.github.io/tags/%E5%8A%A8%E6%80%81%E6%B3%A8%E5%85%A5/"/>
+    
+      <category term="映射" scheme="https://quellanan.github.io/tags/%E6%98%A0%E5%B0%84/"/>
+    
+  </entry>
   
   <entry>
     <title>四、springBoot优雅的创建定时任务</title>
@@ -38,9 +68,9 @@
       <category term="springBoot" scheme="https://quellanan.github.io/categories/springBoot/"/>
     
     
-      <category term="springboot" scheme="https://quellanan.github.io/tags/springboot/"/>
-    
       <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
+    
+      <category term="springboot" scheme="https://quellanan.github.io/tags/springboot/"/>
     
   </entry>
   
@@ -66,9 +96,9 @@
       <category term="springBoot" scheme="https://quellanan.github.io/categories/springBoot/"/>
     
     
-      <category term="springboot" scheme="https://quellanan.github.io/tags/springboot/"/>
-    
       <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
+    
+      <category term="springboot" scheme="https://quellanan.github.io/tags/springboot/"/>
     
   </entry>
   
@@ -94,9 +124,9 @@
       <category term="springBoot" scheme="https://quellanan.github.io/categories/springBoot/"/>
     
     
-      <category term="springboot" scheme="https://quellanan.github.io/tags/springboot/"/>
-    
       <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
+    
+      <category term="springboot" scheme="https://quellanan.github.io/tags/springboot/"/>
     
   </entry>
   
@@ -122,9 +152,9 @@
       <category term="springBoot" scheme="https://quellanan.github.io/categories/springBoot/"/>
     
     
-      <category term="springboot" scheme="https://quellanan.github.io/tags/springboot/"/>
-    
       <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
+    
+      <category term="springboot" scheme="https://quellanan.github.io/tags/springboot/"/>
     
   </entry>
   
@@ -212,9 +242,9 @@
       <category term="Redis" scheme="https://quellanan.github.io/categories/Redis/"/>
     
     
-      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
-    
       <category term="redis" scheme="https://quellanan.github.io/tags/redis/"/>
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
     
       <category term="linux" scheme="https://quellanan.github.io/tags/linux/"/>
     
@@ -244,9 +274,9 @@
       <category term="Redis" scheme="https://quellanan.github.io/categories/Redis/"/>
     
     
-      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
-    
       <category term="redis" scheme="https://quellanan.github.io/tags/redis/"/>
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
     
       <category term="linux" scheme="https://quellanan.github.io/tags/linux/"/>
     
@@ -274,9 +304,9 @@
       <category term="Redis" scheme="https://quellanan.github.io/categories/Redis/"/>
     
     
-      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
-    
       <category term="redis" scheme="https://quellanan.github.io/tags/redis/"/>
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
     
       <category term="linux" scheme="https://quellanan.github.io/tags/linux/"/>
     
@@ -304,9 +334,9 @@
       <category term="Redis" scheme="https://quellanan.github.io/categories/Redis/"/>
     
     
-      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
-    
       <category term="redis" scheme="https://quellanan.github.io/tags/redis/"/>
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
     
       <category term="linux" scheme="https://quellanan.github.io/tags/linux/"/>
     
@@ -334,9 +364,9 @@
       <category term="Redis" scheme="https://quellanan.github.io/categories/Redis/"/>
     
     
-      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
-    
       <category term="redis" scheme="https://quellanan.github.io/tags/redis/"/>
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
     
       <category term="linux" scheme="https://quellanan.github.io/tags/linux/"/>
     
@@ -364,9 +394,9 @@
       <category term="Redis" scheme="https://quellanan.github.io/categories/Redis/"/>
     
     
-      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
-    
       <category term="redis" scheme="https://quellanan.github.io/tags/redis/"/>
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
     
       <category term="linux" scheme="https://quellanan.github.io/tags/linux/"/>
     
@@ -394,9 +424,9 @@
       <category term="Redis" scheme="https://quellanan.github.io/categories/Redis/"/>
     
     
-      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
-    
       <category term="redis" scheme="https://quellanan.github.io/tags/redis/"/>
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
     
       <category term="linux" scheme="https://quellanan.github.io/tags/linux/"/>
     
@@ -424,9 +454,9 @@
       <category term="Redis" scheme="https://quellanan.github.io/categories/Redis/"/>
     
     
-      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
-    
       <category term="redis" scheme="https://quellanan.github.io/tags/redis/"/>
+    
+      <category term="java" scheme="https://quellanan.github.io/tags/java/"/>
     
       <category term="linux" scheme="https://quellanan.github.io/tags/linux/"/>
     

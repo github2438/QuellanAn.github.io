@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-CN">
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" href="/lib/fancybox/source/jquery.fancybox.css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":true,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: true,
+    fancybox: true,
+    fastclick: true,
+    lazyload: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"shrinkIn","post_header":"slideLeftIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideDownIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "b5fbffa8"
+    });
+  daovoice('update');
+  </script>
+
+  <meta name="description" content="前言这是在实际开发项目中遇到的一个问题。从数据库查询返回的 List&amp;lt; Map&amp;lt; String, Object&amp;gt;&amp;gt; 的集合。并且返回的列名是中文的，项目也没有使用mybatis 直接使用的jdbcTemplate. 并且字段还超级多，这样将数据转换的时候如果一个一个的注入就会让代码臭长臭长的，所以才有了动态注入。我这里我整个思路都贴出来。 实例类Entry我们先建一个entry类。用">
+<meta name="keywords" content="java,动态注入,映射">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何优雅实现属性的动态注入">
+<meta property="og:url" content="https://quellanan.github.io/20190929/如何优雅实现属性的动态注入.html">
+<meta property="og:site_name" content="QuellanAn">
+<meta property="og:description" content="前言这是在实际开发项目中遇到的一个问题。从数据库查询返回的 List&amp;lt; Map&amp;lt; String, Object&amp;gt;&amp;gt; 的集合。并且返回的列名是中文的，项目也没有使用mybatis 直接使用的jdbcTemplate. 并且字段还超级多，这样将数据转换的时候如果一个一个的注入就会让代码臭长臭长的，所以才有了动态注入。我这里我整个思路都贴出来。 实例类Entry我们先建一个entry类。用">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://p1.pstatp.com/large/pgc-image/f56386d3bf4f44a5822683f39634e9b9">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190929170310188.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-09-29T09:24:38.785Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何优雅实现属性的动态注入">
+<meta name="twitter:description" content="前言这是在实际开发项目中遇到的一个问题。从数据库查询返回的 List&amp;lt; Map&amp;lt; String, Object&amp;gt;&amp;gt; 的集合。并且返回的列名是中文的，项目也没有使用mybatis 直接使用的jdbcTemplate. 并且字段还超级多，这样将数据转换的时候如果一个一个的注入就会让代码臭长臭长的，所以才有了动态注入。我这里我整个思路都贴出来。 实例类Entry我们先建一个entry类。用">
+<meta name="twitter:image" content="http://p1.pstatp.com/large/pgc-image/f56386d3bf4f44a5822683f39634e9b9">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="QuellanAn" type="application/atom+xml">
+
+
+
+  
+  
+  <link rel="canonical" href="https://quellanan.github.io/20190929/如何优雅实现属性的动态注入">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>如何优雅实现属性的动态注入 | QuellanAn</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+ 
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">QuellanAn</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-bookmark"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-互动">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/guestbook/" rel="section"><i class="menu-item-icon fa fa-fw fa-comments"></i> <br>互动</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://quellanan.github.io/20190929/如何优雅实现属性的动态注入.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="QuellanAn">
+      <meta itemprop="description" content="别让生活成为梦想的羁绊">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="QuellanAn">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">如何优雅实现属性的动态注入
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-29 17:11:48 / 修改时间：17:24:38" itemprop="dateCreated datePublished" datetime="2019-09-29T17:11:48+08:00">2019-09-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">8.8k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">8 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://p1.pstatp.com/large/pgc-image/f56386d3bf4f44a5822683f39634e9b9" alt="file"></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这是在实际开发项目中遇到的一个问题。从数据库查询返回的 List&lt; Map&lt; String, Object>> 的集合。并且返回的列名是中文的，项目也没有使用mybatis 直接使用的jdbcTemplate. 并且字段还超级多，这样将数据转换的时候如果一个一个的注入就会让代码臭长臭长的，所以才有了动态注入。<br>我这里我整个思路都贴出来。</p>
+<h1 id="实例类Entry"><a href="#实例类Entry" class="headerlink" title="实例类Entry"></a>实例类Entry</h1><p>我们先建一个entry类。用于对象存储。<br>我这里 创建一个BaseDateBean 的类<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Setter</span></span><br><span class="line"><span class="meta">@Getter</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> BaseDateBean &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  startTime;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  operator;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  code;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  testNumber;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  iphoneCardCode;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  sampleNumber;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  sampleTime;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  callNumber;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  callStatus;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  downInstantaneousSpeedCard;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  upInstantaneousSpeedCard;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  ssid;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  bssid;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  encryptType;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  intranetIp;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  externalIp;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  rssi;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  WIFIFrequency;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  WIFIChannel;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  baiduLongitude;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  baiduLatitude;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  originalLongitude;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  originalLatitude;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  positioningPrecision;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  positioningType;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  businessType;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  networkType;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  speedType;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  tac;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  eci;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  mnc;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  mcc;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  rsrq;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  earfcnDl;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  earfcnUl;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  frequencyDl;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  band;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  sinr;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  cdmaRxlev;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  evdoRxlev;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  earfcn;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  psc;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  uarfcn;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  rscp;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  rsrp;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  imsi;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  imei;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  lac;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  ci;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  signalStrength;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  snr;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  pci;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  nid;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  bid;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  sid;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  cdmaDbm;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  cdmaEcio;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  evdoDbm;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  evdoEcio;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  evdoSnr;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  arfcn;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  frequencyUl;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  bsic;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  rxlev;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  averageSpeed;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  updatedLongitude;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  updatedLatitude;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  averageUpstreamRate;</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span>  averageDownstreamRate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到在实际项目中属性还是很多的，我这个还只是初版的，所以如果一个一个的set注入就很low了。</p>
+<h1 id="创建map映射"><a href="#创建map映射" class="headerlink" title="创建map映射"></a>创建map映射</h1><p>在创建好实体类后，还得创建一个静态的map 集合，将数据库的列名和我们实体类的属性名做一个一一对应。这里创建的这个map 集合是我个人愚见。没有想到更好的办法就先这样处理的。<br>我们创建一个BaseDataMap类<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span>  class BaseDataMap&#123;</span><br><span class="line">    <span class="keyword">private</span> BaseDataMap()&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> final Map&lt;<span class="keyword">String</span>,<span class="keyword">String</span>&gt; cnEnMap=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"测试开始时间"</span>,<span class="string">"startTime"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"运营商"</span>,<span class="string">"operator"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"编号"</span>,<span class="string">"code"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"测试编号"</span>,<span class="string">"testNumber"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"手机卡编号"</span>,<span class="string">"iphoneCardCode"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"采样编号"</span>,<span class="string">"sampleNumber"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"采样时间"</span>,<span class="string">"sampleTime"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"呼叫编号"</span>,<span class="string">"callNumber"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"呼叫状态"</span>,<span class="string">"callStatus"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"下行瞬时速度"</span>,<span class="string">"downInstantaneousSpeedCard"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"上行瞬时速度"</span>,<span class="string">"upInstantaneousSpeedCard"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"SSID"</span>,<span class="string">"ssid"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"BSSID"</span>,<span class="string">"bssid"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"加密类型"</span>,<span class="string">"encryptType"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"内网IP"</span>,<span class="string">"intranetIp"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"外网IP"</span>,<span class="string">"externalIp"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"RSSI"</span>,<span class="string">"rssi"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"WIFI频率"</span>,<span class="string">"WIFIFrequency"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"WIFI信道"</span>,<span class="string">"WIFIChannel"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"百度经度"</span>,<span class="string">"baiduLongitude"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"百度纬度"</span>,<span class="string">"baiduLatitude"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"原始经度"</span>,<span class="string">"originalLongitude"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"原始纬度"</span>,<span class="string">"originalLatitude"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"定位精度"</span>,<span class="string">"positioningPrecision"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"定位类型"</span>,<span class="string">"positioningType"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"数据业务类型"</span>,<span class="string">"businessType"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"网络类型"</span>,<span class="string">"networkType"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"速度类型"</span>,<span class="string">"speedType"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"TAC"</span>,<span class="string">"tac"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"ECI"</span>,<span class="string">"eci"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"MNC"</span>,<span class="string">"mnc"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"MCC"</span>,<span class="string">"mcc"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"RSRQ"</span>,<span class="string">"rsrq"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"EARFCN DL"</span>,<span class="string">"earfcnDl"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"EARFCN UL"</span>,<span class="string">"earfcnUl"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"FREQUENCY DL"</span>,<span class="string">"frequencyDl"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"BAND"</span>,<span class="string">"band"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"SINR"</span>,<span class="string">"sinr"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"CDMA RXLEV"</span>,<span class="string">"cdmaRxlev"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"EVDO RXLEV"</span>,<span class="string">"evdoRxlev"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"EARFCN"</span>,<span class="string">"earfcn"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"PSC"</span>,<span class="string">"psc"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"UARFCN"</span>,<span class="string">"uarfcn"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"RSCP"</span>,<span class="string">"rscp"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"RSRP"</span>,<span class="string">"rsrp"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"IMSI"</span>,<span class="string">"imsi"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"IMEI"</span>,<span class="string">"imei"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"LAC"</span>,<span class="string">"lac"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"CI"</span>,<span class="string">"ci"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"信号强度"</span>,<span class="string">"signalStrength"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"SNR"</span>,<span class="string">"snr"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"PCI"</span>,<span class="string">"pci"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"NID"</span>,<span class="string">"nid"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"BID"</span>,<span class="string">"bid"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"SID"</span>,<span class="string">"sid"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"CDMA DBM"</span>,<span class="string">"cdmaDbm"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"CDMA ECIO"</span>,<span class="string">"cdmaEcio"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"EVDO DBM"</span>,<span class="string">"evdoDbm"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"EVDO ECIO"</span>,<span class="string">"evdoEcio"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"EVDO SNR"</span>,<span class="string">"evdoSnr"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"ARFCN"</span>,<span class="string">"arfcn"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"FREQUENCY UL"</span>,<span class="string">"frequencyUl"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"BSIC"</span>,<span class="string">"bsic"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"RXLEV"</span>,<span class="string">"rxlev"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"速率"</span>,<span class="string">"averageSpeed"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"更正后经度"</span>,<span class="string">"updatedLongitude"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"更正后纬度"</span>,<span class="string">"updatedLatitude"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"上行平均速率"</span>,<span class="string">"averageUpstreamRate"</span>);</span><br><span class="line">        cnEnMap.<span class="built_in">put</span>(<span class="string">"下行平均速率"</span>,<span class="string">"averageDownstreamRate"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到就是一个动态的map。</p>
+<h1 id="映射类"><a href="#映射类" class="headerlink" title="映射类"></a>映射类</h1><p>接下来就是核心代码啦。我们创建一个ReflectHelper类<br><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Slf</span>4j</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">ReflectHelper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    private Class cls;</span><br><span class="line">    <span class="comment"><span class="markdown">/**</span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     * 传过来的对象</span></span></span></span><br><span class="line"><span class="comment"><span class="markdown"><span class="code">     */</span></span></span></span><br><span class="line">    private <span class="built_in">Object</span> obj;</span><br><span class="line">    private Hashtable&lt;<span class="built_in">String</span>, Method&gt; getMethods = <span class="keyword">null</span>;</span><br><span class="line">    private Hashtable&lt;<span class="built_in">String</span>, Method&gt; setMethods = <span class="keyword">null</span>;</span><br><span class="line">    public ReflectHelper(<span class="built_in">Object</span> o) &#123;</span><br><span class="line">        obj = o;</span><br><span class="line">        initMethods();</span><br><span class="line">    &#125;</span><br><span class="line">    public <span class="keyword">void</span> initMethods() &#123;</span><br><span class="line">        getMethods = <span class="keyword">new</span> Hashtable&lt;&gt;();</span><br><span class="line">        setMethods = <span class="keyword">new</span> Hashtable&lt;&gt;();</span><br><span class="line">        cls = obj.getClass();</span><br><span class="line">        Method[] methods = cls.getMethods();</span><br><span class="line">        <span class="comment">// 定义正则表达式，从方法中过滤出getter / setter 函数.</span></span><br><span class="line">        <span class="built_in">String</span> gs = <span class="string">"get(\\w )"</span>;</span><br><span class="line">        <span class="built_in">Pattern</span> getM = <span class="built_in">Pattern</span>.compile(gs);</span><br><span class="line">        <span class="built_in">String</span> ss = <span class="string">"set(\\w )"</span>;</span><br><span class="line">        <span class="built_in">Pattern</span> setM = <span class="built_in">Pattern</span>.compile(ss);</span><br><span class="line">        <span class="comment">// 把方法中的"set" 或者 "get" 去掉,$1匹配第一个</span></span><br><span class="line">        <span class="built_in">String</span> rapl = <span class="string">"<span class="subst">$1</span>"</span>;</span><br><span class="line">        <span class="built_in">String</span> param;</span><br><span class="line">        <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; methods.length;   i) &#123;</span><br><span class="line">            Method m = methods[i];</span><br><span class="line">            <span class="built_in">String</span> methodName = m.getName();</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">Pattern</span>.matches(gs, methodName)) &#123;</span><br><span class="line">                param = getM.matcher(methodName).replaceAll(rapl).toLowerCase();</span><br><span class="line">                getMethods.put(param, m);</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">Pattern</span>.matches(ss, methodName)) &#123;</span><br><span class="line">                param = setM.matcher(methodName).replaceAll(rapl).toLowerCase();</span><br><span class="line">                setMethods.put(param, m);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public boolean setMethodValue(<span class="built_in">String</span> property,<span class="built_in">Object</span> object) &#123;</span><br><span class="line">        Method m = setMethods.<span class="keyword">get</span>(property.toLowerCase());</span><br><span class="line">        <span class="keyword">if</span> (m != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="comment">// 调用目标类的setter函数</span></span><br><span class="line">                m.invoke(obj, object);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">                ex.printStackTrace();</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码可以看到其实也就两个方法setMethodValue 和initMethods 。<br>initMethods 方法是在实例化 ReflectHelper 这个类的时候执行的，主要的工作就是找到我们需要动态注入实例类的get 和set 方法。而setMethodValue 方法就是给这个属性赋值的。</p>
+<h1 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h1><p> 现在准备工作做好了，怎么使用呢?<br> <figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="built_in">List</span>&lt;BaseDateBean&gt; getBaseDateBean(<span class="built_in">List</span>&lt;<span class="built_in">Map</span>&lt;<span class="built_in">String</span>, Object&gt;&gt; mapList)&#123;</span><br><span class="line">       <span class="built_in">List</span>&lt;BaseDateBean&gt; <span class="built_in">list</span>=<span class="literal">new</span> ArrayList&lt;&gt;();</span><br><span class="line">       <span class="keyword">if</span>(mapList==<span class="built_in">null</span>||mapList.isEmpty())&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="built_in">list</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       BaseDateBean baseDateBean;</span><br><span class="line">       for(<span class="built_in">Map</span>&lt;<span class="built_in">String</span>, Object&gt; <span class="built_in">map</span>:mapList)&#123;</span><br><span class="line">           baseDateBean=<span class="literal">new</span> BaseDateBean();</span><br><span class="line">           for(<span class="built_in">Map</span>.Entry&lt;<span class="built_in">String</span>, Object&gt; entry : <span class="built_in">map</span>.entrySet())&#123;</span><br><span class="line">               <span class="built_in">String</span> mapKey = entry.getKey();</span><br><span class="line">               <span class="keyword">log</span>.info(mapKey);</span><br><span class="line">               ReflectHelper reflectHelper = <span class="literal">new</span> ReflectHelper(baseDateBean);</span><br><span class="line">               <span class="keyword">log</span>.info(BaseDataMap.cnEnMap.get(mapKey));</span><br><span class="line">               <span class="built_in">String</span> value=entry.getValue()==<span class="built_in">null</span>?ConstantPool.SEPARATORNULL:entry.getValue().toString();</span><br><span class="line">               <span class="keyword">log</span>.info(value);</span><br><span class="line">               <span class="keyword">if</span>(entry.getValue()!=<span class="built_in">null</span>)&#123;</span><br><span class="line">                   reflectHelper.setMethodValue(BaseDataMap.cnEnMap.get(mapKey),<span class="built_in">String</span>.valueOf(entry.getValue()));</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="built_in">list</span>.add(baseDateBean);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="built_in">list</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p> 遍历list 集合中的map，动态的将属性值注入到实体类中。</p>
+<h1 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h1><p> 我这里是适合我业务开发设计的思路，给大家借鉴参考。</p>
+<p> 欢迎大家关注个人公众号 “程序员爱酸奶”</p>
+<p>分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。</p>
+<p>如果大家喜欢记得关注和分享哟❤<br><img src="https://img-blog.csdnimg.cn/20190929170310188.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>Thank you for your accept. mua！</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/wechatpay.png" alt="QuellanAn 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/reward/alipay.png" alt="QuellanAn 支付宝">
+        <p>支付宝</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        
+
+
+
+
+  
+
+
+
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>QuellanAn</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    
+    <a href="https://quellanan.github.io/20190929/如何优雅实现属性的动态注入.html" title="如何优雅实现属性的动态注入">https://quellanan.github.io/20190929/如何优雅实现属性的动态注入.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+
+      </div>
+    
+    <div>
+      
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:16px;">-------------本文结束<i class="fa fa-heart"></i>感谢您的阅读-------------</div>
+    
+</div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"><i class="fa fa-tag"></i> java</a>
+          
+            <a href="/tags/动态注入/" rel="tag"><i class="fa fa-tag"></i> 动态注入</a>
+          
+            <a href="/tags/映射/" rel="tag"><i class="fa fa-tag"></i> 映射</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/20190926/四、springBoot 优雅的创建定时任务.html" rel="next" title="四、springBoot优雅的创建定时任务">
+                <i class="fa fa-chevron-left"></i> 四、springBoot优雅的创建定时任务
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80NjgzNy8yMzMzOA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="QuellanAn">
+            
+              <p class="site-author-name" itemprop="name">QuellanAn</p>
+              <div class="site-description motion-element" itemprop="description">别让生活成为梦想的羁绊</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/quellanan" title="GitHub &rarr; https://github.com/quellanan" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://blog.csdn.net/qq_27790011" title="CSDN &rarr; https://blog.csdn.net/qq_27790011" rel="noopener" target="_blank"><i class="fa fa-fw fa-CSDN"></i>CSDN</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.cnblogs.com/quellanan/" title="博客园 &rarr; https://www.cnblogs.com/quellanan/" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>博客园</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://www.jianshu.com/u/50ba1aa097c8" title="简书 &rarr; https://www.jianshu.com/u/50ba1aa097c8" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>简书</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://juejin.im/user/5bfb4ce9f265da611204b096" title="掘金 &rarr; https://juejin.im/user/5bfb4ce9f265da611204b096" rel="noopener" target="_blank"><i class="fa fa-fw fa-globe"></i>掘金</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="tencent://message/?uin=1186154608&Site=&menu=yes" title="QQ &rarr; tencent://message/?uin=1186154608&Site=&menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-book"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_27790011/article/category/9361908" title="https://blog.csdn.net/qq_27790011/article/category/9361908" rel="noopener" target="_blank">springBoot实战</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/qq_27790011/article/category/9187012" title="https://blog.csdn.net/qq_27790011/article/category/9187012" rel="noopener" target="_blank">Redis 必知必会</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例类Entry"><span class="nav-number">2.</span> <span class="nav-text">实例类Entry</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建map映射"><span class="nav-number">3.</span> <span class="nav-text">创建map映射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#映射类"><span class="nav-number">4.</span> <span class="nav-text">映射类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现方法"><span class="nav-number">5.</span> <span class="nav-text">实现方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#番外"><span class="nav-number">6.</span> <span class="nav-text">番外</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" style=" text-align:center;">&copy; 2017 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Quellanan</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"> 站点字数合计:</i>
+    </span>
+    
+    <span title="站点总字数">94k</span>
+  
+  
+</div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+<div class="run_time" style=" text-align:center;">
+  <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+  <script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("07/23/2017 10:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+    setInterval("createtime()",250);
+  </script>
+</div>
+        
+<div class="busuanzi-count" style=" text-align:center;">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+  
+    
+    
+      
+    
+  
+  <script color="255,0,255" opacity="0.7" zindex="-1" count="140" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-nest@1.0.0/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+  
+  
+  <script id="ribbon" size="300" alpha="0.1" zindex="-1" src="/lib/canvas-ribbon/canvas-ribbon.js"></script>
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+  
+  
+
+  
+
+  
+  
+  
+
+
+  
+
+
+  
+    <script>
+  window.livereOptions = {
+    refer: '20190929/如何优雅实现属性的动态注入.html'
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+</script>
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script>
+  
+    bookmark.scrollToMark('auto', "#更多");
+  
+  </script>
+
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":250,"height":500},"mobile":{"show":false},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/clicklove.js"></script>
