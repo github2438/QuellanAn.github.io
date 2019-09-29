@@ -19,4 +19,4 @@ comments: false
 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。
 
 如果大家喜欢记得关注和分享哟❤
-![file](https://graph.baidu.com/resource/212c7526a48e20ae58b8c01568901746.png)
+![file](https://img-blog.csdnimg.cn/2019092616120288.jpeg)
