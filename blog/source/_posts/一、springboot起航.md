@@ -214,4 +214,18 @@ http://localhost:9090/zlflovemm/getUser
 项目的雏形就先这样吧，后续加入其它组件，会继续在这个项目上跟新。
 github地址：https://github.com/QuellanAn/zlflovemm
 
-这篇就到这里吧，也算是开篇了，后续加油♡
+这篇就到这里吧，也算是开篇了
+
+后续加油♡
+
+欢迎大家关注个人公众号 "程序员爱酸奶"
+
+分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。
+
+如果大家喜欢记得关注和分享哟❤
+![file](https://img-blog.csdnimg.cn/2019091922115335.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)
+
+
+
+
+
