@@ -101,7 +101,7 @@ creative_commons:
 
 # `Follow me on GitHub` banner in the top-right corner.
 github_banner:
-  enable: true
+  enable: false
   permalink: https://github.com/quellanan
   title: Follow me on GitHub
 
