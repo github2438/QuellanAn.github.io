@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.quellanan.xyz/"/>
-  <updated>2019-09-30T08:36:52.581Z</updated>
+  <updated>2019-10-14T05:32:40.452Z</updated>
   <id>http://www.quellanan.xyz/</id>
   
   <author>
@@ -15,6 +15,62 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>六、springboot 简单优雅是实现短信服务</title>
+    <link href="http://www.quellanan.xyz/20191014/%E5%85%AD%E3%80%81springboot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E6%98%AF%E5%AE%9E%E7%8E%B0%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1.html"/>
+    <id>http://www.quellanan.xyz/20191014/六、springboot 简单优雅是实现短信服务.html</id>
+    <published>2019-10-14T05:25:58.079Z</published>
+    <updated>2019-10-14T05:32:40.452Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>五、springboot 简单优雅是实现邮件服务</title>
+    <link href="http://www.quellanan.xyz/20191012/%E4%BA%94%E3%80%81springboot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E6%98%AF%E5%AE%9E%E7%8E%B0%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1.html"/>
+    <id>http://www.quellanan.xyz/20191012/五、springboot 简单优雅是实现邮件服务.html</id>
+    <published>2019-10-12T06:49:17.615Z</published>
+    <updated>2019-10-14T05:32:45.957Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+  </entry>
   
   <entry>
     <title>简单优雅的搭建个人博客</title>
@@ -101,34 +157,6 @@
       <category term="动态注入" scheme="http://www.quellanan.xyz/tags/%E5%8A%A8%E6%80%81%E6%B3%A8%E5%85%A5/"/>
     
       <category term="映射" scheme="http://www.quellanan.xyz/tags/%E6%98%A0%E5%B0%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>五、springboot 简单优雅是实现邮件服务</title>
-    <link href="http://www.quellanan.xyz/20190926/%E4%BA%94%E3%80%81springboot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E6%98%AF%E5%AE%9E%E7%8E%B0%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1.html"/>
-    <id>http://www.quellanan.xyz/20190926/五、springboot 简单优雅是实现邮件服务.html</id>
-    <published>2019-09-26T08:12:02.000Z</published>
-    <updated>2019-10-12T06:51:36.895Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
-    
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
     
   </entry>
   
