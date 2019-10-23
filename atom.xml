@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.quellanan.xyz/"/>
-  <updated>2019-10-14T05:32:40.452Z</updated>
+  <updated>2019-10-23T03:12:06.246Z</updated>
   <id>http://www.quellanan.xyz/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>二、docker 镜像容器常用操作(让我们用docker 溜得飞起)</title>
+    <link href="http://www.quellanan.xyz/20191023/%E4%BA%8C%E3%80%81docker%20%E9%95%9C%E5%83%8F%E5%AE%B9%E5%99%A8%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C(%E8%AE%A9%E6%88%91%E4%BB%AC%E7%94%A8docker%20%E6%BA%9C%E5%BE%97%E9%A3%9E%E8%B5%B7).html"/>
+    <id>http://www.quellanan.xyz/20191023/二、docker 镜像容器常用操作(让我们用docker 溜得飞起).html</id>
+    <published>2019-10-23T03:09:54.872Z</published>
+    <updated>2019-10-23T03:12:06.246Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
+    
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>六、springboot 简单优雅是实现短信服务</title>
@@ -69,6 +97,34 @@
       <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一、docker 入坑(win10和Ubuntu 安装)</title>
+    <link href="http://www.quellanan.xyz/20191011/%E4%B8%80%E3%80%81docker%20%E5%85%A5%E5%9D%91(win10%E5%92%8CUbuntu%20%E5%AE%89%E8%A3%85).html"/>
+    <id>http://www.quellanan.xyz/20191011/一、docker 入坑(win10和Ubuntu 安装).html</id>
+    <published>2019-10-11T08:12:02.000Z</published>
+    <updated>2019-10-23T03:11:28.503Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
+    
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
     
   </entry>
   
@@ -522,36 +578,6 @@
     <id>http://www.quellanan.xyz/20190802/二、设置Redis远程访问.html</id>
     <published>2019-08-02T01:59:05.000Z</published>
     <updated>2019-09-30T00:45:29.717Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
-    
-    
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一、Redis安装</title>
-    <link href="http://www.quellanan.xyz/20190801/%E4%B8%80%E3%80%81Redis%E5%AE%89%E8%A3%85.html"/>
-    <id>http://www.quellanan.xyz/20190801/一、Redis安装.html</id>
-    <published>2019-08-01T08:12:02.000Z</published>
-    <updated>2019-09-30T00:44:31.117Z</updated>
     
     <summary type="html">
     
