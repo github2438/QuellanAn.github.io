@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[七、springBoot 简单优雅是实现文件上传和下载]]></title>
+    <url>%2F20191031%2F%E4%B8%83%E3%80%81springBoot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E6%98%AF%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD.html</url>
+    <content type="text"><![CDATA[前言好久没有更新spring Boot 这个项目了。最近看了一下docker 的知识，后期打算将spring boot 和docker 结合起来。刚好最近有一个上传文件的工作呢，刚好就想起这个脚手架，将文件上传和下载整理进来。 配置在application.properties 中增加上传文件存放的路径配置12#文件上传目录file.upload.url=E:/test controller 层上传文件和下载文件都比较简单，我们就直接在controller层来编写。也不用在pom.xml 中增加什么依赖。所以直接上代码。在controller 包下创建一个file包，在file 包下创建一个FileController 类。12345678910111213141516171819202122232425262728293031@RestController@RequestMapping("file")@Slf4jpublic class FileController &#123; @Value("$&#123;file.upload.url&#125;") private String uploadFilePath; @RequestMapping("/upload") public String httpUpload(@RequestParam("files") MultipartFile files[])&#123; JSONObject object=new JSONObject(); for(int i=0;i&lt;files.length;i )&#123; String fileName = files[i].getOriginalFilename(); // 文件名 File dest = new File(uploadFilePath '/' fileName); if (!dest.getParentFile().exists()) &#123; dest.getParentFile().mkdirs(); &#125; try &#123; files[i].transferTo(dest); &#125; catch (Exception e) &#123; log.error("&#123;&#125;",e); object.put("success",2); object.put("result","程序错误，请重新上传"); return object.toString(); &#125; &#125; object.put("success",1); object.put("result","文件上传成功"); return object.toString(); &#125;&#125; 上面的代码看起来有点多，其实就是一个上传的方法，首先通过 MultipartFile 接收文件。这里我用的是file[] 数组接收文件，这是为了兼容多文件上传的情况，如果只用file 接收，然后在接口上传多个文件的话，只会接收最后一个文件。这里大家注意一下。看自己的需求，我这里兼容多文件所以用数组接收。 然后遍历files 获取文件，下面这段代码是判断文件在所在目录是否存在，如果不存在就创建对应的目录。1234File dest = new File(uploadFilePath '/' fileName); if (!dest.getParentFile().exists()) &#123; dest.getParentFile().mkdirs(); &#125; 1files[i].transferTo(dest); 就是将文件存放到对应的服务器，这里有一点需要说明一下，如果我们上传重复的文件会怎么样么？上传重复的文件不会报错，后上传的文件会直接覆盖已经上传的文件。 整体代码就是这样。现在就可以实现文件的上传操作。 测试我们写好之后，基本上传功能就已经实现了，我们现在来测试一下。启动项目后我们用postman 请求，因为我们需要上传文件，用get 方式请求不了。 可以看到文件上传成功了，由此可见，springboot文件上传一个方法就搞定了。 文件下载其实文件下载，不太建议用接口做，因为文件下载一般都是下载一些静态文件，我们可以先将文件处理好，然后通过Nginx 服务下载静态文件，这样速度会快很多。但是这里我们还是写一下。代码也很简单，就一个方法，也写在fileController 类中 1234567891011121314151617181920212223242526@RequestMapping("/download") public String fileDownLoad(HttpServletResponse response, @RequestParam("fileName") String fileName)&#123; File file = new File(downloadFilePath '/' fileName); if(!file.exists())&#123; return "下载文件不存在"; &#125; response.reset(); response.setContentType("application/octet-stream"); response.setCharacterEncoding("utf-8"); response.setContentLength((int) file.length()); response.setHeader("Content-Disposition", "attachment;filename=" fileName ); try(BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));) &#123; byte[] buff = new byte[1024]; OutputStream os = response.getOutputStream(); int i = 0; while ((i = bis.read(buff)) != -1) &#123; os.write(buff, 0, i); os.flush(); &#125; &#125; catch (IOException e) &#123; log.error("&#123;&#125;",e); return "下载失败"; &#125; return "下载成功"; &#125; 代码也很简单，就是根据文件名判断是否存在文件，不存在就提示没有文件，存在就将文件下载下来。response设置返回文件的格式，以文件流的方式返回，采用utf-8 字符集，设置下载后的文件名。然后就是以文件流的方式下载文件了。 测试的话也简单，我们启动项目，访问接口 12http://localhost:9090/zlflovemm/file/download?fileName=11http://localhost:9090/zlflovemm/file/download?fileName=1.rar 可以看到如果文件存在，会直接下载，不会提示下载成功或者失败。 删除文件 删除文件是很简单的，我这里讲一下删除文件下所有文件夹和文件。并做一个定时任务，每天清理一次。 1234567891011121314151617181920212223242526272829 @Scheduled(cron="0 0 3 * * ?")private void deleteFiles()&#123; deleteFile(new File(deleteFilePath));&#125;public void deleteFile(File file)&#123; //判断文件不为null或文件目录存在 if (file == null || !file.exists())&#123; log.info("暂无文件"); return; &#125; //取得这个目录下的所有子文件对象 File[] files = file.listFiles(); //遍历该目录下的文件对象 for (File f: files)&#123; //打印文件名 String name = f.getName(); log.info(name); //判断子目录是否存在子目录,如果是文件则删除 if (f.isDirectory())&#123; deleteFile(f); &#125;else &#123; f.delete(); &#125; &#125; //删除空文件夹 for循环已经把上一层节点的目录清空。 file.delete();&#125; 番外到此为止，我们常用的镜像和容器的操作就会使用啦。都是一些命令。忘记的可以–help 查看一下。 好了，就说这么多啦代码上传到github：https://github.com/QuellanAn/zlflovemm 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>springBoot</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[三、DockerFile 定制属于自己的专属镜像]]></title>
+    <url>%2F20191031%2F%E4%B8%89%E3%80%81DockerFile%20%E5%AE%9A%E5%88%B6%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%93%E5%B1%9E%E9%95%9C%E5%83%8F.html</url>
+    <content type="text"><![CDATA[前言上篇文章我们知道了怎么操作镜像和容器，到基础都是从已经存在的镜像开始的，那我们自己怎样搭建一个镜像并使用它呢？接下来就让我们学习使用dockerfile 创建属于自己的镜像吧。 dockerfile在这之前，我们需要知道dockerfile ,因为我们就是通过dockerfile 来创建镜像的。那dockerfile 是什么呢？dockerfile 是一个文件，文件里面是我们写的一条条的指令，然后通过build ```12345命令来构建一个镜像。 现在难就难在这个指令怎么写，所以接下让我们一起看看dockfile 指令吧。 ## dockerfile 指令 ### FROM FROM FROM : #tag是可选的,默认会使用latest版本的基础镜像 1from 指令是依赖的基础镜像，所谓的定制镜像，是在其他的镜像上添加一些我们自己东西，定制成我们自己的镜像。当然我们也可以不依赖任何镜像，自己从头开始搭建。那就使用 FROM scratch 123456789 scratch 其实也是一个docker 镜像，但是这个镜像比较难特殊，它是一个虚拟镜像，里面什么都没有，是一个空白的镜像，所以如果想不依赖任何镜像，可以使用```from scratch```。 那现在又有一个问题了，dockfile 文件中可以出现多个From 么？在docker 17.05 版本之前是不支持出现多个From 的，一个dockefile只能有一个From 指令，且必须放在文件中的第一行。因为作为基础镜像使用。在docker17.05 后支持多From 。表示构建的多重阶段，不过最终生成的镜像还是以最后一个From 基础镜像为基础的。### RUNrun 指令 是表示在镜像构建时运行的指令。两种格式： #shell格式run &lt;命令&gt;eg: run apt-get update #exec 格式run [“可执行文件”，“参数1”，“参数2”…]123### COPY复制文件的指令 copy 源路径 目标路径 #支持通配符eg:copy hom?.txt /mydir/12345678### ADDadd 是更高级的复制。copy 有的功能它都用，它还能访问网络资源，源路径可以是一个URL。源路径文件也可以是一个压缩文件，可以直接解压。所以如果想要直接复制一个压缩包进去的话，就要使用COPY 而不能只用ADD了。官方建议是能使用COPY 的就使用COPY ,因为COPY 命令语义比较明确就是复制文件，并且ADD 指令会使得镜像构建缓存失效，使得镜像构建比较缓慢。### CMDcmd 指令是表示在运行容器时执行的指令。 #shell 格式cmd &lt;命令&gt;eg:cmd echo $HOME #exec 格式cmd [“可执行文件”，“参数1”，“参数2”]eg: cmd [“sh”,”-c”,”echo $HOME”]123### ENTRYPOINTentrypoint 入口点 entrypoint &lt;命令&gt; entrypoint [“可执行文件”,”参数1”,”参数2”]1234entryPoint 指令和 cmd 指令功能类似，不过entrypoint 可以让镜像变成像命令一样使用，可以做应用运行前的准备工作。这个具体的后面讲。### ENV env 是设置环境变量的指令， env MY_VERSION 1.0.0123### ARGarg 用于构建时传递的参数 arg &lt;参数名&gt;[=&lt;默认值&gt;] eg:arg versionarg myversion=1.0.0123### VOLUME定义匿名卷 volume &lt;路径&gt;volume [“&lt;路径1&gt;”，[“&lt;路径2&gt;”…] eg： volume /etc/docker/log123### EXPOSE申明端口 expose &lt;端口1&gt; [&lt;端口2&gt;…]12345678910这里需要注意的是，expose 是申明容器应用端口，但是容器运行是并不一定就是开启这个端口提供服务。在dockerfile 中写入端口申明有两个好处，一是当做镜像服务的守护端口，方便映射，二是在运行时使用随机端口映射时，就会映射的expose设置的端口上。好了，指令当然不止这些，更多的想了解的查看：https://docs.docker.com/engine/reference/builder/## 简单测试之前这篇文章写到一半放下了，因为中间docker出了一点问题，下载镜像一直提示超时，然后设置了国内加速，才弄好。上面我们了解了Dockerfile 指令，接下来就让我们先做一个简单的测试吧。我们穿件一个springboot项目。创建一个HelloController 类。 @RestControllerpublic class HelloController { @RequestMapping(“/“) public String hello(){ return “hello docke 我的简单测试 “; }}12然后打成jar 包。放到我们服务器的文件夹下。并且在文件下创建Dockerfile文件 vim Dcokerfile #文件内容FROM java:8VOLUME /tmpADD hello-1.0.0.jar hello-1.0.0.jarENTRYPOINT [“java”,”-jar”,”/hello-1.0.0.jar”]12345可以看到用到的命令都是我们上面介绍的。java8作为基础镜像，/tmp作为数据卷, add 将本地jar包添加到镜像中，entrypoint 运行我们的jar包。![file](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9ncmFwaC5iYWlkdS5jb20vcmVzb3VyY2UvMjEyMzhlNWUzODJmMWY0NzE0Nzk5MDE1NzIzMzYzNjYucG5n?x-oss-process=image/format,png)在该目录下构建镜像现在，最后面的点别忘记了。 docker build -t helle:v1 .1234567![file](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9ncmFwaC5iYWlkdS5jb20vcmVzb3VyY2UvMjEyMTJjYzQ2ZmUxZDE0YWQ3MGU2MDE1NzIzMzY2ODAucG5n?x-oss-process=image/format,png)可以看到我们的镜像分4不构建，也就是构建四个镜像，因为我们Dockerfile 中有四条指令。前面说了后一条指令是在前一条指令的基础上构建镜像的。所以这四个镜像中前面三个就是中间镜像了。我们现在看看我们创建的镜像。![file](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9ncmFwaC5iYWlkdS5jb20vcmVzb3VyY2UvMjEyZDk0NTYzNTY5Y2ZlMGRiNTUyMDE1NzIzMzY5OTcucG5n?x-oss-process=image/format,png)我们接下来启动镜像 docker run -d -p 8090:8080 hello:v1123![file](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9ncmFwaC5iYWlkdS5jb20vcmVzb3VyY2UvMjEyNWVlYmU2YjM0NTExMjRlNWYyMDE1NzIzMzczNDIucG5n?x-oss-process=image/format,png)其中 -d 是后台启动，-p 是映射端口，前面的是我们设置的端口，后面是项目运行的端口。启动后我们在浏览器上访问下。 http://192.168.252.53:8090123456![file](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9ncmFwaC5iYWlkdS5jb20vcmVzb3VyY2UvMjEyZTkyN2JlYmI4MTllMGIyMDE2MDE1NzIzMzczNzgucG5n?x-oss-process=image/format,png)这样我们通过docker 构建我们springboot 的项目，创建属于我们自己的镜像就完成了。# 配置docker远程访问我们现在要做的是，直接通过idea打包生成docker镜像。所以，第一步开启docker的远程访问，我的docker 是安装到服务器上的。我先在本地检测一下，服务器上的docker 是否开启的远程访问。 docker -H 192.168.252.53 info123![file](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9ncmFwaC5iYWlkdS5jb20vcmVzb3VyY2UvMjEyNmI5ZWE5NDUyNjEwMDEyYTU3MDE1NzIzNDA2MjMucG5n?x-oss-process=image/format,png)说明是没有开启docker的远程服务的。所以进入服务器。执行如下操作,在docker.service. 文件夹下创建一个http-proxy.conf文件. sudo mkdir /etc/systemd/system/docker.service.dsudo vim /etc/systemd/system/docker.service.d/http-proxy.conf1文件内容 [Service]ExecStart=ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock1然后重启daemon和docker sudo systemctl daemon-reloadsudo systemctl restart docker123456然后我们再 在本地测试一下。说明docker 的远程访问已经配置好了。![file](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9ncmFwaC5iYWlkdS5jb20vcmVzb3VyY2UvMjEyOTViZGRmZDAxNzI3YmE2NmFkMDE1NzIzNDExMTYucG5n?x-oss-process=image/format,png)# idea配置我们打开我们的hello 项目，在pom.xml 中增加配置 &lt;java.version&gt;1.8&lt;/java.version&gt; &lt;docker.image.prefix&gt;quellanan&lt;/docker.image.prefix&gt;1在build 中增加。 &lt;plugin&gt; &lt;groupId&gt;com.spotify&lt;/groupId&gt; &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.0.0&lt;/version&gt; &lt;!-- 将插件绑定在某个phase执行 --&gt; &lt;executions&gt; &lt;execution&gt; &lt;id&gt;build-image&lt;/id&gt; &lt;!-- 用户只需执行mvn package ，就会自动执行mvn docker:build --&gt; &lt;phase&gt;package&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;build&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;!-- 指定生成的镜像名 --&gt; &lt;imageName&gt;${docker.image.prefix}/${project.artifactId}&lt;/imageName&gt; &lt;!-- 指定标签 --&gt; &lt;imageTags&gt; &lt;imageTag&gt;${project.version}&lt;/imageTag&gt; &lt;/imageTags&gt; &lt;!-- 指定 Dockerfile 路径 --&gt; &lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt; &lt;!-- 指定远程 docker api地址 --&gt; &lt;dockerHost&gt;http://192.168.252.53:2375&lt;/dockerHost&gt; &lt;resources&gt; &lt;resource&gt; &lt;targetPath&gt;/&lt;/targetPath&gt; &lt;!-- jar包所在的路径此处配置的对应target目录 --&gt; &lt;directory&gt;${project.build.directory}&lt;/directory&gt; &lt;!-- 需要包含的jar包,这里对应的是Dockerfile中添加的文件名 --&gt; &lt;include&gt;${project.build.finalName}.jar&lt;/include&gt; &lt;/resource&gt; &lt;/resources&gt; &lt;/configuration&gt; &lt;/plugin&gt; 123在src/main/docker 中创建Dockerfile 文件，文件内容上面Dockerfile 内容一样 FROM java:8VOLUME /tmpADD hello-1.0.0.jar hello-1.0.0.jarENTRYPOINT [“java”,”-jar”,”/hello-1.0.0.jar”]` mvn package因为我们配置在构建的时候就会进行docker 打包。所以我们知己运行mvn package 控制台查看是打包成功的。我们去服务器上看下，有没有可以看到已经成功了。 番外这篇总算写完啦算是，中间自己亲自试验，踩了一路坑，也算是初步弄好了。以后我们项目不用将jar 包放到服务器上再来创建镜像了，可以直接在我们项目中打包构建镜像就想构建jar 包一样简单。还是可以的吧。 好了，就说这么多啦 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[二、docker 镜像容器常用操作(让我们用docker 溜得飞起)]]></title>
     <url>%2F20191023%2F%E4%BA%8C%E3%80%81docker%20%E9%95%9C%E5%83%8F%E5%AE%B9%E5%99%A8%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C(%E8%AE%A9%E6%88%91%E4%BB%AC%E7%94%A8docker%20%E6%BA%9C%E5%BE%97%E9%A3%9E%E8%B5%B7).html</url>
     <content type="text"><![CDATA[前言上篇讲了我们如何安装docker，现在该我们一展拳脚的时候了。接下来让我们一起学习一下docker常见的操作，让我们能够会使用 docker。 基本概念在讲使用之前，还是先将一下docker 的基本概念，毕竟上篇就讲了docker 的安装。一些基本的名词还是需要了解一下的。docker 最重要的就是镜像和容器了，还有一个仓库。 那什么是docker 镜像呢？ docker 镜像就相当于一个 root 文件系统，不仅包含容器运行的程序和资源，还包含运行依赖的配置。但是镜像不包含任何动态的数据。 通俗的来讲就像是我们项目运行需要各种依赖和配置以及各种部署。然后我们将这些环境和程序都打包在一起，形成一个可以直接运行的包。就相当于是docker镜像，将所有需要的环境都集成在一起。在哪都可以运行。 docker 镜像是分层存储的。docker镜像在构建的时候是一层层构建的前一层是后一层的基础，使得镜像在复用、定制变得更加简单。也由于镜像是分层存储的，所以镜像显示的size 大小并不是实际占用的物理内存。因为有很多中间镜像都是公用的。所以实际占用的内存会比显示的size要小。 查看容器实际的占用的内存使用1docker system df 现在知道镜像了，那镜像怎么使用呢？ 那就是通过容器啦，容器和镜像的关系就像是 对象和实例的关系。也就是说根据镜像创建一个可以直接运行的容器。容器是镜像的具体体现，所以容器就有创建，启动，停止，删除等操作。 镜像的使用好了，前面知道了什么是docker 镜像和容器，那现在就我们来看看怎么使用他们吧。 下载镜像我们安装好docker 后，怎么获取镜像呢？和git 拉取一样也是使用pull.1docker pull 详细的参数使用可以通过pull --help ```来查看12比如我们现在下载一个nginx的景象 docker pull nginx1默认会下载latest 的镜像，表示下载最新的镜像。也可以下载稳定版本的，或者下载指定版本的。 docker pull nginx:stable docker pull nginx:1.1612345![file](https://img-blog.csdnimg.cn/20191022172419766.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)## 查询镜像我们镜像下载下来了，我们怎么查看我们电脑上有哪些镜像呢？其实上面我已经用了 docker image ls或者docker images 两者的效果是一样的。12具体使用一样的可以使用```docker image --help```。我们接下来将我们常用的。查询显示虚悬镜像 docker images -f dangling=true123虚悬镜像是没有作用的，占用内存空间，虚悬镜像怎么来呢？一般是我们下载镜像，依赖一些中间镜像，然后我们删除了下载的镜像，但是只是删除了上层镜像，依赖的镜像没有删除。这样没有依赖的中间镜像就成了虚悬镜像，是可以删除的。删除虚悬镜像 docker image prune1其他的一些查询操作。 #列出中间层镜像docker images -a #列出部分镜像docker images 仓库名 #过滤docker images -f since=仓库名docker images -f before=仓库名1234## 删除镜像我们现在知道怎么拉取镜像，以及在本地查看镜像，那我们想要删除镜像怎么删除呢？ docker image rm 镜像id1234我们可以通过镜像id 来删除镜像，并且不用完整的镜像id ,只要可以做唯一区分就好了。![file](https://img-blog.csdnimg.cn/2019102217242068.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)除了通过镜像id 来删除镜像，还可以通过以下的几种方式来删除，更过的可以通过```docker image rm --help```来查看 删除所有仓库名为***的镜像docker image rm $(docker images -q 仓库名) 删除仓库名在***之前的镜像docker image rm $(docker images -q -f before=仓库名)123456789# 容器的使用上面讲了镜像的获取查看删除操作，那我们怎么根据镜像来操作相关的容器呢？## 创建和启动前面说了镜像和容器的关系就像是对象和实例的关系。我们一般使用都是使用实例，一样的我们docker使用也是使用docker容器。那我们怎么根据镜像来创建容器并使用它呢？使用 docker run1比如我们前面下载了那么多Nginx，我们现在启动你nginx 试试。 docker run -p 8080:80 nginx:stable1-p 是用来指定映射端口的，8080是我们设置访问那个端口，80 是Nginx本身的端口。也可以后台启动 docker run -d -p 8180:80 nginx:stable1设置容器name docker run –name myNginx -d -p 8280:80 nginx:stable12345678910![file](https://img-blog.csdnimg.cn/20191022172420349.jpeg)![file](https://img-blog.csdnimg.cn/20191022172419372.jpeg)我们现在在浏览器上访问一下8080，8081，8082这几个端口，应该都可以访问的。![file](https://img-blog.csdnimg.cn/20191022172420923.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70)## 终止容器上面的容器启动了，我们现在想要停止容器，我们该怎么做呢？如果我们没有后台启动，想要终止容器的话，直接Ctrl C 就可以退出来。如果我们是后台启动的，我们就需要通过 docker container stop 容器id12345![file](https://img-blog.csdnimg.cn/20191022172421213.jpeg)可以看到，删除的时候一样的不需要完整的id ,只要可以唯一区分就可以。## 查看容器其实上面已经用到了如何查询容器。 docker container ls1这个是查看正运行的容器。查看所有容器使用 docker containe la -a1更多的命令可以查看 docker container ls –help12345![file](https://img-blog.csdnimg.cn/20191022172421446.jpeg)上图可以看到我已经停止了三个Nginx容器。用 -a 才会显示。 ## 重启容器我们又想将关的容器重新启动，那怎么做 docker container start 容器id #重启运行中的容器docker container restart 容器id1234![file](https://img-blog.csdnimg.cn/20191022172421768.jpeg)## 删除容器 docker container rm 容器id 删除运行中的容器docker container -f 容器id 删除所有没有运行的容器docker container prune` 番外到此为止，我们常用的镜像和容器的操作就会使用啦。都是一些命令。忘记的可以–help 查看一下。 好了，就说这么多啦 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
@@ -8,8 +32,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -20,8 +44,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>springboot</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -32,8 +56,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>springboot</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -44,8 +68,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -94,8 +118,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>springboot</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -106,8 +130,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>springboot</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -118,8 +142,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>springboot</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -130,8 +154,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>springboot</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -169,9 +193,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>java</tag>
         <tag>linux</tag>
+        <tag>java</tag>
+        <tag>redis</tag>
         <tag>集群</tag>
       </tags>
   </entry>
@@ -183,9 +207,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>java</tag>
         <tag>linux</tag>
+        <tag>java</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -196,9 +220,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>java</tag>
         <tag>linux</tag>
+        <tag>java</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -209,9 +233,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>java</tag>
         <tag>linux</tag>
+        <tag>java</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -222,9 +246,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>java</tag>
         <tag>linux</tag>
+        <tag>java</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -235,9 +259,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>java</tag>
         <tag>linux</tag>
+        <tag>java</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -248,9 +272,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>java</tag>
         <tag>linux</tag>
+        <tag>java</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
   <entry>
@@ -261,9 +285,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>redis</tag>
-        <tag>java</tag>
         <tag>linux</tag>
+        <tag>java</tag>
+        <tag>redis</tag>
       </tags>
   </entry>
 </search>

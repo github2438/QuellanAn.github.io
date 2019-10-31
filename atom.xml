@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.quellanan.xyz/"/>
-  <updated>2019-10-23T03:12:06.246Z</updated>
+  <updated>2019-10-31T11:02:57.021Z</updated>
   <id>http://www.quellanan.xyz/</id>
   
   <author>
@@ -15,6 +15,62 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>七、springBoot 简单优雅是实现文件上传和下载</title>
+    <link href="http://www.quellanan.xyz/20191031/%E4%B8%83%E3%80%81springBoot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E6%98%AF%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD.html"/>
+    <id>http://www.quellanan.xyz/20191031/七、springBoot 简单优雅是实现文件上传和下载.html</id>
+    <published>2019-10-31T11:00:44.677Z</published>
+    <updated>2019-10-31T11:02:57.021Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
+    
+    
+      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>三、DockerFile 定制属于自己的专属镜像</title>
+    <link href="http://www.quellanan.xyz/20191031/%E4%B8%89%E3%80%81DockerFile%20%E5%AE%9A%E5%88%B6%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%93%E5%B1%9E%E9%95%9C%E5%83%8F.html"/>
+    <id>http://www.quellanan.xyz/20191031/三、DockerFile 定制属于自己的专属镜像.html</id>
+    <published>2019-10-31T07:24:18.954Z</published>
+    <updated>2019-10-31T11:05:12.132Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+    
+  </entry>
   
   <entry>
     <title>二、docker 镜像容器常用操作(让我们用docker 溜得飞起)</title>
@@ -38,9 +94,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
       <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   
@@ -66,9 +122,9 @@
       <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
     
     
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
   </entry>
   
@@ -94,9 +150,9 @@
       <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
     
     
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
   </entry>
   
@@ -122,9 +178,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
       <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   
@@ -238,9 +294,9 @@
       <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
     
     
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
   </entry>
   
@@ -266,9 +322,9 @@
       <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
     
     
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
   </entry>
   
@@ -294,9 +350,9 @@
       <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
     
     
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
   </entry>
   
@@ -322,9 +378,9 @@
       <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
     
     
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
   </entry>
   
@@ -412,11 +468,11 @@
       <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
     
     
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
       <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
     
       <category term="集群" scheme="http://www.quellanan.xyz/tags/%E9%9B%86%E7%BE%A4/"/>
     
@@ -444,11 +500,11 @@
       <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
     
     
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
       <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
     
   </entry>
   
@@ -474,11 +530,11 @@
       <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
     
     
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
       <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
     
   </entry>
   
@@ -504,11 +560,11 @@
       <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
     
     
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
       <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
     
   </entry>
   
@@ -534,71 +590,11 @@
       <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
     
     
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
       <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>三、Redis在SpringBoot中使用案例</title>
-    <link href="http://www.quellanan.xyz/20190803/%E4%B8%89%E3%80%81Redis%E5%9C%A8SpringBoot%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%A1%88%E4%BE%8B.html"/>
-    <id>http://www.quellanan.xyz/20190803/三、Redis在SpringBoot中使用案例.html</id>
-    <published>2019-08-03T10:08:02.000Z</published>
-    <updated>2019-09-30T00:47:45.669Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
-    
-    
       <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>二、设置Redis远程访问</title>
-    <link href="http://www.quellanan.xyz/20190802/%E4%BA%8C%E3%80%81%E8%AE%BE%E7%BD%AERedis%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AE.html"/>
-    <id>http://www.quellanan.xyz/20190802/二、设置Redis远程访问.html</id>
-    <published>2019-08-02T01:59:05.000Z</published>
-    <updated>2019-09-30T00:45:29.717Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
-    
-    
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   
