@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[五、docker-compose开锋（docker 三剑客）]]></title>
+    <url>%2F20191108%2F%E4%BA%94%E3%80%81docker-compose%E5%BC%80%E9%94%8B%EF%BC%88docker%20%E4%B8%89%E5%89%91%E5%AE%A2%EF%BC%89.html</url>
+    <content type="text"><![CDATA[前言终于写到docker-compose了，其实我最开始接触docker的时候，是因为一个开源项目需要用docker 环境和docke-compose 所以我最先接触的是docker-compse 后面才恶补的docker的一些基础知识。 可以看到docker-composer 和docker 有关系，但是你也了解docker-compose 的命令 简单的操作docker 容器。 说了这么多，还没有说docker-compose 有什么作用，为什么要使用docker-coompose。其实我们都知道，在我们实际的项目中，一个项目一般都是前端服务端数据库都进行分离的。所以一个项目一般都是有多个镜像组成的。那怎么将这一组镜像管理起来呢？就是通过docker-compose 啦 docker-compose 中有两个重要呢的概念服务(service ): 就是我们上面说的一个应用容器，仅仅负责真个项目的中的一部分，比如数据库mysql. 项目(project)：就是我们上面说你的项目啦，包含一组容器。 docker-compose 通过 docker-compose.yml 文件对这一组容器进行配置。 好了，正式开始接触 docker-compose吧 安装docker-compose 安装很简单，windos 版本的已经自带了。我们可以通过1docker-compose -v 查看我们本机安装的docker-compose 版本。Linux 安装也很简单。在官网上也有：https://github.com/docker/compose/releases12345678910sudo apt-get update#安装最新的docke-cesudo apt-get install docker-ce# 下载最新的docker-composecurl -L https://github.com/docker/compose/releases/download/1.25.0-rc4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose# 修改docker-compose 权限chmod x /usr/local/bin/docker-compose 卸载 docke-compose1sudo rm /usr/local/bin/docker-compose 本地安装如果上面安装不行的话，或者报错，可以用下面的方式进行安装。 在上面的官网上找到对应版本的Assests 选择对应的文件下载。 下载下来后，我们放到 /usr/local/bin/ 目录下。执行下面操作1234#改名sudo mv docker-compose-Linux-x86_64 ./docker-compose#增加执行权限sudo chmod x /usr/local/bin/docker-compose 这样就和上面的效果是一样的啦，我们可以通过-v ```查看安装成功没有。1234567# docker-compose.yml知道了docker-compose 那最重要的就是docker-compose.yml 文件啦，通过这个文件就可以管理项目的镜像了，那我们怎么写docker-compose.yml 文件呢？官方提供了很多模版，我们按照模版来写就可以了。## 主模版 version: “3” services: webapp: image: examples/web ports: - &quot;80:80&quot; volumes: - &quot;/data&quot; 12345可以看到格式就是我们熟悉的yml 格式，和我们springboot 项目中配置是差不多的。我们前面知道的一个项目是由一组服务组成的，也就是你对应文件中的services。webapp 就是我们为服务起的一个名字，image 对应的镜像名，ports 镜像暴露的端口，volumes 镜像的数据卷。可以看到，里面的命令和docker run 的指令是差不多的。## depends_on解决容器的依赖，表示一个容器依赖其他的其他容器，比如说 version: “3” services: webapp: image: examples/web ports: - &quot;80:80&quot; volumes: - &quot;/data&quot; depends_on: - redis - mysql redis: image: redis:latest restart: always ports: - &quot;6379:6379&quot; mysql: image: mysql:latest restart: always ports: - &quot;3306:3306&quot; 123456789还是上面的例子，只不过我多加了两个 service 。表示这个项目中用到了mysql 和redis 并且在webapp 中使用depends_on 表示redis 和mysql 先webapp 启动。更多的模版，大家用的时候可以参考官网上就可以了我感觉。知道是什么意思就可以，不用都记下来。https://yeasy.gitbooks.io/docker_practice/content/compose/compose_file.html# docker-compose 指令我们可以通过帮助指令来查看docker-compose 怎么使用。 docker-compose –help12基本语法格式： docker-compose [-f=…] [options] [COMMAND] [ARGS…]1234567891011121314151617181920212223242526272829303132我这里也就将一下常见的，因为通过```--help```都可以查到。## docker-compose config用于检查我们的docker-compose.yml 文件的内容格式是否正确，在我们运行之前先检测一下比较好。## docker-compose up用来启动项目，比如我们现在有一个docker-compose.yml 文件，那我们进入到这个文件目录，执行```docker-compose up```就可以将项目依赖的镜像下载下来，并启动相应的容器服务。整个项目都启动起来了，直接使用就好了，可谓是相当强大了。docker-compose up -d 表示后台启动。## docker-compose down 和 up 对应，用来停止我们的项目。## docker-compose restart 重启我们项目其他的也不说了，可以查看官网：https://docs.docker.com/compose/reference/overview/# demo 光说不练假把式，我们上面说的一堆基础的知识，还是需要我们实践才行，不然我们不会有什么实质性的收获。所以接下来我们就搭建一个简单的demo。我们还是用前面的的hello的项目，我们对项目进行一些修改，增加 redis。这里我就不具体的讲啦，有不会的可以看我这篇文章，写的很简单明了：[三、Redis在SpringBoot中使用案例](https://blog.csdn.net/qq_27790011/article/details/98344732)我们这里先在在pom.xml 中增加redis 依赖： &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt; &lt;/dependency&gt; 12在application.properties 中增加redis 配置 #配置redis Redis数据库索引（默认为0）spring.redis.database=0 Redis服务器地址spring.redis.host=192.168.252.53 Redis服务器连接端口spring.redis.port=6389 Redis服务器连接密码（默认为空）spring.redis.password= 连接池最大连接数（使用负值表示没有限制） 默认 8spring.redis.lettuce.pool.max-active=8 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1spring.redis.lettuce.pool.max-wait=-1 连接池中的最大空闲连接 默认 8spring.redis.lettuce.pool.max-idle=8 连接池中的最小空闲连接 默认 0spring.redis.lettuce.pool.min-idle=0 12在controller 包中创建一个redisController 类 @RestController@RequestMapping(“/redis”)@Slf4jpublic class RedisController { @Autowired private StringRedisTemplate stringRedisTemplate; @RequestMapping(value = &quot;/add&quot;,method = RequestMethod.GET) public String add(@RequestParam(value=&quot;key&quot;)String key,@RequestParam(value = &quot;value&quot;) String value){ ValueOperations ops=stringRedisTemplate.opsForValue(); ops.set(key,value); return &quot;success&quot;; } @RequestMapping(value = &quot;/get&quot;,method = RequestMethod.GET) public String get(@RequestParam(value = &quot;key&quot;)String key){ ValueOperations ops=stringRedisTemplate.opsForValue(); return (String) ops.get(key); } }1234567好了，我们将项目打包成镜像，至于怎么打包成镜像上一篇我已经讲了，不会的可以查看:[三、DockerFile 定制属于自己的专属镜像](https://blog.csdn.net/qq_27790011/article/details/102729974#docker_162)## 准备我们的redis.conf我们使用 redis 镜像，但是我们不想使用默认的配置，想要使用自己的配置启动redis。所以我们来复制一份redis.conf 。我就修改了 #设置redis 可以远程访问bind 0.0.0.0 #后台启动daemonize yes12345![file](https://img-blog.csdnimg.cn/20191108155950758.jpeg)redis.conf 放在我们上图的redis目录下。## docker-compose.yml我们来编写docker-compose.yml ，直接套用上面的模版。 version: “3” services: webapp: image: quellanan/hello:1.0.0 ports: - &quot;9000:9000&quot; volumes: - &quot;/data&quot; depends_on: - redis redis: image: redis:latest restart: always ports: - &quot;6389:6379&quot; volumes: - /redis/redis.conf:/etc/redis/redis.conf command: redis-server /etc/redis/redis.conf 12345可以看到基本上是根据模版来的，指定我们镜像，端口，数据卷。这里webapp 的没有什么好说的 ，上面都说了，一看就能懂，说一下redis的。images 指定的镜像为redis:latest ，如果你本地没有这个镜像，就会从官网上下载。restart:always 表示自动重启。 ports:”6389:6379”1表示镜像启动redis容器的端口是6379，映射到服务器的6389 端口，所以我们在项目配置的redis 端口应该是6389. volumes: /redis/redis.conf:/etc/redis/redis.conf12表示将 ./redis/redis.conf 文件加载到 容器中的 /etc/redis/redis.conf 位置。说明第一个路径是相对路径，第二个路径是绝对路径。 command: redis-server /etc/redis/redis.conf12345表示在启动redis 容器的时候会执行的命令。这样就可以实现启动redis镜像加载我们自己的配置文件了。## docker-compose up准备工作都做好了，开始我们大展拳脚，哈哈，其实不然，我们准备工作做好了，就已经成功一大半了，我们接下来要做的就是 就是通过docker-compose 启动镜像。我们直接在存放docker-compose.yml 目录下执行： docker-compose up1234![file](https://img-blog.csdnimg.cn/20191108155951768.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9xdWVsbGFuYW4uYmxvZy5jc2RuLm5ldA==,size_16,color_FFFFFF,t_70)这样我们就启动成功了。如果想后台启动的话输入： docker-compose up -d123## 测试我们项目启动，现在来测试一下到底成功没有。 http://192.168.252.53:9000/123这个是测试项目是正常启动了。![file](https://img-blog.csdnimg.cn/20191108155951218.jpeg)我们接下来看看我们配置的redis 有没有成功。 http://192.168.252.53:9000/redis/add?key=a&amp;value=123qazhttp://192.168.252.53:9000/redis/get?key=a12345678![file](https://img-blog.csdnimg.cn/20191108155952431.jpeg)![file](https://img-blog.csdnimg.cn/20191108155952729.jpeg)可以看到界面上接口没有问题了，redis已经已经生效了，我们还不太确定，可以去服务器上看下。![file](https://img-blog.csdnimg.cn/20191108155952359.jpeg)。本地没有装redis ，我们可以进入到redis容器中去查看。操作如下：先通过```docker ps ```查看redis 容器id然后通过下面命令进入容器。 docker exec -it 容器id /bin/bash1最后连接redis redis-cli` 番外好了，就说这么多啦 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[四、docker 仓库(让我们的镜像有处可存)]]></title>
+    <url>%2F20191108%2F%E5%9B%9B%E3%80%81docker%20%E4%BB%93%E5%BA%93(%E8%AE%A9%E6%88%91%E4%BB%AC%E7%9A%84%E9%95%9C%E5%83%8F%E6%9C%89%E5%A4%84%E5%8F%AF%E5%AD%98).html</url>
+    <content type="text"><![CDATA[前言前面讲完了docker 镜像和容器，以及通过Dockerfile 定制属于我们自己的镜像，那那现在就是需要将我们自己定制的镜像存放到仓库中供他们使用。这一套流程才算是正式走完了。从获取镜像，操作镜像容器，定制镜像，上传镜像。会了这些，也算是docker 正式入门了。 上传到共有仓库docker 官网有一个共有的仓库，大家应该都知道，和github 类似。dockehub可以管理你自己的镜像。我们需要创建一个账号用来管理。 官网：https://hub.docker.com/ 我们创建好账号后，就可以在我们本机的电脑上登录到官网了。1docker login 用户名 网址 网址可以不填，默认的就是去登录官网，登录官网之后就可以上传我们自己的镜像了1234docker push [OPTIONS] NAME[:TAG]eg:docker push quellanan/hello:1.0.0 我这截图是上传过一次，再上传的时候提示已经存在，说明是上传成功的。我们可以查看一下：1docker search quellanan 私有仓库docker 官方提供了一个私用仓库的镜像，我们可以直接使用。docker-registry. 下载我们先下载registry 镜像1docker pull registry 容器运行1docker run -d -p 5000:5000 --restart=always --name registry registry 到现在我们私有仓库已经有了，现在我们如何将自己本地镜像上传私有仓库呢？ 上传首先我们需要使用docker tag 将镜像重命名，前缀需要和私用仓库一致，才能上传成功。12docker tag java:8 127.0.0.1:5000/java:8docker push 127.0.0.1:5000/java:8 通过下面命令查看是否成功1docker push 127.0.0.1:5000/java:8 上面证明我们已经将镜像上传到我们的私有仓库了。 下载那现在我们先将本地的镜像删除掉，然后从私服上下载镜像，看是否能够下载下来。123docker image rm 127.0.0.1:5000/java:8docker pull 127.0.0.1:5000/java:8 证明我们创建的私服是可以用的，但是有没有感觉有点别扭，不能想dockerhub 那样直观的查看我们私有仓库的镜像，没有可视化界面。所以接下来我们用另一个镜像来搭建我们私有仓库。 Nexus3Nexus 是管理maven 的jar 包工具，Nexus3 支持对镜像的管理。 下载我们先下载nexus3的镜像1docker pull sonatype/nexus3 启动下载成功后，我们来启动对应的容器。1docker run -d --name nexus3 --restart=always -p 8081:8081 -p 8082:8082 -p 8083:8083 --mount src=nexus-data,target=/nexus-data sonatype/nexus3 这里说明一下为什么要启动三个端口。8082是私有仓库，不启动的话，好像我们本地根本连不上去，一直报超时。8083为后面代理dockerhub 做准备。 容器启动之后我们在页面上访问1192.168.252.53:8081 可以看到我们的 nexus3的镜像已经启动成了，我们需要登录才能进行配置。网上说的用户名为admin，密码为admin123 我试了发现登录不上去。 然后看提示说密码存放在这个位置，所以我们进入到容器。查看我们的密码。123docker psdocker exec -it /bin/bashcat /nexus-data/admin.password 找到密码后，我们在界面登录后，会让我们修改密码。 配置登录成功后，我们开始配置我们docker的私有仓库。选择Create Repostory 选择docker(hosted) 配置仓库名和端口 这些都配置好了，现在我们怎么使用这个私有仓库呢，我们在/etc/docker/daemon.json 文件中加上私有仓库的地址。1234567&#123; "registry-mirrors": [ "https://registry.docker-cn.com", "https://dockerhub.azk8s.cn" ], "insecure-registries":["192.168.252.53:8082","192.168.252.53:8083"]&#125; registry-mirrors 是配置国内镜像，不需要的可以不配置。insecure-registries 就是设置我们自己的私有仓库地址。 重启12systemctl daemon-reloadsystemctl restart docker 测试现在我们来登录上我们私有仓库(密码我改成了admin123)1docker login -u admin -p admin123 192.168.252.53:8282 一样的我们打标签。1docker tag java:8 192.168.252.53:8082/java:8 上传1docker push 192.168.252.53:8082/java:8 可以看到我们已经将镜像上传的nexus 上了，我们现在在界面上看下。整个的界面就是这样的。 说明我们用 nexus3 搭建的私有仓库是没有问题的。 Nexus3 代理仓库上面我们只是配置了docker(host)，这个相当于我们的私有仓库，但是我们现在使用docker login 我们自己的仓库，如果我们需要的镜像我们仓库没有，就会很麻烦，需要重新登录到共有仓库上下载下来，再上传到我们的私有仓库，那有没有办法可以一步到位呢？ 下面我们就来操作一波。 docker(proxy)上面我们已经配置好了私有仓库的不用动，下面我们来配置代理仓库， 选择docker(proxy),name 自定义。主要的Proxy 这里需要注意一下。1https://registry-1.docker.io docker(group)端口设置8083 将代理的和个人仓库加到group中 这样上面就配置好了。 番外这篇算是马马虎虎的写完了吧，但总感觉不经如意，又不知道怎么修改，就先这样发出来吧，后续调整。 好了，就说这么多啦 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[七、springBoot 简单优雅是实现文件上传和下载]]></title>
     <url>%2F20191031%2F%E4%B8%83%E3%80%81springBoot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E6%98%AF%E5%AE%9E%E7%8E%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD.html</url>
     <content type="text"><![CDATA[前言好久没有更新spring Boot 这个项目了。最近看了一下docker 的知识，后期打算将spring boot 和docker 结合起来。刚好最近有一个上传文件的工作呢，刚好就想起这个脚手架，将文件上传和下载整理进来。 配置在application.properties 中增加上传文件存放的路径配置12#文件上传目录file.upload.url=E:/test controller 层上传文件和下载文件都比较简单，我们就直接在controller层来编写。也不用在pom.xml 中增加什么依赖。所以直接上代码。在controller 包下创建一个file包，在file 包下创建一个FileController 类。12345678910111213141516171819202122232425262728293031@RestController@RequestMapping("file")@Slf4jpublic class FileController &#123; @Value("$&#123;file.upload.url&#125;") private String uploadFilePath; @RequestMapping("/upload") public String httpUpload(@RequestParam("files") MultipartFile files[])&#123; JSONObject object=new JSONObject(); for(int i=0;i&lt;files.length;i )&#123; String fileName = files[i].getOriginalFilename(); // 文件名 File dest = new File(uploadFilePath '/' fileName); if (!dest.getParentFile().exists()) &#123; dest.getParentFile().mkdirs(); &#125; try &#123; files[i].transferTo(dest); &#125; catch (Exception e) &#123; log.error("&#123;&#125;",e); object.put("success",2); object.put("result","程序错误，请重新上传"); return object.toString(); &#125; &#125; object.put("success",1); object.put("result","文件上传成功"); return object.toString(); &#125;&#125; 上面的代码看起来有点多，其实就是一个上传的方法，首先通过 MultipartFile 接收文件。这里我用的是file[] 数组接收文件，这是为了兼容多文件上传的情况，如果只用file 接收，然后在接口上传多个文件的话，只会接收最后一个文件。这里大家注意一下。看自己的需求，我这里兼容多文件所以用数组接收。 然后遍历files 获取文件，下面这段代码是判断文件在所在目录是否存在，如果不存在就创建对应的目录。1234File dest = new File(uploadFilePath '/' fileName); if (!dest.getParentFile().exists()) &#123; dest.getParentFile().mkdirs(); &#125; 1files[i].transferTo(dest); 就是将文件存放到对应的服务器，这里有一点需要说明一下，如果我们上传重复的文件会怎么样么？上传重复的文件不会报错，后上传的文件会直接覆盖已经上传的文件。 整体代码就是这样。现在就可以实现文件的上传操作。 测试我们写好之后，基本上传功能就已经实现了，我们现在来测试一下。启动项目后我们用postman 请求，因为我们需要上传文件，用get 方式请求不了。 可以看到文件上传成功了，由此可见，springboot文件上传一个方法就搞定了。 文件下载其实文件下载，不太建议用接口做，因为文件下载一般都是下载一些静态文件，我们可以先将文件处理好，然后通过Nginx 服务下载静态文件，这样速度会快很多。但是这里我们还是写一下。代码也很简单，就一个方法，也写在fileController 类中 1234567891011121314151617181920212223242526@RequestMapping("/download") public String fileDownLoad(HttpServletResponse response, @RequestParam("fileName") String fileName)&#123; File file = new File(downloadFilePath '/' fileName); if(!file.exists())&#123; return "下载文件不存在"; &#125; response.reset(); response.setContentType("application/octet-stream"); response.setCharacterEncoding("utf-8"); response.setContentLength((int) file.length()); response.setHeader("Content-Disposition", "attachment;filename=" fileName ); try(BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));) &#123; byte[] buff = new byte[1024]; OutputStream os = response.getOutputStream(); int i = 0; while ((i = bis.read(buff)) != -1) &#123; os.write(buff, 0, i); os.flush(); &#125; &#125; catch (IOException e) &#123; log.error("&#123;&#125;",e); return "下载失败"; &#125; return "下载成功"; &#125; 代码也很简单，就是根据文件名判断是否存在文件，不存在就提示没有文件，存在就将文件下载下来。response设置返回文件的格式，以文件流的方式返回，采用utf-8 字符集，设置下载后的文件名。然后就是以文件流的方式下载文件了。 测试的话也简单，我们启动项目，访问接口 12http://localhost:9090/zlflovemm/file/download?fileName=11http://localhost:9090/zlflovemm/file/download?fileName=1.rar 可以看到如果文件存在，会直接下载，不会提示下载成功或者失败。 删除文件 删除文件是很简单的，我这里讲一下删除文件下所有文件夹和文件。并做一个定时任务，每天清理一次。 1234567891011121314151617181920212223242526272829 @Scheduled(cron="0 0 3 * * ?")private void deleteFiles()&#123; deleteFile(new File(deleteFilePath));&#125;public void deleteFile(File file)&#123; //判断文件不为null或文件目录存在 if (file == null || !file.exists())&#123; log.info("暂无文件"); return; &#125; //取得这个目录下的所有子文件对象 File[] files = file.listFiles(); //遍历该目录下的文件对象 for (File f: files)&#123; //打印文件名 String name = f.getName(); log.info(name); //判断子目录是否存在子目录,如果是文件则删除 if (f.isDirectory())&#123; deleteFile(f); &#125;else &#123; f.delete(); &#125; &#125; //删除空文件夹 for循环已经把上一层节点的目录清空。 file.delete();&#125; 番外到此为止，我们常用的镜像和容器的操作就会使用啦。都是一些命令。忘记的可以–help 查看一下。 好了，就说这么多啦代码上传到github：https://github.com/QuellanAn/zlflovemm 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
@@ -8,8 +32,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
         <tag>java</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -20,8 +44,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -32,8 +56,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -44,8 +68,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
         <tag>java</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -56,8 +80,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
         <tag>java</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -68,8 +92,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -118,8 +142,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
         <tag>java</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -130,8 +154,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
         <tag>java</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -142,8 +166,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
         <tag>java</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -154,8 +178,8 @@
         <category>springBoot</category>
       </categories>
       <tags>
-        <tag>springboot</tag>
         <tag>java</tag>
+        <tag>springboot</tag>
       </tags>
   </entry>
   <entry>
@@ -193,9 +217,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
         <tag>redis</tag>
+        <tag>java</tag>
+        <tag>linux</tag>
         <tag>集群</tag>
       </tags>
   </entry>
@@ -207,9 +231,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
         <tag>redis</tag>
+        <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -220,9 +244,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
         <tag>redis</tag>
+        <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -233,9 +257,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
         <tag>redis</tag>
+        <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -246,9 +270,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
         <tag>redis</tag>
+        <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -259,9 +283,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
         <tag>redis</tag>
+        <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -272,9 +296,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
         <tag>redis</tag>
+        <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -285,9 +309,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
-        <tag>java</tag>
         <tag>redis</tag>
+        <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
 </search>

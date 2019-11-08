@@ -154,30 +154,22 @@
   daovoice('update');
   </script>
 
-  <meta name="description" content="前言之前一直用的是SublimeText系列，也感觉很好用的，在文本编辑上UE 和 SublimeText感觉差不多，用起来都比较舒服，但是我看中的UE一个强大的功能，可以在编辑时切换行模式和列模式。同时操作多列，虽然很少用到，但是真用的时候就方便很多了。另外UE也有一系列的产品，比如UC就是一个比较的好的比较工具。好了说了这么多开始激活吧。 准备工作：1.下载好UE(官网下载即可，https:/">
-<meta name="keywords" content="UE,激活,注册码">
+  <meta name="description" content="前言终于写到docker-compose了，其实我最开始接触docker的时候，是因为一个开源项目需要用docker 环境和docke-compose 所以我最先接触的是docker-compse 后面才恶补的docker的一些基础知识。 可以看到docker-composer 和docker 有关系，但是你也了解docker-compose 的命令 简单的操作docker 容器。 说了这么多，还">
+<meta name="keywords" content="linux,docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UE激活（亲测有效，通过注册机激活）">
-<meta property="og:url" content="http://www.quellanan.xyz/20190930/UE激活（亲测有效，通过注册机激活）.html">
+<meta property="og:title" content="五、docker-compose开锋（docker 三剑客）">
+<meta property="og:url" content="http://www.quellanan.xyz/20191108/五、docker-compose开锋（docker 三剑客）.html">
 <meta property="og:site_name" content="QuellanAn">
-<meta property="og:description" content="前言之前一直用的是SublimeText系列，也感觉很好用的，在文本编辑上UE 和 SublimeText感觉差不多，用起来都比较舒服，但是我看中的UE一个强大的功能，可以在编辑时切换行模式和列模式。同时操作多列，虽然很少用到，但是真用的时候就方便很多了。另外UE也有一系列的产品，比如UC就是一个比较的好的比较工具。好了说了这么多开始激活吧。 准备工作：1.下载好UE(官网下载即可，https:/">
+<meta property="og:description" content="前言终于写到docker-compose了，其实我最开始接触docker的时候，是因为一个开源项目需要用docker 环境和docke-compose 所以我最先接触的是docker-compse 后面才恶补的docker的一些基础知识。 可以看到docker-composer 和docker 有关系，但是你也了解docker-compose 的命令 简单的操作docker 容器。 说了这么多，还">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127094023248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127094039277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127094059273.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127094110150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127094243687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127094302755.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127094336414.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127094445775.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181207150050421.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20181207150106584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2019091922115335.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
-<meta property="og:updated_time" content="2019-09-30T00:43:01.247Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019110815595186.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9xdWVsbGFuYW4uYmxvZy5jc2RuLm5ldA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191108155953281.jpeg">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20191015213334732.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta property="og:updated_time" content="2019-11-08T09:07:26.646Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UE激活（亲测有效，通过注册机激活）">
-<meta name="twitter:description" content="前言之前一直用的是SublimeText系列，也感觉很好用的，在文本编辑上UE 和 SublimeText感觉差不多，用起来都比较舒服，但是我看中的UE一个强大的功能，可以在编辑时切换行模式和列模式。同时操作多列，虽然很少用到，但是真用的时候就方便很多了。另外UE也有一系列的产品，比如UC就是一个比较的好的比较工具。好了说了这么多开始激活吧。 准备工作：1.下载好UE(官网下载即可，https:/">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20181127094023248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70">
+<meta name="twitter:title" content="五、docker-compose开锋（docker 三剑客）">
+<meta name="twitter:description" content="前言终于写到docker-compose了，其实我最开始接触docker的时候，是因为一个开源项目需要用docker 环境和docke-compose 所以我最先接触的是docker-compse 后面才恶补的docker的一些基础知识。 可以看到docker-composer 和docker 有关系，但是你也了解docker-compose 的命令 简单的操作docker 容器。 说了这么多，还">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/2019110815595186.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9xdWVsbGFuYW4uYmxvZy5jc2RuLm5ldA==,size_16,color_FFFFFF,t_70">
 
 
 
@@ -187,7 +179,7 @@
 
   
   
-  <link rel="canonical" href="http://www.quellanan.xyz/20190930/UE激活（亲测有效，通过注册机激活）">
+  <link rel="canonical" href="http://www.quellanan.xyz/20191108/五、docker-compose开锋（docker 三剑客）">
 
 
 
@@ -197,7 +189,7 @@
   };
 </script>
 
-  <title>UE激活（亲测有效，通过注册机激活） | QuellanAn</title>
+  <title>五、docker-compose开锋（docker 三剑客） | QuellanAn</title>
   
 
 
@@ -459,7 +451,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.quellanan.xyz/20190930/UE激活（亲测有效，通过注册机激活）.html">
+    <link itemprop="mainEntityOfPage" href="http://www.quellanan.xyz/20191108/五、docker-compose开锋（docker 三剑客）.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="QuellanAn">
@@ -476,7 +468,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">UE激活（亲测有效，通过注册机激活）
+          <h2 class="post-title" itemprop="name headline">五、docker-compose开锋（docker 三剑客）
 
               
             
@@ -502,7 +494,7 @@
                 
               
 
-              <time title="创建时间：2019-09-30 08:38:49 / 修改时间：08:43:01" itemprop="dateCreated datePublished" datetime="2019-09-30T08:38:49+08:00">2019-09-30</time>
+              <time title="创建时间：2019-11-08 17:03:10 / 修改时间：17:07:26" itemprop="dateCreated datePublished" datetime="2019-11-08T17:03:10+08:00">2019-11-08</time>
             
 
             
@@ -524,7 +516,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a></span>
 
                 
                 
@@ -560,7 +552,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">832</span>
+                <span title="本文字数">6.8k</span>
               
 
               
@@ -574,7 +566,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">6 分钟</span>
               
             </div>
           
@@ -594,17 +586,105 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>之前一直用的是SublimeText系列，也感觉很好用的，在文本编辑上UE 和 SublimeText感觉差不多，用起来都比较舒服，但是我看中的UE一个强大的功能，可以在编辑时切换行模式和列模式。同时操作多列，虽然很少用到，但是真用的时候就方便很多了。另外UE也有一系列的产品，比如UC就是一个比较的好的比较工具。好了说了这么多开始激活吧。</p>
-<h1 id="准备工作："><a href="#准备工作：" class="headerlink" title="准备工作："></a>准备工作：</h1><p>1.下载好UE(官网下载即可，<a href="https://www.ultraedit.com/" target="_blank" rel="noopener">https://www.ultraedit.com/</a>)<br>2.下载注册机，我的（<a href="https://pan.baidu.com/s/1I4uEGxL5s3P3iB2nVvXBEQ" target="_blank" rel="noopener">https://pan.baidu.com/s/1I4uEGxL5s3P3iB2nVvXBEQ</a><br>   提取密码：8myi<br>）<br>3.断网。</p>
-<h1 id="激活"><a href="#激活" class="headerlink" title="激活"></a>激活</h1><p>接下打开UE ,点击”输入许可证秘钥”。<br><img src="https://img-blog.csdnimg.cn/20181127094023248.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>然后出来下面界面，需要输入许可证和密码，这个随便输入就可以了，但是最好不要输入字符和字母。输入数字就好了<br><img src="https://img-blog.csdnimg.cn/20181127094039277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>点击激活会提示没有网络，然后就选择脱机激活<br><img src="https://img-blog.csdnimg.cn/20181127094059273.png" alt="在这里插入图片描述"><br>点击脱机激活，弹出一下界面：<br><img src="https://img-blog.csdnimg.cn/20181127094110150.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>界面上回有上个用户码，双击运行注册机，出现一下界面，将两个用户码填入对应位置，点击Generate,会生成对应的验证码<br><img src="https://img-blog.csdnimg.cn/20181127094243687.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>将验证码输入到UEd激活界面。<br><img src="https://img-blog.csdnimg.cn/20181127094302755.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>点击激活，就可以激活成功啦，<br><img src="https://img-blog.csdnimg.cn/20181127094336414.png" alt="在这里插入图片描述"><br>然后可以看一下设置，发现已经激活成功了，可以愉快的玩耍了<br><img src="https://img-blog.csdnimg.cn/20181127094445775.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<h1 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h1><p>我使用了一段时间后又提示我的许可证到期了，让我重新激活，我一想不得劲呀这。然后我就在激活以后对这个软件做了禁网操作。我想这样它不会总让我激活吧哈哈，佩服自己的灵机一动。<br>怎么给单个软件禁网，不好意思我用的是  腾讯电脑管家-工具箱-上网-流量监控。找到UE，禁用网络就好了。<br><img src="https://img-blog.csdnimg.cn/20181207150050421.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/20181207150106584.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>当然我想360卫士、金山卫士都有类似的禁用网络的功能吧，自己找找，网上还有大佬说通过防火墙-高级设置对应用程序进行禁网，不会弄哈哈。</p>
-<hr>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>终于写到docker-compose了，其实我最开始接触docker的时候，是因为一个开源项目需要用docker 环境和docke-compose 所以我最先接触的是docker-compse 后面才恶补的docker的一些基础知识。</p>
+<p>可以看到docker-composer 和docker 有关系，但是你也了解docker-compose 的命令 简单的操作docker 容器。</p>
+<p>说了这么多，还没有说docker-compose 有什么作用，为什么要使用docker-coompose。<br>其实我们都知道，在我们实际的项目中，一个项目一般都是前端服务端数据库都进行分离的。所以一个项目一般都是有多个镜像组成的。那怎么将这一组镜像管理起来呢？就是通过docker-compose 啦</p>
+<p>docker-compose 中有两个重要呢的概念<br>服务(service ): 就是我们上面说的一个应用容器，仅仅负责真个项目的中的一部分，比如数据库mysql.</p>
+<p>项目(project)：就是我们上面说你的项目啦，包含一组容器。</p>
+<p>docker-compose 通过 docker-compose.yml 文件对这一组容器进行配置。 </p>
+<p>好了，正式开始接触 docker-compose吧</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>docker-compose 安装很简单，windos 版本的已经自带了。我们可以通过<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose  -v</span></span><br></pre></td></tr></table></figure></p>
+<p>查看我们本机安装的docker-compose 版本。<br>Linux 安装也很简单。<br>在官网上也有：<a href="https://github.com/docker/compose/releases" target="_blank" rel="noopener">https://github.com/docker/compose/releases</a><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get <span class="keyword">update</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#安装最新的docke-ce</span></span><br><span class="line">sudo apt-<span class="keyword">get</span> <span class="keyword">install</span>  docker-ce</span><br><span class="line"></span><br><span class="line"><span class="comment"># 下载最新的docker-compose</span></span><br><span class="line">curl -L https://github.com/docker/compose/releases/download/<span class="number">1.25</span><span class="number">.0</span>-rc4/docker-compose-<span class="string">`uname -s`</span>-<span class="string">`uname -m`</span> -o /usr/<span class="keyword">local</span>/<span class="keyword">bin</span>/docker-compose</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改docker-compose 权限</span></span><br><span class="line">chmod  x /usr/<span class="keyword">local</span>/<span class="keyword">bin</span>/docker-compose</span><br></pre></td></tr></table></figure></p>
+<p>卸载 docke-compose<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure></p>
+<h2 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h2><p>如果上面安装不行的话，或者报错，可以用下面的方式进行安装。</p>
+<p>在上面的官网上找到对应版本的Assests 选择对应的文件下载。</p>
+<p><img src="https://img-blog.csdnimg.cn/2019110815595186.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9xdWVsbGFuYW4uYmxvZy5jc2RuLm5ldA==,size_16,color_FFFFFF,t_70" alt="file"></p>
+<p>下载下来后，我们放到 /usr/local/bin/  目录下。执行下面操作<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#改名</span></span><br><span class="line">sudo mv docker-compose-Linux-x86_64 ./docker-compose</span><br><span class="line"><span class="meta">#增加执行权限</span></span><br><span class="line">sudo chmod  x <span class="meta-keyword">/usr/</span>local<span class="meta-keyword">/bin/</span>docker-compose</span><br></pre></td></tr></table></figure></p>
+<p>这样就和上面的效果是一样的啦，我们可以通过<figure class="highlight plain"><figcaption><span>-v ```查看安装成功没有。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"># docker-compose.yml</span><br><span class="line">知道了docker-compose  那最重要的就是docker-compose.yml 文件啦，通过这个文件就可以管理项目的镜像了，那我们怎么写docker-compose.yml 文件呢？</span><br><span class="line">官方提供了很多模版，我们按照模版来写就可以了。</span><br><span class="line"></span><br><span class="line">## 主模版</span><br></pre></td></tr></table></figure></p>
+<p>version: “3”</p>
+<p>services:<br>  webapp:<br>    image: examples/web<br>    ports:</p>
+<pre><code>  - &quot;80:80&quot;
+volumes:
+  - &quot;/data&quot;
+</code></pre><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">可以看到格式就是我们熟悉的yml 格式，和我们springboot 项目中配置是差不多的。</span><br><span class="line">我们前面知道的一个项目是由一组服务组成的，也就是你对应文件中的services。webapp 就是我们为服务起的一个名字，image 对应的镜像名，ports 镜像暴露的端口，volumes 镜像的数据卷。可以看到，里面的命令和docker <span class="keyword">run</span><span class="bash"> 的指令是差不多的。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## depends_on</span></span><br><span class="line">解决容器的依赖，表示一个容器依赖其他的其他容器，比如说</span><br></pre></td></tr></table></figure>
+<p>version: “3”</p>
+<p>services:<br>  webapp:<br>    image: examples/web<br>    ports:</p>
+<pre><code>  - &quot;80:80&quot;
+volumes:
+  - &quot;/data&quot;
+depends_on: 
+  - redis
+  - mysql
+</code></pre><p>  redis:<br>    image: redis:latest<br>    restart: always<br>    ports:</p>
+<pre><code>- &quot;6379:6379&quot;
+</code></pre><p>  mysql:<br>    image: mysql:latest<br>    restart: always<br>    ports:</p>
+<pre><code>- &quot;3306:3306&quot;
+</code></pre><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">还是上面的例子，只不过我多加了两个 service 。表示这个项目中用到了mysql  和redis  并且在webapp 中使用depends_on 表示redis 和mysql 先webapp 启动。</span><br><span class="line"></span><br><span class="line">更多的模版，大家用的时候可以参考官网上就可以了我感觉。知道是什么意思就可以，不用都记下来。</span><br><span class="line"></span><br><span class="line">https:<span class="regexp">//y</span>easy.gitbooks.io<span class="regexp">/docker_practice/</span>content<span class="regexp">/compose/</span>compose_file.html</span><br><span class="line"></span><br><span class="line"><span class="comment"># docker-compose 指令</span></span><br><span class="line"></span><br><span class="line">我们可以通过帮助指令来查看docker-compose 怎么使用。</span><br></pre></td></tr></table></figure>
+<p>docker-compose –help<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">基本语法格式：</span><br></pre></td></tr></table></figure></p>
+<p>docker-compose [-f=<arg>…] [options] [COMMAND] [ARGS…]<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">我这里也就将一下常见的，因为通过```--help```都可以查到。</span><br><span class="line"></span><br><span class="line"><span class="meta">## docker-compose config</span></span><br><span class="line">用于检查我们的docker-compose.yml 文件的内容格式是否正确，在我们运行之前先检测一下比较好。</span><br><span class="line"></span><br><span class="line"><span class="meta">## docker-compose up</span></span><br><span class="line">用来启动项目，比如我们现在有一个docker-compose.yml 文件，那我们进入到这个文件目录，执行```docker-compose up```就可以将项目依赖的镜像下载下来，并启动相应的容器服务。整个项目都启动起来了，直接使用就好了，可谓是相当强大了。</span><br><span class="line"></span><br><span class="line">docker-compose up -d  表示后台启动。</span><br><span class="line"></span><br><span class="line"><span class="meta">## docker-compose down </span></span><br><span class="line">和 up 对应，用来停止我们的项目。</span><br><span class="line"></span><br><span class="line"><span class="meta">## docker-compose restart </span></span><br><span class="line">重启我们项目</span><br><span class="line"></span><br><span class="line">其他的也不说了，可以查看官网：</span><br><span class="line"></span><br><span class="line">https:<span class="comment">//docs.docker.com/compose/reference/overview/</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta"># demo </span></span><br><span class="line">光说不练假把式，我们上面说的一堆基础的知识，还是需要我们实践才行，不然我们不会有什么实质性的收获。所以接下来我们就搭建一个简单的demo。</span><br><span class="line"></span><br><span class="line">我们还是用前面的的hello的项目，我们对项目进行一些修改，增加 redis。</span><br><span class="line">这里我就不具体的讲啦，有不会的可以看我这篇文章，写的很简单明了：</span><br><span class="line"></span><br><span class="line">[三、Redis在SpringBoot中使用案例](https:<span class="comment">//blog.csdn.net/qq_27790011/article/details/98344732)</span></span><br><span class="line"></span><br><span class="line">我们这里先在在pom.xml 中增加redis 依赖：</span><br></pre></td></tr></table></figure></arg></p>
+<!--Redis使用starter-->
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在application<span class="selector-class">.properties</span> 中增加redis 配置</span><br></pre></td></tr></table></figure>
+<p>#配置redis</p>
+<h1 id="Redis数据库索引（默认为0）"><a href="#Redis数据库索引（默认为0）" class="headerlink" title="Redis数据库索引（默认为0）"></a>Redis数据库索引（默认为0）</h1><p>spring.redis.database=0  </p>
+<h1 id="Redis服务器地址"><a href="#Redis服务器地址" class="headerlink" title="Redis服务器地址"></a>Redis服务器地址</h1><p>spring.redis.host=192.168.252.53</p>
+<h1 id="Redis服务器连接端口"><a href="#Redis服务器连接端口" class="headerlink" title="Redis服务器连接端口"></a>Redis服务器连接端口</h1><p>spring.redis.port=6389  </p>
+<h1 id="Redis服务器连接密码（默认为空）"><a href="#Redis服务器连接密码（默认为空）" class="headerlink" title="Redis服务器连接密码（默认为空）"></a>Redis服务器连接密码（默认为空）</h1><p>spring.redis.password=</p>
+<h1 id="连接池最大连接数（使用负值表示没有限制）-默认-8"><a href="#连接池最大连接数（使用负值表示没有限制）-默认-8" class="headerlink" title="连接池最大连接数（使用负值表示没有限制） 默认 8"></a>连接池最大连接数（使用负值表示没有限制） 默认 8</h1><p>spring.redis.lettuce.pool.max-active=8</p>
+<h1 id="连接池最大阻塞等待时间（使用负值表示没有限制）-默认-1"><a href="#连接池最大阻塞等待时间（使用负值表示没有限制）-默认-1" class="headerlink" title="连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1"></a>连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1</h1><p>spring.redis.lettuce.pool.max-wait=-1</p>
+<h1 id="连接池中的最大空闲连接-默认-8"><a href="#连接池中的最大空闲连接-默认-8" class="headerlink" title="连接池中的最大空闲连接 默认 8"></a>连接池中的最大空闲连接 默认 8</h1><p>spring.redis.lettuce.pool.max-idle=8</p>
+<h1 id="连接池中的最小空闲连接-默认-0"><a href="#连接池中的最小空闲连接-默认-0" class="headerlink" title="连接池中的最小空闲连接 默认 0"></a>连接池中的最小空闲连接 默认 0</h1><p>spring.redis.lettuce.pool.min-idle=0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">在controller 包中创建一个redisController 类</span><br></pre></td></tr></table></figure>
+<p>@RestController<br>@RequestMapping(“/redis”)<br>@Slf4j<br>public class RedisController {</p>
+<pre><code>@Autowired
+private StringRedisTemplate stringRedisTemplate;
+
+@RequestMapping(value = &quot;/add&quot;,method = RequestMethod.GET)
+public String add(@RequestParam(value=&quot;key&quot;)String key,@RequestParam(value = &quot;value&quot;) String value){
+    ValueOperations ops=stringRedisTemplate.opsForValue();
+    ops.set(key,value);
+    return &quot;success&quot;;
+}
+
+@RequestMapping(value = &quot;/get&quot;,method = RequestMethod.GET)
+public String get(@RequestParam(value = &quot;key&quot;)String key){
+    ValueOperations ops=stringRedisTemplate.opsForValue();
+    return (String) ops.get(key);
+}
+</code></pre><p>}<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">好了，我们将项目打包成镜像，至于怎么打包成镜像上一篇我已经讲了，不会的可以查看:</span><br><span class="line"></span><br><span class="line">[<span class="string">三、DockerFile 定制属于自己的专属镜像</span>](<span class="link">https://blog.csdn.net/qq_27790011/article/details/102729974#docker_162</span>)</span><br><span class="line"></span><br><span class="line"><span class="section">## 准备我们的redis.conf</span></span><br><span class="line">我们使用 redis 镜像，但是我们不想使用默认的配置，想要使用自己的配置启动redis。所以我们来复制一份redis.conf 。我就修改了</span><br></pre></td></tr></table></figure></p>
+<p>#设置redis 可以远程访问<br>bind 0.0.0.0</p>
+<p>#后台启动<br>daemonize yes<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">file</span>](<span class="link">https://img-blog.csdnimg.cn/20191108155950758.jpeg</span>)</span><br><span class="line">redis.conf 放在我们上图的redis目录下。</span><br><span class="line"></span><br><span class="line"><span class="section">## docker-compose.yml</span></span><br><span class="line">我们来编写docker-compose.yml ，直接套用上面的模版。</span><br></pre></td></tr></table></figure></p>
+<p>version: “3”</p>
+<p>services:<br>  webapp:<br>    image: quellanan/hello:1.0.0<br>    ports:</p>
+<pre><code>  - &quot;9000:9000&quot;
+volumes:
+  - &quot;/data&quot;
+depends_on:
+  - redis
+</code></pre><p>  redis:<br>    image: redis:latest<br>    restart: always<br>    ports:</p>
+<pre><code>  - &quot;6389:6379&quot;
+volumes:
+  - /redis/redis.conf:/etc/redis/redis.conf
+command: redis-server /etc/redis/redis.conf
+</code></pre><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以看到基本上是根据模版来的，指定我们镜像，端口，数据卷。</span><br><span class="line">这里webapp 的没有什么好说的 ，上面都说了，一看就能懂，说一下redis的。</span><br><span class="line">images 指定的镜像为<span class="keyword">redi</span><span class="variable">s:latest</span> ，如果你本地没有这个镜像，就会从官网上下载。</span><br><span class="line">restar<span class="variable">t:always</span> 表示自动重启。</span><br></pre></td></tr></table></figure>
+<p> ports:”6389:6379”<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">表示镜像启动redis容器的端口是<span class="number">6379</span>，映射到服务器的<span class="number">6389</span> 端口，所以我们在项目配置的redis 端口应该是<span class="number">6389.</span></span><br></pre></td></tr></table></figure></p>
+<p>volumes: /redis/redis.conf:/etc/redis/redis.conf<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">表示将 ./redis/redis<span class="selector-class">.conf</span> 文件加载到 容器中的 /etc/redis/redis<span class="selector-class">.conf</span> 位置。</span><br><span class="line">说明第一个路径是相对路径，第二个路径是绝对路径。</span><br></pre></td></tr></table></figure></p>
+<p>command: redis-server /etc/redis/redis.conf<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">表示在启动redis 容器的时候会执行的命令。这样就可以实现启动redis镜像加载我们自己的配置文件了。</span><br><span class="line"></span><br><span class="line">## docker-compose up</span><br><span class="line"></span><br><span class="line">准备工作都做好了，开始我们大展拳脚，哈哈，其实不然，我们准备工作做好了，就已经成功一大半了，我们接下来要做的就是 就是通过docker-compose 启动镜像。我们直接在存放docker-compose.yml 目录下执行：</span><br></pre></td></tr></table></figure></p>
+<p>docker-compose up<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">file</span>](<span class="link">https://img-blog.csdnimg.cn/20191108155951768.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9xdWVsbGFuYW4uYmxvZy5jc2RuLm5ldA==,size_16,color_FFFFFF,t_70</span>)</span><br><span class="line">这样我们就启动成功了。</span><br><span class="line"></span><br><span class="line">如果想后台启动的话输入：</span><br></pre></td></tr></table></figure></p>
+<p>docker-compose up -d<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 测试</span><br><span class="line">我们项目启动，现在来测试一下到底成功没有。</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://192.168.252.53:9000/" target="_blank" rel="noopener">http://192.168.252.53:9000/</a><br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这个是测试项目是正常启动了。</span><br><span class="line">![<span class="string">file</span>](<span class="link">https://img-blog.csdnimg.cn/20191108155951218.jpeg</span>)</span><br><span class="line">我们接下来看看我们配置的redis 有没有成功。</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://192.168.252.53:9000/redis/add?key=a&amp;value=123qaz" target="_blank" rel="noopener">http://192.168.252.53:9000/redis/add?key=a&amp;value=123qaz</a><br><a href="http://192.168.252.53:9000/redis/get?key=a" target="_blank" rel="noopener">http://192.168.252.53:9000/redis/get?key=a</a><br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">![<span class="string">file</span>](<span class="link">https://img-blog.csdnimg.cn/20191108155952431.jpeg</span>)</span><br><span class="line">![<span class="string">file</span>](<span class="link">https://img-blog.csdnimg.cn/20191108155952729.jpeg</span>)</span><br><span class="line"></span><br><span class="line">可以看到界面上接口没有问题了，redis已经已经生效了，我们还不太确定，可以去服务器上看下。</span><br><span class="line">![<span class="string">file</span>](<span class="link">https://img-blog.csdnimg.cn/20191108155952359.jpeg</span>)。本地没有装redis ，我们可以进入到redis容器中去查看。</span><br><span class="line">操作如下：</span><br><span class="line">先通过<span class="code">```docker ps ```查看redis 容器id</span></span><br><span class="line"><span class="code">然后通过下面命令进入容器。</span></span><br></pre></td></tr></table></figure></p>
+<p>docker exec -it 容器id  /bin/bash<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最后连接redis</span><br></pre></td></tr></table></figure></p>
+<p>redis-cli<br><code>`</code><br><img src="https://img-blog.csdnimg.cn/20191108155953281.jpeg" alt="file"></p>
+<h1 id="番外"><a href="#番外" class="headerlink" title="番外"></a>番外</h1><p>好了，就说这么多啦</p>
 <p>后续加油♡</p>
 <p>欢迎大家关注个人公众号 “程序员爱酸奶”</p>
 <p>分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。</p>
-<p>如果大家喜欢记得关注和分享哟❤<br><img src="https://img-blog.csdnimg.cn/2019091922115335.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
+<p>如果大家喜欢记得关注和分享哟❤</p>
+<p><img src="https://img-blog.csdnimg.cn/20191015213334732.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI3NzkwMDEx,size_16,color_FFFFFF,t_70" alt="file"></p>
 
       
     </div>
@@ -672,7 +752,7 @@
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
     
-    <a href="http://www.quellanan.xyz/20190930/UE激活（亲测有效，通过注册机激活）.html" title="UE激活（亲测有效，通过注册机激活）">http://www.quellanan.xyz/20190930/UE激活（亲测有效，通过注册机激活）.html</a>
+    <a href="http://www.quellanan.xyz/20191108/五、docker-compose开锋（docker 三剑客）.html" title="五、docker-compose开锋（docker 三剑客）">http://www.quellanan.xyz/20191108/五、docker-compose开锋（docker 三剑客）.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -694,11 +774,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/UE/" rel="tag"><i class="fa fa-tag"></i> UE</a>
+            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
           
-            <a href="/tags/激活/" rel="tag"><i class="fa fa-tag"></i> 激活</a>
-          
-            <a href="/tags/注册码/" rel="tag"><i class="fa fa-tag"></i> 注册码</a>
+            <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
           
         </div>
       
@@ -711,8 +789,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/20190929/如何优雅实现属性的动态注入.html" rel="next" title="如何优雅实现属性的动态注入">
-                <i class="fa fa-chevron-left"></i> 如何优雅实现属性的动态注入
+              <a href="/20191108/四、docker 仓库(让我们的镜像有处可存).html" rel="next" title="四、docker 仓库(让我们的镜像有处可存)">
+                <i class="fa fa-chevron-left"></i> 四、docker 仓库(让我们的镜像有处可存)
               </a>
             
           </div>
@@ -720,10 +798,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/20190930/简单优雅的搭建个人博客.html" rel="prev" title="简单优雅的搭建个人博客">
-                简单优雅的搭建个人博客 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -1019,7 +1093,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作："><span class="nav-number">2.</span> <span class="nav-text">准备工作：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#激活"><span class="nav-number">3.</span> <span class="nav-text">激活</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#番外"><span class="nav-number">4.</span> <span class="nav-text">番外</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本地安装"><span class="nav-number">2.1.</span> <span class="nav-text">本地安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis数据库索引（默认为0）"><span class="nav-number">3.</span> <span class="nav-text">Redis数据库索引（默认为0）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis服务器地址"><span class="nav-number">4.</span> <span class="nav-text">Redis服务器地址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis服务器连接端口"><span class="nav-number">5.</span> <span class="nav-text">Redis服务器连接端口</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Redis服务器连接密码（默认为空）"><span class="nav-number">6.</span> <span class="nav-text">Redis服务器连接密码（默认为空）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#连接池最大连接数（使用负值表示没有限制）-默认-8"><span class="nav-number">7.</span> <span class="nav-text">连接池最大连接数（使用负值表示没有限制） 默认 8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#连接池最大阻塞等待时间（使用负值表示没有限制）-默认-1"><span class="nav-number">8.</span> <span class="nav-text">连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#连接池中的最大空闲连接-默认-8"><span class="nav-number">9.</span> <span class="nav-text">连接池中的最大空闲连接 默认 8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#连接池中的最小空闲连接-默认-0"><span class="nav-number">10.</span> <span class="nav-text">连接池中的最小空闲连接 默认 0</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#番外"><span class="nav-number">11.</span> <span class="nav-text">番外</span></a></li></ol></div>
             
 
           </div>
@@ -1259,7 +1333,7 @@
   
     <script>
   window.livereOptions = {
-    refer: '20190930/UE激活（亲测有效，通过注册机激活）.html'
+    refer: '20191108/五、docker-compose开锋（docker 三剑客）.html'
   };
   (function(d, s) {
     var j, e = d.getElementsByTagName(s)[0];
