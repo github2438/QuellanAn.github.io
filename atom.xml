@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.quellanan.xyz/"/>
-  <updated>2019-11-08T09:07:26.646Z</updated>
+  <updated>2019-12-17T12:14:24.917Z</updated>
   <id>http://www.quellanan.xyz/</id>
   
   <author>
@@ -15,6 +15,174 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>十一、springboot 配置log4j2以及打包成zip文件</title>
+    <link href="http://www.quellanan.xyz/20191217/%E5%8D%81%E4%B8%80%E3%80%81springboot%20%E9%85%8D%E7%BD%AElog4j2%E4%BB%A5%E5%8F%8A%E6%89%93%E5%8C%85%E6%88%90zip%E6%96%87%E4%BB%B6.html"/>
+    <id>http://www.quellanan.xyz/20191217/十一、springboot 配置log4j2以及打包成zip文件.html</id>
+    <published>2019-12-17T12:09:59.844Z</published>
+    <updated>2019-12-17T12:14:24.917Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>十、Spring boot 简单优雅的整合 Swagger2</title>
+    <link href="http://www.quellanan.xyz/20191217/%E5%8D%81%E3%80%81Spring%20boot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E7%9A%84%E6%95%B4%E5%90%88%20Swagger2.html"/>
+    <id>http://www.quellanan.xyz/20191217/十、Spring boot 简单优雅的整合 Swagger2.html</id>
+    <published>2019-12-17T12:09:59.836Z</published>
+    <updated>2019-12-17T12:13:18.376Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>九、Spring Boot 优雅的实现CORS跨域</title>
+    <link href="http://www.quellanan.xyz/20191217/%E4%B9%9D%E3%80%81Spring%20Boot%20%E4%BC%98%E9%9B%85%E7%9A%84%E5%AE%9E%E7%8E%B0CORS%E8%B7%A8%E5%9F%9F.html"/>
+    <id>http://www.quellanan.xyz/20191217/九、Spring Boot 优雅的实现CORS跨域.html</id>
+    <published>2019-12-17T12:09:59.829Z</published>
+    <updated>2019-12-17T12:12:37.189Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>二、Vue 页面渲染过程</title>
+    <link href="http://www.quellanan.xyz/20191217/%E4%BA%8C%E3%80%81Vue%20%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B.html"/>
+    <id>http://www.quellanan.xyz/20191217/二、Vue 页面渲染过程.html</id>
+    <published>2019-12-17T12:09:59.821Z</published>
+    <updated>2019-12-17T12:16:34.768Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="vue" scheme="http://www.quellanan.xyz/categories/vue/"/>
+    
+    
+      <category term="vue" scheme="http://www.quellanan.xyz/tags/vue/"/>
+    
+      <category term="前端" scheme="http://www.quellanan.xyz/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>八、springboot 简单优雅的通过docker-compose 构建</title>
+    <link href="http://www.quellanan.xyz/20191217/%E5%85%AB%E3%80%81springboot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E7%9A%84%E9%80%9A%E8%BF%87docker-compose%20%E6%9E%84%E5%BB%BA.html"/>
+    <id>http://www.quellanan.xyz/20191217/八、springboot 简单优雅的通过docker-compose 构建.html</id>
+    <published>2019-12-17T12:09:59.812Z</published>
+    <updated>2019-12-17T12:12:02.485Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一、Vue 世界初探</title>
+    <link href="http://www.quellanan.xyz/20191217/%E4%B8%80%E3%80%81Vue%20%E4%B8%96%E7%95%8C%E5%88%9D%E6%8E%A2.html"/>
+    <id>http://www.quellanan.xyz/20191217/一、Vue 世界初探.html</id>
+    <published>2019-12-17T12:09:59.804Z</published>
+    <updated>2019-12-17T12:15:04.301Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="vue" scheme="http://www.quellanan.xyz/categories/vue/"/>
+    
+    
+      <category term="vue" scheme="http://www.quellanan.xyz/tags/vue/"/>
+    
+      <category term="前端" scheme="http://www.quellanan.xyz/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
   
   <entry>
     <title>五、docker-compose开锋（docker 三剑客）</title>
@@ -38,9 +206,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
       <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   
@@ -66,9 +234,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
       <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   
@@ -122,9 +290,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
       <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   
@@ -150,9 +318,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
       <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   
@@ -234,9 +402,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
       <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
+    
+      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   
@@ -409,188 +577,6 @@
       <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一、springboot起航</title>
-    <link href="http://www.quellanan.xyz/20190918/%E4%B8%80%E3%80%81springboot%E8%B5%B7%E8%88%AA.html"/>
-    <id>http://www.quellanan.xyz/20190918/一、springboot起航.html</id>
-    <published>2019-09-18T07:42:33.000Z</published>
-    <updated>2019-09-30T00:44:07.807Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
-    
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一、让我们开启单元测试之旅</title>
-    <link href="http://www.quellanan.xyz/20190910/%E4%B8%80%E3%80%81%E8%AE%A9%E6%88%91%E4%BB%AC%E5%BC%80%E5%90%AF%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%B9%8B%E6%97%85.html"/>
-    <id>http://www.quellanan.xyz/20190910/一、让我们开启单元测试之旅.html</id>
-    <published>2019-09-10T11:43:45.000Z</published>
-    <updated>2019-09-30T00:46:55.421Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="单元测试" scheme="http://www.quellanan.xyz/categories/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
-    
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="Junit" scheme="http://www.quellanan.xyz/tags/Junit/"/>
-    
-      <category term="单元测试" scheme="http://www.quellanan.xyz/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>内网穿透ngrok_ngrokcc_cpolar</title>
-    <link href="http://www.quellanan.xyz/20190905/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8Fngrok_ngrokcc_cpolar.html"/>
-    <id>http://www.quellanan.xyz/20190905/内网穿透ngrok_ngrokcc_cpolar.html</id>
-    <published>2019-09-05T10:46:02.000Z</published>
-    <updated>2019-09-30T00:44:51.462Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="建站之路" scheme="http://www.quellanan.xyz/categories/%E5%BB%BA%E7%AB%99%E4%B9%8B%E8%B7%AF/"/>
-    
-    
-      <category term="内网穿透" scheme="http://www.quellanan.xyz/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/"/>
-    
-      <category term="ngrok" scheme="http://www.quellanan.xyz/tags/ngrok/"/>
-    
-      <category term="ngrokcc" scheme="http://www.quellanan.xyz/tags/ngrokcc/"/>
-    
-      <category term="cpolar" scheme="http://www.quellanan.xyz/tags/cpolar/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>八、redis集群</title>
-    <link href="http://www.quellanan.xyz/20190903/%E5%85%AB%E3%80%81redis%E9%9B%86%E7%BE%A4.html"/>
-    <id>http://www.quellanan.xyz/20190903/八、redis集群.html</id>
-    <published>2019-09-03T12:21:09.000Z</published>
-    <updated>2019-09-30T01:15:02.117Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
-    
-    
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
-      <category term="集群" scheme="http://www.quellanan.xyz/tags/%E9%9B%86%E7%BE%A4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>七、Redis持久化的两种方式RDB和AOF理解</title>
-    <link href="http://www.quellanan.xyz/20190822/%E4%B8%83%E3%80%81Redis%E6%8C%81%E4%B9%85%E5%8C%96%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8FRDB%E5%92%8CAOF%E7%90%86%E8%A7%A3.html"/>
-    <id>http://www.quellanan.xyz/20190822/七、Redis持久化的两种方式RDB和AOF理解.html</id>
-    <published>2019-08-22T11:53:09.000Z</published>
-    <updated>2019-09-29T01:09:55.150Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
-    
-    
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>六、主从复制原来这么简单</title>
-    <link href="http://www.quellanan.xyz/20190821/%E5%85%AD%E3%80%81%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%8E%9F%E6%9D%A5%E8%BF%99%E4%B9%88%E7%AE%80%E5%8D%95.html"/>
-    <id>http://www.quellanan.xyz/20190821/六、主从复制原来这么简单.html</id>
-    <published>2019-08-21T09:54:57.000Z</published>
-    <updated>2019-09-30T00:43:42.198Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Redis" scheme="http://www.quellanan.xyz/categories/Redis/"/>
-    
-    
-      <category term="redis" scheme="http://www.quellanan.xyz/tags/redis/"/>
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
     
   </entry>
   

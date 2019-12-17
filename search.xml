@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[十一、springboot 配置log4j2以及打包成zip文件]]></title>
+    <url>%2F20191217%2F%E5%8D%81%E4%B8%80%E3%80%81springboot%20%E9%85%8D%E7%BD%AElog4j2%E4%BB%A5%E5%8F%8A%E6%89%93%E5%8C%85%E6%88%90zip%E6%96%87%E4%BB%B6.html</url>
+    <content type="text"><![CDATA[前言其实我们前面已经配置了日志，但是最近总感觉日志日志格式看的不舒服，并且每次打包都是一个jar 文件，lib都包含在jar 中，每次做很小的修改都需要重新替换jar文件，jar文件会比较大，传输起来比较慢。所以做一些改进。 配置log4j2好了，废话不多说了，先来在Springboot中配置log4j2吧。 pom.xmlspringboot 项目默认的是使用logback 的，所以我们想要使用log4j ，需要将原来的logback 框架屏蔽掉，再引入log4j.首先我们在pom.xml 文件中加入123456789101112131415&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt; &lt;exclusions&gt;&lt;!-- 去掉默认配置 --&gt; &lt;exclusion&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt; &lt;/exclusion&gt; &lt;/exclusions&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt; &lt;/dependency&gt; 编写log4j2.xml123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263&lt;Configuration status="WARN" monitorInterval="300" packages="cn.mastercom.cat"&gt; &lt;properties&gt; &lt;property name="MtnoWebRoot" &gt;$&#123;sys:user.dir&#125;/logs&lt;/property&gt; &lt;property name="INFO_FILE"&gt;zlflovemm_log&lt;/property&gt; &lt;property name="ERROR_FILE"&gt;zlflovemm__error&lt;/property&gt; &lt;/properties&gt; &lt;Appenders&gt; &lt;Console name="Console" target="SYSTEM_OUT"&gt; &lt;ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY"/&gt; &lt;PatternLayout pattern="%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n" /&gt; &lt;/Console&gt; &lt;RollingRandomAccessFile name="infolog" fileName="$&#123;MtnoWebRoot&#125;/$&#123;INFO_FILE&#125;.log" filePattern="$&#123;MtnoWebRoot&#125;/$&#123;INFO_FILE&#125;-%d&#123;yyyy-MM-dd&#125;-%i.log"&gt; &lt;PatternLayout pattern="%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] [%X&#123;sessionID&#125;] [%X&#123;imei&#125;] %-5level %logger&#123;36&#125; - %msg%n" /&gt; &lt;!-- --&gt; &lt;Policies&gt; &lt;TimeBasedTriggeringPolicy interval="1" modulate="true" /&gt; &lt;SizeBasedTriggeringPolicy size="2MB" /&gt; &lt;/Policies&gt; &lt;DefaultRolloverStrategy max="1000"&gt; &lt;Delete basePath="$&#123;MtnoWebRoot&#125;" maxDepth="1"&gt; &lt;IfFileName glob="$&#123;INFO_FILE&#125;*.log" /&gt; &lt;IfLastModified age="30d" /&gt; &lt;/Delete&gt; &lt;/DefaultRolloverStrategy&gt; &lt;/RollingRandomAccessFile&gt; &lt;RollingRandomAccessFile name="errorlog" fileName="$&#123;MtnoWebRoot&#125;/$&#123;ERROR_FILE&#125;.log" filePattern="$&#123;MtnoWebRoot&#125;/$&#123;ERROR_FILE&#125;-%d&#123;yyyy-MM-dd&#125;-%i.log"&gt; &lt;PatternLayout pattern="%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n" /&gt; &lt;Policies&gt; &lt;TimeBasedTriggeringPolicy interval="1" modulate="true" /&gt; &lt;SizeBasedTriggeringPolicy size="200MB" /&gt; &lt;/Policies&gt; &lt;DefaultRolloverStrategy max="1000"&gt; &lt;Delete basePath="$&#123;MtnoWebRoot&#125;" maxDepth="1"&gt; &lt;IfFileName glob="$&#123;INFO_FILE&#125;*.log" /&gt; &lt;IfLastModified age="30d" /&gt; &lt;/Delete&gt; &lt;/DefaultRolloverStrategy&gt; &lt;/RollingRandomAccessFile&gt; &lt;Async name="Async"&gt; &lt;AppenderRef ref="infolog"/&gt; &lt;AppenderRef ref="errorlog"/&gt; &lt;/Async&gt; &lt;/Appenders&gt; &lt;Loggers&gt; &lt;asyncRoot level="INFO"&gt; &lt;AppenderRef ref="infolog"/&gt; &lt;AppenderRef ref="errorlog" level="error"/&gt; &lt;AppenderRef ref="Console" /&gt; &lt;/asyncRoot&gt; &lt;/Loggers&gt;&lt;/Configuration&gt; 上面配置的是生成日志的格式，大家可以自行修改。以及配置了单个日志文件最大为200M ,只保留最近30天的文件。 application.properties 配置123#日志配置logging.config=classpath:log4j2.xmldebug=false 实现上面这三步，就轻松的在项目中使用log4j日志啦。 打包外置配置文件上面配置的日志，先不测试了，等这个打包的配置也配置好了，再来一起测试。 如果我们直接使用自带的mvn package 的话，会将我们依赖的jar 包已经配置文件统统打包成可运行的jar 文件。这样虽然方便，但是这样的话每次都需要重新打包，并且传输起来比较麻烦，所以我们就需要将lib 和配置文件从jar 文件中分离。这样项目修改了，只需要替换一下比较小的部分就可以了。 pom.xml 修改打开我们的pom.xml 文件,最下面我们的中我们加入如下代码。因为我们的项目之前加入了打包成docker 镜像，所以整个的都贴出来，不需要打包成docker的可以去掉。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111&lt;build&gt; &lt;!--打包后的项目名称--&gt; &lt;resources&gt; &lt;resource&gt; &lt;directory&gt;src/main/resources&lt;/directory&gt; &lt;targetPath&gt;$&#123;project.build.directory&#125;$&#123;file.separator&#125;classes&lt;/targetPath&gt; &lt;/resource&gt; &lt;resource&gt; &lt;directory&gt;src/main/java&lt;/directory&gt; &lt;includes&gt; &lt;!--这里必须包含.xml否则Mybatis的xml无法打包--&gt; &lt;include&gt;**/*.xml&lt;/include&gt; &lt;/includes&gt; &lt;filtering&gt;true&lt;/filtering&gt; &lt;/resource&gt; &lt;/resources&gt; &lt;plugins&gt; &lt;!--java编译插件--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;source&gt;1.8&lt;/source&gt; &lt;target&gt;1.8&lt;/target&gt; &lt;encoding&gt;UTF-8&lt;/encoding&gt; &lt;fork&gt;true&lt;/fork&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;!--打jar包的插件--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;archive&gt; &lt;manifest&gt; &lt;addClasspath&gt;true&lt;/addClasspath&gt; &lt;classpathPrefix&gt;lib&lt;/classpathPrefix&gt; &lt;!--程序启动入口--&gt; &lt;mainClass&gt;com.quellan.zlflovemm.ZlflovemmApplication&lt;/mainClass&gt; &lt;/manifest&gt; &lt;manifestEntries&gt; &lt;Class-Path&gt;./&lt;/Class-Path&gt; &lt;/manifestEntries&gt; &lt;/archive&gt; &lt;excludes&gt; &lt;exclude&gt;config/**&lt;/exclude&gt; &lt;/excludes&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;plugin&gt; &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;!--not append assembly id in release file name--&gt; &lt;appendAssemblyId&gt;false&lt;/appendAssemblyId&gt; &lt;descriptors&gt; &lt;!--注意这里的路径--&gt; &lt;descriptor&gt;src/main/build/package.xml&lt;/descriptor&gt; &lt;/descriptors&gt; &lt;/configuration&gt; &lt;executions&gt; &lt;execution&gt; &lt;id&gt;make-assembly&lt;/id&gt; &lt;phase&gt;package&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;single&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;!-- Docker --&gt; &lt;plugin&gt; &lt;groupId&gt;com.spotify&lt;/groupId&gt; &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.0.0&lt;/version&gt; &lt;!-- 将插件绑定在某个phase执行 --&gt; &lt;executions&gt; &lt;execution&gt; &lt;id&gt;build-image&lt;/id&gt; &lt;!-- 用户只需执行mvn package ，就会自动执行mvn docker:build --&gt; &lt;phase&gt;package&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;build&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;!-- 指定生成的镜像名 --&gt; &lt;imageName&gt;$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;:$&#123;project.version&#125;&lt;/imageName&gt; &lt;!-- 指定标签 --&gt; &lt;imageTags&gt; &lt;imageTag&gt;$&#123;project.version&#125;&lt;/imageTag&gt; &lt;/imageTags&gt; &lt;!-- 指定 Dockerfile 路径 --&gt; &lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt; &lt;!-- 指定远程 docker api地址 --&gt; &lt;dockerHost&gt;http://127.0.0.1:2375&lt;/dockerHost&gt; &lt;resources&gt; &lt;resource&gt; &lt;targetPath&gt;/&lt;/targetPath&gt; &lt;!-- jar包所在的路径此处配置的对应target目录 --&gt; &lt;directory&gt;$&#123;project.build.directory&#125;&lt;/directory&gt; &lt;!-- 需要包含的jar包,这里对应的是Dockerfile中添加的文件名 --&gt; &lt;include&gt;$&#123;project.build.finalName&#125;.jar&lt;/include&gt; &lt;/resource&gt; &lt;/resources&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; 需要注意的是，如下两个地方，第一个di地方需要需改成我们自己项目的启动类。第二个地方需要配置我们的package.xml 文件路径。内容我们待会讲。 package.xml我们在pom.xml 中配置好了后，我们在src/main 目录下创建一个build 包，早build 目录下创建package.xml 文件。路径就是上面配置的，大家可以按照自己的喜好来。内容如下：12345678910111213141516171819202122232425262728293031323334353637383940414243&lt;?xml version="1.0" encoding="UTF-8"?&gt; &lt;assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd"&gt; &lt;id&gt;package&lt;/id&gt; &lt;formats&gt; &lt;format&gt;zip&lt;/format&gt; &lt;/formats&gt; &lt;!-- 改为false不会出现两层相同的目录 --&gt; &lt;includeBaseDirectory&gt;false&lt;/includeBaseDirectory&gt; &lt;fileSets&gt; &lt;fileSet&gt; &lt;directory&gt;bin&lt;/directory&gt; &lt;outputDirectory&gt;$&#123;file.separator&#125;&lt;/outputDirectory&gt; &lt;/fileSet&gt; &lt;fileSet&gt; &lt;directory&gt;src/main/resources&lt;/directory&gt; &lt;outputDirectory&gt;$&#123;file.separator&#125;&lt;/outputDirectory&gt; &lt;excludes&gt; &lt;exclude&gt;static/**&lt;/exclude&gt; &lt;exclude&gt;templates/**&lt;/exclude&gt; &lt;/excludes&gt; &lt;/fileSet&gt; &lt;fileSet&gt; &lt;directory&gt;$&#123;project.build.directory&#125;&lt;/directory&gt; &lt;outputDirectory&gt;$&#123;file.separator&#125;&lt;/outputDirectory&gt; &lt;includes&gt; &lt;include&gt;*.jar&lt;/include&gt; &lt;/includes&gt; &lt;/fileSet&gt; &lt;/fileSets&gt; &lt;dependencySets&gt; &lt;dependencySet&gt; &lt;useProjectArtifact&gt;true&lt;/useProjectArtifact&gt; &lt;outputDirectory&gt;lib&lt;/outputDirectory&gt; &lt;scope&gt;runtime&lt;/scope&gt; &lt;!--&lt;unpack&gt;false&lt;/unpack&gt; --&gt; &lt;excludes&gt; &lt;!--&lt;exclude&gt;$&#123;project.name&#125;-$&#123;project.version&#125;&lt;/exclude&gt; --&gt; &lt;exclude&gt;$&#123;groupId&#125;:$&#123;artifactId&#125;&lt;/exclude&gt; &lt;/excludes&gt; &lt;/dependencySet&gt; &lt;/dependencySets&gt; &lt;/assembly&gt; 测试好啦，上面的已经配置好啦，我们来测试一下。直接mvn package成功后会生成如下文件，包含jar 和zip 文件。 zip 文件解压后，就是我们第一次部署的文件，后面修改代码只用替换jar文件就可以了。 我们生成的日志文件 番外好了，就说这么多啦代码上传到github：https://github.com/QuellanAn/zlflovemm 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>springBoot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[十、Spring boot 简单优雅的整合 Swagger2]]></title>
+    <url>%2F20191217%2F%E5%8D%81%E3%80%81Spring%20boot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E7%9A%84%E6%95%B4%E5%90%88%20Swagger2.html</url>
+    <content type="text"><![CDATA[前言swagger2 是什么，我这里就不说了，就是一个简单的接口文档，方便前后端联调。 其实之前没有想要到要使用swagger 的。因为我之前用的是YAPI ,不过这个是一个单独的工具。并且是开源的，整个团队协作使用起来非常方便。但是这里我们坐个人项目的话，就使用比较简单的swagger2了，我们在在springboot中使用swagger2 比较简单。 pom.xml一切从配置开始的，我们映入swagger2 ,需要先引入依赖。如下：12345678910&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.9.2&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.9.2&lt;/version&gt; &lt;/dependency&gt; SwaggerConfig引入依赖后，我们就需要来写一个配置，我们在config 目录下创建一个SwaggerConfig类。内容如下：1234567891011121314151617181920212223@Configuration@EnableSwagger2public class SwaggerConfig &#123; @Bean public Docket createRestApi()&#123; return new Docket(DocumentationType.SWAGGER_2) .apiInfo(apiInfo()) .select() .apis(RequestHandlerSelectors.basePackage("com.quellan.zlflovemm.controller")) .paths(PathSelectors.any()) .build(); &#125; private ApiInfo apiInfo()&#123; return new ApiInfoBuilder() .title("Spring Boot中使用Swagger2构建RESTful APIs") .description("SpringBoot整合Swagger，详细信息......") .version("1.0.0") .build(); &#125;&#125; 可以看到代码不复杂，就是创建了一个Docket 的bean。唯一需要注意的是注意配置好接口的目录。 其实到了这一步，我们就已经配置好了。我们启动项目测试一下。启动项目后，在浏览器上输入：1http://localhost:9090/zlflovemm/swagger-ui.html 可以看到我们之前写的接口已经在界面上显示出来了。不过现在的接口还惨不忍睹，你们自己实践的时候可以看看，需要我们再做些工作。到这里有些朋友可能会出现问题，发现没有出现这种界面，可能是配置不对，要不就是你们的配置了拦截器。我自己开始弄的时候就出现了页面访问不了的情况。然后发现是我们上篇文章番外中设置的拦截器导致的。我们可以先把注释掉。 接口中的配置我们就用用户类的接口来写吧，毕竟还是写文档还是很麻烦的。写好后的代码如下：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273@Slf4j@RestController@RequestMapping("/user")@Api(tags = "用户管理相关接口")public class UserController &#123; @Autowired private UserService userService; @ApiOperation("获取用户列表") @RequestMapping(value = "/list") public List&lt;UserEntry&gt; findUserList()&#123; return userService.findUserList(); &#125; @ApiOperation("新增用户信息") @ApiImplicitParams(&#123; @ApiImplicitParam(name = "userName",value = "用户名",defaultValue = "zlf"), @ApiImplicitParam(name="password",value = "密码",defaultValue = "zlf"), @ApiImplicitParam(name = "email",value = "邮箱",defaultValue = "11@qq.com") &#125;) @RequestMapping(value = "/add",method = RequestMethod.GET) public String addUser(@RequestParam(value = "userName")String uaserName,@RequestParam(value = "password")String password,@RequestParam(value = "email")String email)&#123; int falg=userService.addUser(uaserName,password,email); if(falg&gt;0)&#123; return "success"; &#125; return "error"; &#125; @ApiOperation("删除用户信息") @ApiImplicitParam(name = "id",value = "1",defaultValue = "1") @RequestMapping(value = "/delete",method = RequestMethod.GET) public String deleteUser(@RequestParam(value = "id")int id)&#123; if(userService.deleteUser(id)&gt;0)&#123; return "success"; &#125; return "error"; &#125; @ApiOperation("获取用户列表2") @RequestMapping(value = "/list2",method = RequestMethod.GET) public List&lt;UserEntry&gt; findUserList2()&#123; return userService.findUserList2(); &#125; @ApiOperation("新增用户信息2") @ApiImplicitParams(&#123; @ApiImplicitParam(name = "userName",value = "用户名",defaultValue = "zlf"), @ApiImplicitParam(name="password",value = "密码",defaultValue = "zlf"), @ApiImplicitParam(name = "email",value = "邮箱",defaultValue = "11@qq.com") &#125;) @RequestMapping(value = "/add2",method = RequestMethod.GET) public String addUser2(@RequestParam(value = "userName")String uaserName,@RequestParam(value = "password")String password,@RequestParam(value = "email")String email)&#123; int falg= userService.addUser2(uaserName,password,email); if(falg&gt;0)&#123; return "success"; &#125; return "error"; &#125; @ApiOperation("删除用户信息2") @ApiImplicitParam(name = "id",value = "1",defaultValue = "1") @RequestMapping(value = "/delete2",method = RequestMethod.GET) public String deleteUser2(@RequestParam(value = "id")int id)&#123; if(userService.deleteUser2(id)&gt;0)&#123; return "success"; &#125; return "error"; &#125;&#125; 在类上加入@Api(tags = “用户管理相关接口”) 表示这个类的作用。在单个接口上，我们通过@ApiOperation，@ApiImplicitParams，@ApiImplicitParam来写备注了。@ApiOperation 用来注明接口的功能。@ApiImplicitParam 用来设置接口有单个参数的，@ApiImplicitParams 用来设置接口多个参数的，怎么使用，代码中有样例。 接下来，我们来看下界面上。可以看到，界面上已经可以显示出来了，这比我们刚刚开始没有配置一些注释要友好了很多，点击 execute 可以调试接口，还是可以满足基本需求的。但是大家也同样发现了，swagger 对我们的代码侵入是非常严重的，我们项目中本来代码就很多，我们还要加上这么多的注解代码，对我们写代码是很不友好的。 番外到此为止，springboot 配置swagger2 就已经实现好了，整体上比较简单，这些希望对大家有帮助。 好了，就说这么多啦代码上传到github：https://github.com/QuellanAn/zlflovemm 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>springBoot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[九、Spring Boot 优雅的实现CORS跨域]]></title>
+    <url>%2F20191217%2F%E4%B9%9D%E3%80%81Spring%20Boot%20%E4%BC%98%E9%9B%85%E7%9A%84%E5%AE%9E%E7%8E%B0CORS%E8%B7%A8%E5%9F%9F.html</url>
+    <content type="text"><![CDATA[前言我们的springboot 架手架已经包含了mysql,redis，定时任务，邮件服务，短信服务，文件上传下载，以及docker-compose 构建镜像等等。 接下来让我们解决另一个常见的问题。一般的情况下，都是前后端分离的，我这个架手架的初衷也是前后端进行分离，所以这里就涉及到一个很严重的问题啦，当协议，端口，IP三者有其一不同就会产生跨域，所以需要做跨域支持。 测试跨域的文件在这之前，我们先写一个测试接口是否跨域的html ,这样下面的测试比较方便。12345678910111213141516171819202122232425262728293031323334&lt;!DOCTYPE html&gt;&lt;html lang="en"&gt;&lt;head&gt; &lt;meta charset="UTF-8"&gt; &lt;title&gt;Title&lt;/title&gt;&lt;/head&gt;&lt;link type="test/css" href="css/style.css" rel="stylesheet"&gt;&lt;body&gt; &lt;input type="text" style="width:600px;height:30px;font-size:14px;" id="urlText" value="" /&gt; &lt;br&gt; &lt;input type="button" style="margin: 10px"; id="cors" value="判断是否可访问"/&gt;&lt;p&gt;http://localhost:9090/zlflovemm/&lt;/p&gt;&lt;script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"&gt;&lt;/script&gt; &lt;script type="text/javascript"&gt; $(function()&#123; $("#cors").click( function()&#123; var url2 = $("#urlText").val(); $.post(&#123; contentType:'application/x-www-form-urlencoded;charset=UTF-8', url:url2, data: "/rAIeKeSBG1LV XoIq82/O", success:function(data)&#123; alert("success"); &#125; &#125;) &#125;); &#125;);&lt;/script&gt;&lt;/body&gt;&lt;/html&gt; 接下来我们来学习下在springboot 项目中怎么实现支持跨域。 @CrossOrigin 注解这种方法是springboot 自带的，使用比较简单，在需要支持的跨域的接口上加上这个注解就可以了。比如在我们项目的demo 接口加上注解.就表示这个接口支持跨域，其中origins = “*”表示所有的地址都可以访问这个接口，也可以写具体的地址，表示只有这个地址访问才能访问到接口。 1@CrossOrigin(origins = "*") 测试我们也来测试一下，启动项目后，在浏览器上运行我们的测试的html文件。发现localhost:9090/zlflovemm/ 是可以访问的。说明跨域是支持的。大伙可以先将注解去掉测试一下，然后加上注解测试一下进行对比。 这种方式虽然很简单，但是缺点也不小，需要跨域的接口都需要加上这个注解，这对前后端分离的项目是不友好的，所以这种方式基本上用的很少。 重写WebMvcConfigurer的addCorsMappings 方法。这种方法在实际项目中也用的比较多，是一种全局支持跨域的方法。我们创建一个CorsConfig 类。内容如下：1234567891011@Configurationpublic class CorsConfig implements WebMvcConfigurer &#123; @Override public void addCorsMappings(CorsRegistry registry) &#123; registry.addMapping("/**")//项目中的所有接口都支持跨域 .allowedOrigins("*")//所有地址都可以访问，也可以配置具体地址 .allowCredentials(true) .allowedMethods("*")//"GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS" .maxAge(3600);// 跨域允许时间 &#125;&#125; 加上@Configuration 表示是配置类，在项目启动的时候会加载。实现WebMvcConfigurer 接口并重写addCorsMappings 方法。代码比较简单，也有注释。 测试的话，大家可以自行测试，我测试都是通过的和上面一样测试就可以，这里就不占篇幅了。 Filter除了上面方法外，也可以使用过滤器。我们创建一个CorsFilter 类，内容如下：12345678910111213141516@Slf4j@Componentpublic class CorsFilter implements Filter &#123; @Override public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException &#123; HttpServletResponse response = (HttpServletResponse)servletResponse; response.setHeader("Access-Control-Allow-Origin", "*"); response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE"); response.setHeader("Access-Control-Max-Age", "3600"); response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, client_id, uuid, Authorization"); response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); response.setHeader("Pragma", "no-cache"); filterChain.doFilter(servletRequest,response); &#125;&#125; 上面代码中设置response.setHeader(“Access-Control-Allow-Origin”, “*”);表示所有的地址都可以访问项目接口。 番外接下来我们再介绍一个常用的功能，前后端分离，在访问接口的时候，有的 公司往往会增加一下专属的后缀名才能访问。实际上没有什么太大的作用，能稍微增加一下系统的安全性。这里我就简单是实现一下。真个都非常简单。一样的是实现WebMvcConfigurer 接口，重写configurePathMatch你方法和增加一个dispatcherServlet。 代码如下：1234567891011@Override public void configurePathMatch(PathMatchConfigurer configurer) &#123; configurer.setUseRegisteredSuffixPatternMatch(true); &#125; @Bean public ServletRegistrationBean servletRegistrationBean(DispatcherServlet dispatcherServlet) &#123; ServletRegistrationBean bean = new ServletRegistrationBean(dispatcherServlet); bean.addUrlMappings("*.zlf"); return bean; &#125; 这个功能实现，就只用这个多代码，configurePathMatch方法中设置的configurer.setUseRegisteredSuffixPatternMatch(true); 主要是将index 和index.* 都指向我们controller 中配置的@RequestMapping(“/index”)。 下面的servletRegistrationBean 方法主要是增加自定义拦截器，只有后缀为“.zlf”的接口才放行。 这样两步就简单的实现了接口增加自定义的后缀名啦。 到此为止，springboot 支持跨域的方式就差不多了，当然还有其他的实现方式没有研究。这些希望对大家有帮助。 好了，就说这么多啦代码上传到github：https://github.com/QuellanAn/zlflovemm 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>springBoot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[二、Vue 页面渲染过程]]></title>
+    <url>%2F20191217%2F%E4%BA%8C%E3%80%81Vue%20%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E8%BF%87%E7%A8%8B.html</url>
+    <content type="text"><![CDATA[前言上篇博文我们依葫芦画瓢已经将hello world 展现在界面上啦，但是是不是感觉新虚虚的，总觉得这么多文件，项目怎么就启动起来了呢？怎么访问到8080 端口就能进入到我们的首页呢。整个的流程是怎么样的呢？ 我也是刚刚接触，所以就会有这样的困惑，所以这篇就简单的理解一下项目页面渲染的过程。 渲染过程我们上篇文章说main.js 是无用的，是废代码，只是起到支撑框架的。但是其实我们应该有感觉，把他删除了整个项目就跑步起来了。其实main.js 算是项目的入口了。我们就从这个文件看起。123456789101112import Vue from 'vue'import App from './App'import router from './router'Vue.config.productionTip = falsenew Vue(&#123; el: '#app', router, components: &#123; App &#125;, template: '&lt;App/&gt;'&#125;) 可以看到代码非常的少，就导入了vue.js、我们的APP.vue 以及index.js第一次做动图，操作像是老年人，大家见谅。上图可以大概的看到引入的三个文件是什么了。Vue.config.productionTip = false 我们这里暂时不管，知道是一个配置信息就可以了，感兴趣的可以百度一下就知道什么意思了。123456new Vue(&#123; el: '#app', router, components: &#123; App &#125;, template: '&lt;App/&gt;'&#125;) 上面这些，如果完全没有vue 语法知识的话，确实不知道什么意思，但是我们看官网教程，起步的时候都是在当个html 文件中使用vue 的。在js 中就会用到这个。可以看到，其实都是差不多的，所以这里的作用就是实例化一个Vue。当然我们项目中，这里是为整个项目实例化了一个Vue ,el 指定的元素，这里就是我们index.html 中的div啦。router 就指定路由，也就是我们在index.js 配置的路由信息。components 指定的组件信息。项目有一个父组件就是APP.vue。我们自己写的所有组件都是在这个父组件之下的。怎么说呢，也就是说所有的界面，最外层的div 就是APP.vue 定义的。div 中其他的div 才是我们自己写的。看下面这个应该就会有所感觉吧。所以这里我们就可以解答上篇文章，为什么我们只是写了一个hello world 。但是为什么界面上呈现的会有图标，还有样式。因为在APP.vue 中设置了这些动洗。我们APP.vue 中的这些内容注释掉就可以看到效果。 我们将APP.vue logo和样式去掉，再来看看内容1234567891011&lt;template&gt; &lt;div id="app"&gt; &lt;router-view/&gt; &lt;/div&gt;&lt;/template&gt;&lt;script&gt;export default &#123; name: 'App'&#125;&lt;/script&gt; 是不是发现和我们在组件中自己写的Hello.vue 格式完全一样，哈哈没错，vue文件就是这样的格式。可以看到template 渲染的是id 为app 的盒子(div)。这里应该是覆盖了index.html中的d 也为app 的盒子。 所有的 router-view 中的内容，都会被自动替换。script 中的代码则是脚本代码。 至此，整个过程就出来了：项目启动首先会读取main.js 。实例化一个vue,然后渲染APP.vue 文件内容，我们自己写的vue 组件则是通过路由转接到父组件下的。 番外我们项目的流程就讲到这里把，算是对上篇的补充，让我们对项目启动，界面渲染算是有一个大概的了解啦，我们接下来就按照官网上讲一下vue 的一些语法和特性，但是与官网上不同的是，官网上都是一个个的html,而我们就在这个项目的基础的上。将会是一个个的vue 文件。 代码上传到github：https://github.com/QuellanAn/zlflovemmVue 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[八、springboot 简单优雅的通过docker-compose 构建]]></title>
+    <url>%2F20191217%2F%E5%85%AB%E3%80%81springboot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E7%9A%84%E9%80%9A%E8%BF%87docker-compose%20%E6%9E%84%E5%BB%BA.html</url>
+    <content type="text"><![CDATA[前言这个项目有一段时间没有更新了，不过我可没有偷懒哟，是偷偷准备了一个大招，现在是时候展示啦哈哈。 我们今天要做的，就是将我们的项目通过docker-compose 构建成镜像运行。为什么要这样做呢？比我我前面的这些教程，用到了mysql,如果你们想要运行我的程序，就必须在自己电脑上装mysql 数据库才行，也就是项目用依赖了哪些环境，都必须先将这些环境部署好才能运行项目，那我们要做的，只用安装docker和docke-compose ，然后运行就完事了，不用管什么环境的。 初一听，好像还行，但是根本没有接触docker-compose 怎么办？不要慌，一个专题带你飞，虽不能让你所向披靡，但也足你叱咤江湖啦传送门：docker自我修炼从0到1 还有我查看项目发现竟然没有配置Redis，但是Redis 使用也是很广泛的，我之前的文章有详细的讲解springboot项目怎么使用redis。我这里只是简单的将他配上去确保架构的完整性，就不做更多的讲解，需要详细了解的可以参考Redis–从零开始随笔 好了，前面说了这么多无非是想表达这篇文章分两个大部分，部署Redis和通过docker-compose 搭建。 配置Redis增加配置在pom.xml文件中增加Redis的依赖1234&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt; &lt;/dependency&gt; 在application.properties 中存在redis 连接信息。1234567891011121314151617#配置redis# Redis数据库索引（默认为0）spring.redis.database=0 # Redis服务器地址spring.redis.host=192.168.252.53# Redis服务器连接端口spring.redis.port=6389 # Redis服务器连接密码（默认为空）spring.redis.password=# 连接池最大连接数（使用负值表示没有限制） 默认 8spring.redis.lettuce.pool.max-active=8# 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1spring.redis.lettuce.pool.max-wait=-1# 连接池中的最大空闲连接 默认 8spring.redis.lettuce.pool.max-idle=8# 连接池中的最小空闲连接 默认 0spring.redis.lettuce.pool.min-idle=0 简单使用配置好了，我们还是说一下简单使用，这些在之前也有讲，代码也是差不多的。我们在controller 层创建一个 redis 包，在Redis包下创建一个RedisController类。代码如下：12345678910111213141516171819202122@RestController@RequestMapping("/redis")@Slf4jpublic class RedisController &#123; @Autowired private StringRedisTemplate stringRedisTemplate; @RequestMapping(value = "/add",method = RequestMethod.GET) public String add(@RequestParam(value="key")String key,@RequestParam(value = "value") String value)&#123; ValueOperations ops=stringRedisTemplate.opsForValue(); ops.set(key,value); return "success"; &#125; @RequestMapping(value = "/get",method = RequestMethod.GET) public String get(@RequestParam(value = "key")String key)&#123; ValueOperations ops=stringRedisTemplate.opsForValue(); return (String) ops.get(key); &#125;&#125; 好了项目整合Redis 就这么多了，至于测试我们待会后面部署好了一起测试。接下来开始重头戏。 docker-compose 部署我们现在有一个springboot项目，现在怎么构建成一个镜像放在服务器上运行呢？我们一步步来，首先是增加配置。 pom.xml还是我们熟悉的pom.xml 我们需要在pom.xml 中 build–&gt;plugins 中增加配置：1234567891011121314151617181920212223242526272829303132333435363738&lt;!-- Docker --&gt; &lt;plugin&gt; &lt;groupId&gt;com.spotify&lt;/groupId&gt; &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.0.0&lt;/version&gt; &lt;!-- 将插件绑定在某个phase执行 --&gt; &lt;executions&gt; &lt;execution&gt; &lt;id&gt;build-image&lt;/id&gt; &lt;!-- 用户只需执行mvn package ，就会自动执行mvn docker:build --&gt; &lt;phase&gt;package&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;build&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;!-- 指定生成的镜像名 --&gt; &lt;imageName&gt;$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;:$&#123;project.version&#125;&lt;/imageName&gt; &lt;!-- 指定标签 --&gt; &lt;imageTags&gt; &lt;imageTag&gt;$&#123;project.version&#125;&lt;/imageTag&gt; &lt;/imageTags&gt; &lt;!-- 指定 Dockerfile 路径 --&gt; &lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt; &lt;!-- 指定远程 docker api地址 --&gt; &lt;dockerHost&gt;http://127.0.0.1:2375&lt;/dockerHost&gt; &lt;resources&gt; &lt;resource&gt; &lt;targetPath&gt;/&lt;/targetPath&gt; &lt;!-- jar包所在的路径此处配置的对应target目录 --&gt; &lt;directory&gt;$&#123;project.build.directory&#125;&lt;/directory&gt; &lt;!-- 需要包含的jar包,这里对应的是Dockerfile中添加的文件名 --&gt; &lt;include&gt;$&#123;project.build.finalName&#125;.jar&lt;/include&gt; &lt;/resource&gt; &lt;/resources&gt; &lt;/configuration&gt; &lt;/plugin&gt; 上面都有注释没有什么好讲的，其中指定生成镜像名的${docker.image.prefix} 的值在properties 中配置。 Dockerfile我们在项目的src–&gt;main 创建一个docker 包，包下创建一个Dockerfile 问价 ，内容如下：1234FROM java:8VOLUME /tmpADD zlflovemm-1.0.0.jar zlflovemm-1.0.0.jarENTRYPOINT ["java","-jar","/zlflovemm-1.0.0.jar"] mvn package接下来我们使用maven package 打包，就可以将项目打包成镜像并发送到我们配置的服务器上。可以看到我们的镜像已经到我们的服务器了。 docker-compose.yml我们现在项目镜像有了，现在需要通过docker-compose.yml 将项目，mysql .redis 都管理起来。我们创建一个docker-compose.yml 内容如下：1234567891011121314151617181920212223242526272829303132333435version: "3"services: webapp: image: quellanan/zlflovemm:1.0.0 ports: - "9001:9090" volumes: - "/data" depends_on: - redis - mysql redis: image: redis:latest restart: always ports: - "6389:6379" volumes: - /redis/redis.conf:/etc/redis/redis.conf command: redis-server /etc/redis/redis.conf mysql: image: mysql:latest restart: always environment: MYSQL_ROOT_PASSWORD: "123456" MYSQL_USER: 'root' MYSQL_PASS: '123456' ports: - "3306:3306" volumes: - "./db:/var/lib/mysql" - "./conf/my.cnf:/etc/my.cnf" - "./init:/docker-entrypoint-initdb.d/" webapp 和Redis 配置我就不说了，上一篇文章已经说了，这里我们说一下mysql 的配置。image:mysql:laster 我们选择最新的版本的mysql 镜像。1234environment: MYSQL_ROOT_PASSWORD: "123456" MYSQL_USER: 'root' MYSQL_PASS: '123456' environment 配置的是mysql 的root 用户密码普通的用户及密码。配置我们自定义的mysql 配置，如果使用的默认的，这里的数据卷其实可以不用指定。1234volumes: - "./db:/var/lib/mysql" - "./conf/my.cnf:/etc/my.cnf" - "./init:/docker-entrypoint-initdb.d/" 我们创建好了docker-compose 后，在同级目录下执行1docker-compose up 就可以看到镜像容器已经启动了。项目包含三个镜像,现在我们来验证一下项目正常启动没有。 测试由于我们使用了docker镜像的mysql 。所以之前的项目使用的数据库需要重新执行一次，我们代码中有，我就不贴出来了。项目的接口我们现在调一下看看。12# 检测项目正常启动没有http://192.168.252.53:9001/zlflovemm/ 12# 检测mysql 是否正常http://192.168.252.53:9001/zlflovemm/user/list 123# 检测Redis 是否正常http://192.168.252.53:9001/zlflovemm/redis/add?key=a&amp;value=123http://192.168.252.53:9001/zlflovemm/redis/get?key=a 番外到此为止，将springboot项目构建成镜像完成啦，感觉整篇文件将的比较粗糙，这篇主要是整合，详细的都在前面的博客已经讲了，所以这里就没有再讲了。 好了，就说这么多啦代码上传到github：https://github.com/QuellanAn/zlflovemm 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>springBoot</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>springboot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[一、Vue 世界初探]]></title>
+    <url>%2F20191217%2F%E4%B8%80%E3%80%81Vue%20%E4%B8%96%E7%95%8C%E5%88%9D%E6%8E%A2.html</url>
+    <content type="text"><![CDATA[前言我们后端用SpringBoot 框架已经搭建的差不多了之前，既然我们最初的梦想是做先后端分离的架手架，终于也开始学习一下前端的框架了。自己也算是前端小白，所以将自己学习vue 的过程记录系列博客。希望对学习vue 的小伙伴有帮助，用时文章中有不对的，希望大家及时提出一起探讨。 至于为什么要使用vue ,虽然是一个前端小白，但是还是知道当前主流的三大框架，Angular、React以及Vue .优劣我就不说了，我就说说我为什么选择vue 吧。其实还是因为毕竟是后端开发，对前端的东西不要求深入理解，做到能用能复制就好了。所以基本上是本着最小学习成本来的。所以相对Angular 和React来说，vue 算是上手最快的，所以也就入坑了。自己话了一周的时间预研，勉强算自己入门了吧，所以才开始写博客记录下来，这样也算是对自己学习的内容的整理，也可以记录下来方便大家。 学习地址想要了解vue 是什么， 怎么学习？我也是参考网上的资料学习的。 vue.js 的官网：https://cn.vuejs.org/v2/guide/ 菜鸟教程：https://www.runoob.com/vue2/vue-tutorial.html gitBook: http://vue_book.siwei.me/preface.html 自己感觉官网上和菜鸟教程上，对自己的作用只是熟悉的了vue的语法，不足以我来搭建在项目中使用，但是又不能不看，不然基本的语法都不知道，怎么开展下一步。上面的gitBook 算是带我入门的，我也在网上找了很多资料，但是跟着gitBook一步步实现起来，整体流程算是清楚了，所以也推荐大家。自己记录这系列博客，也算自己vue入门吧，有不对的地方大家多多指教。 安装好啦，说了这么多，我们正式开始吧。我们直接使用vue-cli .当然大家亦可以使用其他的。我们首先电脑上 npm和git 并配置邮箱 ,至于怎么安装，网上有很多教程，这里就不说了，安装好之后，我们需要安装vue-cli 。1npm install vue vue-cli -g 安装好之后，我们控制台我们想要创建项目的目录执行：1vue init webpack zlflovemmVue 这样就可以看到项目已经初始化成功了。我们现在用IDEA 打开这个项目，当然大家也可以用其他的，后端的用惯了idea ,所以也就用idea 来开发vue 啦。 IDEA 配置vue我们既然使用idea,当然需要一些配置，不使用idea 的可以忽略。1、我们打开settings 下载vue.js 插件，然后重启。打开我们创建的项目zlflovemmVue 2、配置js 版本 ECMAScript6 3、HTML 增加 .vue 支持 4、启动项目，在edit Configurations 中增加npm 启动，配置如下图： 配置好后，我们来启动就好啦，如下图就表示启动成功啦。 我们启动成后，在浏览器上输入： 1http://localhost:8081 证明我们项目已经初始化搭建完成啦。到这里我们已经完成了第一步。但是可以看到我们到现在为止还没有开始写代码，也不知道如何下手写。 不要急，我们前面这些工作做好后，我们接下来就开始啦。 项目结构 虽然我们项目稀里糊涂的启动起来了，但是相比到此的小伙伴还是一头雾水，在那写我们的代码呢？整个流程是怎么样的呢？在写代码之前，我们还是先来看看，vue-cli 初始化为我们创建的项目有哪些东西。12345678▸ build/ // 编译用到的脚本▸ config/ // 各种配置▸ dist/ // 打包后的文件夹▸ node_modules/ // node第三方包▸ src/ // 源代码▸ static/ // 静态文件, 暂时无用 index.html // 最外层文件 package.json // node项目配置文件 build保留各种打包脚本。不可或缺，不要随意修改。 展开后如下：12345678910▾ build/ build.js //打包使用， 不要修改。 check-versions.js //检查npm的版本， 不要修改。 dev-client.js //是在开发时使用的服务器脚本。不要修改。 dev-server.js //同上 utils.js // 不要修改。 做一些css/sass 等文件的生成。 vue-loader.conf.js //非常重要的配置文件，不要修改。内容是用来辅助加载vuejs用到的css source map等内容。 webpack.base.conf.js //下面这三个都是基本的配置文件。不要修改 webpack.dev.conf.js webpack.prod.conf.js 我们初学者阶段，暂时不用管这些，也不改这些东西。 config上图我们可以看到config 目录中就有12345▾ config/ dev.env.js index.js prod.env.js test.env.js dev.env.js 开发模式下的配置文件，一般不用修改。prod.env.js 生产模式下的配置文件，一般不用修改。test.env.js 测试模式下的配置文件，一般不用修改。index.js 很重要的文件， 定义了 开发时的端口（默认是8080），定义了图片文件夹（默认static)， 定义了开发模式下的 代理服务器. 我们修改的还是比较多的。 node_modulesnode项目所用到的第三方包，特别多，特别大。 $ npm install 所产生。这个文件夹不要放到git中 src最最核心的源代码所在的目录。我们要写的代码就是写在这个里面啦。123456789▾ src/ ▾ assets/ logo.png ▾ components/ Hello.vue ▾ router/ index.js App.vue main.js assets: 用到的图片 components: 用到的”视图”和”组件”所在的文件夹。（最最核心） router/index.js 路由文件。 定义了各个页面对应的url. App.vue 如果index.html 是一级页面模板的话，这个App.vue就是二级页面模板。 所有的其他vuejs页面，都作为该模板的 一部分被渲染出来。 main.js 废代码。没有实际意义，但是为了支撑整个vuejs框架，存在很必要。 Hello World好啦，我们已经知道了项目的结构了，现在就要开始实现我们自己的hello world 啦。不然我们当程序员还有什么意义。其实我们程序已经帮我们写了一个helloworld 。但是我们还是自己来创建一个，这样自己才能熟悉点。最终添加的内容图如下： Hello.vue我们在src–components 新建Hello.vue 。内容如下:123456789101112131415&lt;template&gt; &lt;div&gt; &#123;&#123;message&#125;&#125; &lt;/div&gt;&lt;/template&gt;&lt;script&gt; export default &#123; data()&#123; return &#123; message: "hello world" &#125; &#125; &#125;&lt;/style&gt; 可以看到内容很简单，就是返回一个hello world 。 修改index.js接下来我们在src–router–index.js 中增加一个路由。 启动这样的话我们就可以来启动项目啦。启动的时候报这种错误：1✘ http://eslint.org/docs/rules/indent 启用eslint检测不通过导致的，我们这里的解决办法： 在build/webpack.base.conf.js文件中，注释config.dev.useEslint?这行配置，然后重启项目就好了。 启动之后，我们在界面上输入： 1http://localhost:8081/#/hello 这里我们的hello world 出来了，但是我们可能会感觉到奇怪，我们只是仅仅写了helloworld 为什么还有logo ,并且还有居中的样式。我们这个问题留在下篇文章接着将。这里我们先记着。 番外 到此为止，我们也算是将vue安装成功了，并运行一个非常简单的例子。 代码上传到github：https://github.com/QuellanAn/zlflovemmVue 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[五、docker-compose开锋（docker 三剑客）]]></title>
     <url>%2F20191108%2F%E4%BA%94%E3%80%81docker-compose%E5%BC%80%E9%94%8B%EF%BC%88docker%20%E4%B8%89%E5%89%91%E5%AE%A2%EF%BC%89.html</url>
     <content type="text"><![CDATA[前言终于写到docker-compose了，其实我最开始接触docker的时候，是因为一个开源项目需要用docker 环境和docke-compose 所以我最先接触的是docker-compse 后面才恶补的docker的一些基础知识。 可以看到docker-composer 和docker 有关系，但是你也了解docker-compose 的命令 简单的操作docker 容器。 说了这么多，还没有说docker-compose 有什么作用，为什么要使用docker-coompose。其实我们都知道，在我们实际的项目中，一个项目一般都是前端服务端数据库都进行分离的。所以一个项目一般都是有多个镜像组成的。那怎么将这一组镜像管理起来呢？就是通过docker-compose 啦 docker-compose 中有两个重要呢的概念服务(service ): 就是我们上面说的一个应用容器，仅仅负责真个项目的中的一部分，比如数据库mysql. 项目(project)：就是我们上面说你的项目啦，包含一组容器。 docker-compose 通过 docker-compose.yml 文件对这一组容器进行配置。 好了，正式开始接触 docker-compose吧 安装docker-compose 安装很简单，windos 版本的已经自带了。我们可以通过1docker-compose -v 查看我们本机安装的docker-compose 版本。Linux 安装也很简单。在官网上也有：https://github.com/docker/compose/releases12345678910sudo apt-get update#安装最新的docke-cesudo apt-get install docker-ce# 下载最新的docker-composecurl -L https://github.com/docker/compose/releases/download/1.25.0-rc4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose# 修改docker-compose 权限chmod x /usr/local/bin/docker-compose 卸载 docke-compose1sudo rm /usr/local/bin/docker-compose 本地安装如果上面安装不行的话，或者报错，可以用下面的方式进行安装。 在上面的官网上找到对应版本的Assests 选择对应的文件下载。 下载下来后，我们放到 /usr/local/bin/ 目录下。执行下面操作1234#改名sudo mv docker-compose-Linux-x86_64 ./docker-compose#增加执行权限sudo chmod x /usr/local/bin/docker-compose 这样就和上面的效果是一样的啦，我们可以通过-v ```查看安装成功没有。1234567# docker-compose.yml知道了docker-compose 那最重要的就是docker-compose.yml 文件啦，通过这个文件就可以管理项目的镜像了，那我们怎么写docker-compose.yml 文件呢？官方提供了很多模版，我们按照模版来写就可以了。## 主模版 version: “3” services: webapp: image: examples/web ports: - &quot;80:80&quot; volumes: - &quot;/data&quot; 12345可以看到格式就是我们熟悉的yml 格式，和我们springboot 项目中配置是差不多的。我们前面知道的一个项目是由一组服务组成的，也就是你对应文件中的services。webapp 就是我们为服务起的一个名字，image 对应的镜像名，ports 镜像暴露的端口，volumes 镜像的数据卷。可以看到，里面的命令和docker run 的指令是差不多的。## depends_on解决容器的依赖，表示一个容器依赖其他的其他容器，比如说 version: “3” services: webapp: image: examples/web ports: - &quot;80:80&quot; volumes: - &quot;/data&quot; depends_on: - redis - mysql redis: image: redis:latest restart: always ports: - &quot;6379:6379&quot; mysql: image: mysql:latest restart: always ports: - &quot;3306:3306&quot; 123456789还是上面的例子，只不过我多加了两个 service 。表示这个项目中用到了mysql 和redis 并且在webapp 中使用depends_on 表示redis 和mysql 先webapp 启动。更多的模版，大家用的时候可以参考官网上就可以了我感觉。知道是什么意思就可以，不用都记下来。https://yeasy.gitbooks.io/docker_practice/content/compose/compose_file.html# docker-compose 指令我们可以通过帮助指令来查看docker-compose 怎么使用。 docker-compose –help12基本语法格式： docker-compose [-f=…] [options] [COMMAND] [ARGS…]1234567891011121314151617181920212223242526272829303132我这里也就将一下常见的，因为通过```--help```都可以查到。## docker-compose config用于检查我们的docker-compose.yml 文件的内容格式是否正确，在我们运行之前先检测一下比较好。## docker-compose up用来启动项目，比如我们现在有一个docker-compose.yml 文件，那我们进入到这个文件目录，执行```docker-compose up```就可以将项目依赖的镜像下载下来，并启动相应的容器服务。整个项目都启动起来了，直接使用就好了，可谓是相当强大了。docker-compose up -d 表示后台启动。## docker-compose down 和 up 对应，用来停止我们的项目。## docker-compose restart 重启我们项目其他的也不说了，可以查看官网：https://docs.docker.com/compose/reference/overview/# demo 光说不练假把式，我们上面说的一堆基础的知识，还是需要我们实践才行，不然我们不会有什么实质性的收获。所以接下来我们就搭建一个简单的demo。我们还是用前面的的hello的项目，我们对项目进行一些修改，增加 redis。这里我就不具体的讲啦，有不会的可以看我这篇文章，写的很简单明了：[三、Redis在SpringBoot中使用案例](https://blog.csdn.net/qq_27790011/article/details/98344732)我们这里先在在pom.xml 中增加redis 依赖： &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt; &lt;/dependency&gt; 12在application.properties 中增加redis 配置 #配置redis Redis数据库索引（默认为0）spring.redis.database=0 Redis服务器地址spring.redis.host=192.168.252.53 Redis服务器连接端口spring.redis.port=6389 Redis服务器连接密码（默认为空）spring.redis.password= 连接池最大连接数（使用负值表示没有限制） 默认 8spring.redis.lettuce.pool.max-active=8 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1spring.redis.lettuce.pool.max-wait=-1 连接池中的最大空闲连接 默认 8spring.redis.lettuce.pool.max-idle=8 连接池中的最小空闲连接 默认 0spring.redis.lettuce.pool.min-idle=0 12在controller 包中创建一个redisController 类 @RestController@RequestMapping(“/redis”)@Slf4jpublic class RedisController { @Autowired private StringRedisTemplate stringRedisTemplate; @RequestMapping(value = &quot;/add&quot;,method = RequestMethod.GET) public String add(@RequestParam(value=&quot;key&quot;)String key,@RequestParam(value = &quot;value&quot;) String value){ ValueOperations ops=stringRedisTemplate.opsForValue(); ops.set(key,value); return &quot;success&quot;; } @RequestMapping(value = &quot;/get&quot;,method = RequestMethod.GET) public String get(@RequestParam(value = &quot;key&quot;)String key){ ValueOperations ops=stringRedisTemplate.opsForValue(); return (String) ops.get(key); } }1234567好了，我们将项目打包成镜像，至于怎么打包成镜像上一篇我已经讲了，不会的可以查看:[三、DockerFile 定制属于自己的专属镜像](https://blog.csdn.net/qq_27790011/article/details/102729974#docker_162)## 准备我们的redis.conf我们使用 redis 镜像，但是我们不想使用默认的配置，想要使用自己的配置启动redis。所以我们来复制一份redis.conf 。我就修改了 #设置redis 可以远程访问bind 0.0.0.0 #后台启动daemonize yes12345![file](https://img-blog.csdnimg.cn/20191108155950758.jpeg)redis.conf 放在我们上图的redis目录下。## docker-compose.yml我们来编写docker-compose.yml ，直接套用上面的模版。 version: “3” services: webapp: image: quellanan/hello:1.0.0 ports: - &quot;9000:9000&quot; volumes: - &quot;/data&quot; depends_on: - redis redis: image: redis:latest restart: always ports: - &quot;6389:6379&quot; volumes: - /redis/redis.conf:/etc/redis/redis.conf command: redis-server /etc/redis/redis.conf 12345可以看到基本上是根据模版来的，指定我们镜像，端口，数据卷。这里webapp 的没有什么好说的 ，上面都说了，一看就能懂，说一下redis的。images 指定的镜像为redis:latest ，如果你本地没有这个镜像，就会从官网上下载。restart:always 表示自动重启。 ports:”6389:6379”1表示镜像启动redis容器的端口是6379，映射到服务器的6389 端口，所以我们在项目配置的redis 端口应该是6389. volumes: /redis/redis.conf:/etc/redis/redis.conf12表示将 ./redis/redis.conf 文件加载到 容器中的 /etc/redis/redis.conf 位置。说明第一个路径是相对路径，第二个路径是绝对路径。 command: redis-server /etc/redis/redis.conf12345表示在启动redis 容器的时候会执行的命令。这样就可以实现启动redis镜像加载我们自己的配置文件了。## docker-compose up准备工作都做好了，开始我们大展拳脚，哈哈，其实不然，我们准备工作做好了，就已经成功一大半了，我们接下来要做的就是 就是通过docker-compose 启动镜像。我们直接在存放docker-compose.yml 目录下执行： docker-compose up1234![file](https://img-blog.csdnimg.cn/20191108155951768.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9xdWVsbGFuYW4uYmxvZy5jc2RuLm5ldA==,size_16,color_FFFFFF,t_70)这样我们就启动成功了。如果想后台启动的话输入： docker-compose up -d123## 测试我们项目启动，现在来测试一下到底成功没有。 http://192.168.252.53:9000/123这个是测试项目是正常启动了。![file](https://img-blog.csdnimg.cn/20191108155951218.jpeg)我们接下来看看我们配置的redis 有没有成功。 http://192.168.252.53:9000/redis/add?key=a&amp;value=123qazhttp://192.168.252.53:9000/redis/get?key=a12345678![file](https://img-blog.csdnimg.cn/20191108155952431.jpeg)![file](https://img-blog.csdnimg.cn/20191108155952729.jpeg)可以看到界面上接口没有问题了，redis已经已经生效了，我们还不太确定，可以去服务器上看下。![file](https://img-blog.csdnimg.cn/20191108155952359.jpeg)。本地没有装redis ，我们可以进入到redis容器中去查看。操作如下：先通过```docker ps ```查看redis 容器id然后通过下面命令进入容器。 docker exec -it 容器id /bin/bash1最后连接redis redis-cli` 番外好了，就说这么多啦 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
@@ -8,8 +80,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -20,8 +92,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -44,8 +116,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -56,8 +128,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -92,8 +164,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>docker</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -217,9 +289,9 @@
         <category>Redis</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
-        <tag>linux</tag>
         <tag>集群</tag>
       </tags>
   </entry>
@@ -231,9 +303,9 @@
         <category>Redis</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -244,9 +316,9 @@
         <category>Redis</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -257,9 +329,9 @@
         <category>Redis</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -270,9 +342,9 @@
         <category>Redis</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -283,9 +355,9 @@
         <category>Redis</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -296,9 +368,9 @@
         <category>Redis</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -309,9 +381,9 @@
         <category>Redis</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
-        <tag>linux</tag>
       </tags>
   </entry>
 </search>
