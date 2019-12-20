@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[三、Vue 的一些语法样例]]></title>
+    <url>%2F20191220%2F%E4%B8%89%E3%80%81Vue%20%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AF%AD%E6%B3%95%E6%A0%B7%E4%BE%8B.html</url>
+    <content type="text"><![CDATA[前言其实vue 的语法在官网上都有详细的讲解和例子，我这里就不多做什么说明，只是把自己学习这些语法是练习的例子贴出来。另外官网上的例子是一个个的html文件。我这里的是一个的vue 文件，通过不同的路由进行访问。类似就上图的这种效果吧，没有什么样式，大伙将就看看嘿嘿。好了，下面我们就一起来看下主题的vue 语法吧。 路由其实不应该先讲路由的，但是想要做这种点击跳转的就是通过路由实现的。其实也很简单，我们只求会用，不求为什要这样吧先。123&lt;router-link :to="&#123;name: 'IfAndFor'&#125;"&gt;条件与循环&lt;/router-link&gt; 可以看到我们通过 router-link 就可以实现跳转。to 表示跳转的地址，name 指跳转的路由。当然这个路由需要我们在src–router–index.js 中配置好，并且有相关的组件才行哟。 我们要新增路由的话，就在index.js 中增加对应配置就好了，然后就可以通过router-link来实现界面见的跳转。 条件与循环我们配置好路由后，现在我们来看看v-if 和v-for 我们新建一个组件如下:12345678910111213141516171819202122232425262728293031323334353637383940414243444546&lt;template xmlns:v-bind="http://www.w3.org/1999/xhtml"&gt; &lt;div&gt; &lt;div id="for"&gt; &lt;p&gt;一&lt;/p&gt; &lt;table&gt; &lt;tr v-for="(value, key, index) in object"&gt; &lt;td v-if="key === 'url'"&gt; &lt;a v-bind:href="value"&gt; &#123;&#123;value&#125;&#125;&lt;/a&gt; &lt;/td&gt; &lt;td v-else&gt; &#123;&#123; value &#125;&#125; &lt;/td&gt; &lt;/tr&gt; &lt;/table&gt; &lt;br&gt; &lt;p&gt;二&lt;/p&gt; &lt;ul&gt; &lt;li v-for="(value, key, index) in object"&gt; &#123;&#123; index &#125;&#125;. &#123;&#123; key &#125;&#125; : &#123;&#123; value &#125;&#125; &lt;/li&gt; &lt;/ul&gt; &lt;br&gt; &lt;p&gt;二&lt;/p&gt; &lt;ul&gt; &lt;li v-for="(value, key) in object"&gt; &#123;&#123; key &#125;&#125; : &#123;&#123; value &#125;&#125; &lt;/li&gt; &lt;/ul&gt; &lt;/div&gt; &lt;/div&gt;&lt;/template&gt;&lt;script&gt; export default &#123; name: "", data()&#123; return &#123; object: &#123; name: 'quellanan', url: 'http://quellanan.xyz', slogan: '学的不仅是技术，更是梦想！' &#125; &#125; &#125; &#125;&lt;/script&gt; 可以看到我使用了三种方式进行for 循环。index 是索引，key 是键， value 是值。这些其实和Java 中的循环差不多。无非就是通过索引遍历，要不就是通过键值遍历。 v-if 和v-else-if v-else 也是一样的。满足条件就显示组件，知道这样用就可以。 但是有一点，上面代码也发现了，无论是v-if 还是v-for, 都要与某个标签结合使用。单独是无法使用的。 监听事件听起来很高大上，其实就是一个 watch 方法。我们写一个单位换算的组件:1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889&lt;template&gt; &lt;div&gt; &lt;div style="margin: 20px"&gt; 千米 : &lt;input type = "text" v-model = "kilometers"&gt; 米 : &lt;input type = "text" v-model = "meters"&gt; &lt;p id="info"&gt;&lt;/p&gt; &lt;/div&gt; &lt;div style="margin: 20px"&gt; 小时 : &lt;input type = "text" v-model = "hour"&gt; 分钟 : &lt;input type = "text" v-model = "minute"&gt; 秒 : &lt;input type = "text" v-model = "second"&gt; &lt;br&gt; 天 : &lt;input type = "text" v-model = "day"&gt; &lt;br&gt; 星期 : &lt;input type = "text" v-model = "week"&gt; &lt;/div&gt; &lt;div style="margin: 20px"&gt; &lt;p &gt;计数器: &#123;&#123; counter &#125;&#125;&lt;/p&gt; &lt;button @click = "counter++"&gt;点我&lt;/button&gt; &lt;/div&gt; &lt;/div&gt;&lt;/template&gt;&lt;script&gt; export default &#123; name: "", data()&#123; return&#123; kilometers : 0, meters:0, second : 0, minute : 0, hour : 0, day : 0, week : 0, counter: 0 &#125; &#125;, watch : &#123; kilometers:function(val) &#123; this.kilometers = val; this.meters = this.kilometers * 1000 &#125;, meters : function (val) &#123; this.kilometers = val/ 1000; this.meters = val; &#125;, week:function(val) &#123; this.week = val; this.day = this.week * 7; this.hour = this.day * 24; this.minute = this.hour * 60; this.second = this.minute * 60; &#125;, day : function (val) &#123; this.day = val; this.week = this.day/7; this.hour = this.day * 24; this.minute = this.hour * 60; this.second = this.minute * 60; &#125;, hour : function (val) &#123; this.hour = val; this.day = this.hour/24; this.week = this.day/7; this.minute = this.hour * 60; this.second = this.minute * 60; &#125;, minute : function (val) &#123; this.minute = val; this.hour = this.minute/60; this.day = this.hour/24; this.week = this.day/7; this.second = this.minute * 60; &#125;, second : function (val) &#123; this.second = val; this.minute = this.second/60; this.hour = this.minute/60; this.day = this.hour/24; this.week = this.day/7; &#125;, counter :function(nval, oval) &#123; //alert('计数器值的变化 :' + oval + ' 变为 ' + nval + '!'); &#125; &#125; &#125;;&lt;/script&gt; v-model 表示数据双向绑定，这个没有什么好说的。data 初始化数据，watch 方法中就是监听函数，监听各自的组件并进行处理。 发送HTTP 请求我们要做前后端分离，那么通过http 请求访问后端数据是避免不了的。所以我们一起来看下。我这里也是查看资料中的例子。直接拿过来用了。我们创建一个BlogList.vue 文件，内容如下：12345678910111213141516171819202122232425262728293031323334353637383940414243444546&lt;template&gt; &lt;div &gt; &lt;table&gt; &lt;tr v-for="blog in blogs"&gt; &lt;!--&lt;td @click='show_blog(blog.id)'&gt;&#123;&#123;blog.title&#125;&#125;&lt;/td&gt;--&gt; &lt;td&gt; &lt;router-link :to="&#123;name: 'Blog', query: &#123;id: blog.id&#125;&#125;"&gt; &#123;&#123;blog.title&#125;&#125; &lt;/router-link&gt; &lt;/td&gt; &lt;/tr&gt; &lt;/table&gt; &lt;/div&gt;&lt;/template&gt;&lt;script&gt; export default &#123; data () &#123; return &#123; title: '博客列表页', blogs: [] &#125; &#125;, mounted () &#123; this.$http.get('api/interface/blogs/all').then((response) =&gt; &#123; console.info(response.body) this.blogs = response.body.blogs &#125;, (response) =&gt; &#123; console.error(response) &#125;); &#125;, methods:&#123; show_blog: function(blog_id) &#123; this.$router.push(&#123;name: 'Blog', query: &#123;id: blog_id&#125;&#125;) &#125; &#125; &#125;&lt;/script&gt;&lt;style &gt; td &#123; border-bottom: 1px solid grey; &#125;&lt;/style&gt; 上面的代码可以看到。mounted 方法中发送http 请求。mounted 函数是初始化页面后，将数据渲染到界面上的。1234567mounted () &#123; this.$http.get('api/interface/blogs/all').then((response) =&gt; &#123; this.blogs = response.body.blogs &#125;, (response) =&gt; &#123; console.error(response) &#125;);&#125;, 我们启动项目，发现报这种错误。这是因为我们项目中没有引入 vue-resource 所以我们需要在项目中引入。 我们在idea 中打开控制台（alt+F12）。1npm install vue-resource 安装好之后，我们在在main.js 中引入它123import VueResource from 'vue-resource'Vue.use(VueResource)Vue.http.options.emulateJSON = true //允许使用post 请求。 在config–index.js 中设置一下代理，模拟一下跨域请求，不然接口访问不了。123456789proxyTable: &#123; '/api': &#123; // 1. 对于所有以 "/api" 开头的url 做处理． target: 'http://siwei.me', // 3. 转发到 siwei.me 上． changeOrigin: true, pathRewrite: &#123; '^/api': '' // 2. 把url中的 "/api" 去掉． &#125; &#125; &#125;, 好了，我们启动看一下，后面是获取详情的，上面没有传递参数，获取详情需要传递参数，代码如下：1234567891011121314151617181920212223242526272829303132&lt;template&gt; &lt;div &gt; &lt;div&gt; &lt;p&gt; 标题： &#123;&#123; blog.title &#125;&#125; &lt;/p&gt; &lt;p&gt; 发布于： &#123;&#123;blog.created_at &#125;&#125;&lt;/p&gt; &lt;div&gt; &lt;div v-html='blog.body'&gt;&lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt;&lt;/template&gt;&lt;script&gt; export default &#123; data () &#123; return &#123; blog: &#123;&#125; &#125; &#125;, mounted() &#123; this.$http.get('api/interface/blogs/show?id='+this.$route.query.id).then((response) =&gt; &#123; this.blog = response.body.result &#125;, (response) =&gt; &#123; console.error(response) &#125;); &#125; &#125;&lt;/script&gt;&lt;style scoped&gt;&lt;/style&gt; 这是别人的接口，好像不支持post 请求。所以post 请求就先算了，并且这种算是原生的http 请求吧，我们以后使用的时候，可以使用 axios 来发送http 请求。这个我们后面再尝试。 番外 这篇就讲到这吧，都是一些例子。如果要看语法的话，还得看看官网的教程。 代码上传到github：https://github.com/QuellanAn/zlflovemmVue 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue</tag>
+        <tag>前端</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[十一、springboot 配置log4j2以及打包成zip文件]]></title>
     <url>%2F20191217%2F%E5%8D%81%E4%B8%80%E3%80%81springboot%20%E9%85%8D%E7%BD%AElog4j2%E4%BB%A5%E5%8F%8A%E6%89%93%E5%8C%85%E6%88%90zip%E6%96%87%E4%BB%B6.html</url>
     <content type="text"><![CDATA[前言其实我们前面已经配置了日志，但是最近总感觉日志日志格式看的不舒服，并且每次打包都是一个jar 文件，lib都包含在jar 中，每次做很小的修改都需要重新替换jar文件，jar文件会比较大，传输起来比较慢。所以做一些改进。 配置log4j2好了，废话不多说了，先来在Springboot中配置log4j2吧。 pom.xmlspringboot 项目默认的是使用logback 的，所以我们想要使用log4j ，需要将原来的logback 框架屏蔽掉，再引入log4j.首先我们在pom.xml 文件中加入123456789101112131415&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt; &lt;exclusions&gt;&lt;!-- 去掉默认配置 --&gt; &lt;exclusion&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt; &lt;/exclusion&gt; &lt;/exclusions&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt; &lt;/dependency&gt; 编写log4j2.xml123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263&lt;Configuration status="WARN" monitorInterval="300" packages="cn.mastercom.cat"&gt; &lt;properties&gt; &lt;property name="MtnoWebRoot" &gt;$&#123;sys:user.dir&#125;/logs&lt;/property&gt; &lt;property name="INFO_FILE"&gt;zlflovemm_log&lt;/property&gt; &lt;property name="ERROR_FILE"&gt;zlflovemm__error&lt;/property&gt; &lt;/properties&gt; &lt;Appenders&gt; &lt;Console name="Console" target="SYSTEM_OUT"&gt; &lt;ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY"/&gt; &lt;PatternLayout pattern="%d&#123;HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n" /&gt; &lt;/Console&gt; &lt;RollingRandomAccessFile name="infolog" fileName="$&#123;MtnoWebRoot&#125;/$&#123;INFO_FILE&#125;.log" filePattern="$&#123;MtnoWebRoot&#125;/$&#123;INFO_FILE&#125;-%d&#123;yyyy-MM-dd&#125;-%i.log"&gt; &lt;PatternLayout pattern="%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] [%X&#123;sessionID&#125;] [%X&#123;imei&#125;] %-5level %logger&#123;36&#125; - %msg%n" /&gt; &lt;!-- --&gt; &lt;Policies&gt; &lt;TimeBasedTriggeringPolicy interval="1" modulate="true" /&gt; &lt;SizeBasedTriggeringPolicy size="2MB" /&gt; &lt;/Policies&gt; &lt;DefaultRolloverStrategy max="1000"&gt; &lt;Delete basePath="$&#123;MtnoWebRoot&#125;" maxDepth="1"&gt; &lt;IfFileName glob="$&#123;INFO_FILE&#125;*.log" /&gt; &lt;IfLastModified age="30d" /&gt; &lt;/Delete&gt; &lt;/DefaultRolloverStrategy&gt; &lt;/RollingRandomAccessFile&gt; &lt;RollingRandomAccessFile name="errorlog" fileName="$&#123;MtnoWebRoot&#125;/$&#123;ERROR_FILE&#125;.log" filePattern="$&#123;MtnoWebRoot&#125;/$&#123;ERROR_FILE&#125;-%d&#123;yyyy-MM-dd&#125;-%i.log"&gt; &lt;PatternLayout pattern="%d&#123;yyyy-MM-dd HH:mm:ss.SSS&#125; [%t] %-5level %logger&#123;36&#125; - %msg%n" /&gt; &lt;Policies&gt; &lt;TimeBasedTriggeringPolicy interval="1" modulate="true" /&gt; &lt;SizeBasedTriggeringPolicy size="200MB" /&gt; &lt;/Policies&gt; &lt;DefaultRolloverStrategy max="1000"&gt; &lt;Delete basePath="$&#123;MtnoWebRoot&#125;" maxDepth="1"&gt; &lt;IfFileName glob="$&#123;INFO_FILE&#125;*.log" /&gt; &lt;IfLastModified age="30d" /&gt; &lt;/Delete&gt; &lt;/DefaultRolloverStrategy&gt; &lt;/RollingRandomAccessFile&gt; &lt;Async name="Async"&gt; &lt;AppenderRef ref="infolog"/&gt; &lt;AppenderRef ref="errorlog"/&gt; &lt;/Async&gt; &lt;/Appenders&gt; &lt;Loggers&gt; &lt;asyncRoot level="INFO"&gt; &lt;AppenderRef ref="infolog"/&gt; &lt;AppenderRef ref="errorlog" level="error"/&gt; &lt;AppenderRef ref="Console" /&gt; &lt;/asyncRoot&gt; &lt;/Loggers&gt;&lt;/Configuration&gt; 上面配置的是生成日志的格式，大家可以自行修改。以及配置了单个日志文件最大为200M ,只保留最近30天的文件。 application.properties 配置123#日志配置logging.config=classpath:log4j2.xmldebug=false 实现上面这三步，就轻松的在项目中使用log4j日志啦。 打包外置配置文件上面配置的日志，先不测试了，等这个打包的配置也配置好了，再来一起测试。 如果我们直接使用自带的mvn package 的话，会将我们依赖的jar 包已经配置文件统统打包成可运行的jar 文件。这样虽然方便，但是这样的话每次都需要重新打包，并且传输起来比较麻烦，所以我们就需要将lib 和配置文件从jar 文件中分离。这样项目修改了，只需要替换一下比较小的部分就可以了。 pom.xml 修改打开我们的pom.xml 文件,最下面我们的中我们加入如下代码。因为我们的项目之前加入了打包成docker 镜像，所以整个的都贴出来，不需要打包成docker的可以去掉。 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111&lt;build&gt; &lt;!--打包后的项目名称--&gt; &lt;resources&gt; &lt;resource&gt; &lt;directory&gt;src/main/resources&lt;/directory&gt; &lt;targetPath&gt;$&#123;project.build.directory&#125;$&#123;file.separator&#125;classes&lt;/targetPath&gt; &lt;/resource&gt; &lt;resource&gt; &lt;directory&gt;src/main/java&lt;/directory&gt; &lt;includes&gt; &lt;!--这里必须包含.xml否则Mybatis的xml无法打包--&gt; &lt;include&gt;**/*.xml&lt;/include&gt; &lt;/includes&gt; &lt;filtering&gt;true&lt;/filtering&gt; &lt;/resource&gt; &lt;/resources&gt; &lt;plugins&gt; &lt;!--java编译插件--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;source&gt;1.8&lt;/source&gt; &lt;target&gt;1.8&lt;/target&gt; &lt;encoding&gt;UTF-8&lt;/encoding&gt; &lt;fork&gt;true&lt;/fork&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;!--打jar包的插件--&gt; &lt;plugin&gt; &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt; &lt;artifactId&gt;maven-jar-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;archive&gt; &lt;manifest&gt; &lt;addClasspath&gt;true&lt;/addClasspath&gt; &lt;classpathPrefix&gt;lib&lt;/classpathPrefix&gt; &lt;!--程序启动入口--&gt; &lt;mainClass&gt;com.quellan.zlflovemm.ZlflovemmApplication&lt;/mainClass&gt; &lt;/manifest&gt; &lt;manifestEntries&gt; &lt;Class-Path&gt;./&lt;/Class-Path&gt; &lt;/manifestEntries&gt; &lt;/archive&gt; &lt;excludes&gt; &lt;exclude&gt;config/**&lt;/exclude&gt; &lt;/excludes&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;plugin&gt; &lt;artifactId&gt;maven-assembly-plugin&lt;/artifactId&gt; &lt;configuration&gt; &lt;!--not append assembly id in release file name--&gt; &lt;appendAssemblyId&gt;false&lt;/appendAssemblyId&gt; &lt;descriptors&gt; &lt;!--注意这里的路径--&gt; &lt;descriptor&gt;src/main/build/package.xml&lt;/descriptor&gt; &lt;/descriptors&gt; &lt;/configuration&gt; &lt;executions&gt; &lt;execution&gt; &lt;id&gt;make-assembly&lt;/id&gt; &lt;phase&gt;package&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;single&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;/plugin&gt; &lt;!-- Docker --&gt; &lt;plugin&gt; &lt;groupId&gt;com.spotify&lt;/groupId&gt; &lt;artifactId&gt;docker-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.0.0&lt;/version&gt; &lt;!-- 将插件绑定在某个phase执行 --&gt; &lt;executions&gt; &lt;execution&gt; &lt;id&gt;build-image&lt;/id&gt; &lt;!-- 用户只需执行mvn package ，就会自动执行mvn docker:build --&gt; &lt;phase&gt;package&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;build&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;!-- 指定生成的镜像名 --&gt; &lt;imageName&gt;$&#123;docker.image.prefix&#125;/$&#123;project.artifactId&#125;:$&#123;project.version&#125;&lt;/imageName&gt; &lt;!-- 指定标签 --&gt; &lt;imageTags&gt; &lt;imageTag&gt;$&#123;project.version&#125;&lt;/imageTag&gt; &lt;/imageTags&gt; &lt;!-- 指定 Dockerfile 路径 --&gt; &lt;dockerDirectory&gt;src/main/docker&lt;/dockerDirectory&gt; &lt;!-- 指定远程 docker api地址 --&gt; &lt;dockerHost&gt;http://127.0.0.1:2375&lt;/dockerHost&gt; &lt;resources&gt; &lt;resource&gt; &lt;targetPath&gt;/&lt;/targetPath&gt; &lt;!-- jar包所在的路径此处配置的对应target目录 --&gt; &lt;directory&gt;$&#123;project.build.directory&#125;&lt;/directory&gt; &lt;!-- 需要包含的jar包,这里对应的是Dockerfile中添加的文件名 --&gt; &lt;include&gt;$&#123;project.build.finalName&#125;.jar&lt;/include&gt; &lt;/resource&gt; &lt;/resources&gt; &lt;/configuration&gt; &lt;/plugin&gt; &lt;/plugins&gt; &lt;/build&gt; 需要注意的是，如下两个地方，第一个di地方需要需改成我们自己项目的启动类。第二个地方需要配置我们的package.xml 文件路径。内容我们待会讲。 package.xml我们在pom.xml 中配置好了后，我们在src/main 目录下创建一个build 包，早build 目录下创建package.xml 文件。路径就是上面配置的，大家可以按照自己的喜好来。内容如下：12345678910111213141516171819202122232425262728293031323334353637383940414243&lt;?xml version="1.0" encoding="UTF-8"?&gt; &lt;assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3 http://maven.apache.org/xsd/assembly-1.1.3.xsd"&gt; &lt;id&gt;package&lt;/id&gt; &lt;formats&gt; &lt;format&gt;zip&lt;/format&gt; &lt;/formats&gt; &lt;!-- 改为false不会出现两层相同的目录 --&gt; &lt;includeBaseDirectory&gt;false&lt;/includeBaseDirectory&gt; &lt;fileSets&gt; &lt;fileSet&gt; &lt;directory&gt;bin&lt;/directory&gt; &lt;outputDirectory&gt;$&#123;file.separator&#125;&lt;/outputDirectory&gt; &lt;/fileSet&gt; &lt;fileSet&gt; &lt;directory&gt;src/main/resources&lt;/directory&gt; &lt;outputDirectory&gt;$&#123;file.separator&#125;&lt;/outputDirectory&gt; &lt;excludes&gt; &lt;exclude&gt;static/**&lt;/exclude&gt; &lt;exclude&gt;templates/**&lt;/exclude&gt; &lt;/excludes&gt; &lt;/fileSet&gt; &lt;fileSet&gt; &lt;directory&gt;$&#123;project.build.directory&#125;&lt;/directory&gt; &lt;outputDirectory&gt;$&#123;file.separator&#125;&lt;/outputDirectory&gt; &lt;includes&gt; &lt;include&gt;*.jar&lt;/include&gt; &lt;/includes&gt; &lt;/fileSet&gt; &lt;/fileSets&gt; &lt;dependencySets&gt; &lt;dependencySet&gt; &lt;useProjectArtifact&gt;true&lt;/useProjectArtifact&gt; &lt;outputDirectory&gt;lib&lt;/outputDirectory&gt; &lt;scope&gt;runtime&lt;/scope&gt; &lt;!--&lt;unpack&gt;false&lt;/unpack&gt; --&gt; &lt;excludes&gt; &lt;!--&lt;exclude&gt;$&#123;project.name&#125;-$&#123;project.version&#125;&lt;/exclude&gt; --&gt; &lt;exclude&gt;$&#123;groupId&#125;:$&#123;artifactId&#125;&lt;/exclude&gt; &lt;/excludes&gt; &lt;/dependencySet&gt; &lt;/dependencySets&gt; &lt;/assembly&gt; 测试好啦，上面的已经配置好啦，我们来测试一下。直接mvn package成功后会生成如下文件，包含jar 和zip 文件。 zip 文件解压后，就是我们第一次部署的文件，后面修改代码只用替换jar文件就可以了。 我们生成的日志文件 番外好了，就说这么多啦代码上传到github：https://github.com/QuellanAn/zlflovemm 后续加油♡ 欢迎大家关注个人公众号 “程序员爱酸奶” 分享各种学习资料，包含java，linux，大数据等。资料包含视频文档以及源码，同时分享本人及投递的优质技术博文。 如果大家喜欢记得关注和分享哟❤]]></content>
@@ -80,8 +92,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -92,8 +104,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -116,8 +128,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -128,8 +140,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -164,8 +176,8 @@
         <category>docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>linux</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -289,9 +301,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
+        <tag>linux</tag>
         <tag>集群</tag>
       </tags>
   </entry>
@@ -303,9 +315,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -316,9 +328,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -329,9 +341,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -342,9 +354,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -355,9 +367,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -368,9 +380,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
   <entry>
@@ -381,9 +393,9 @@
         <category>Redis</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>redis</tag>
         <tag>java</tag>
+        <tag>linux</tag>
       </tags>
   </entry>
 </search>

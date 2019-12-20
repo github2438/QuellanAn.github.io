@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.quellanan.xyz/"/>
-  <updated>2019-12-17T12:14:24.917Z</updated>
+  <updated>2019-12-20T05:51:56.010Z</updated>
   <id>http://www.quellanan.xyz/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>三、Vue 的一些语法样例</title>
+    <link href="http://www.quellanan.xyz/20191220/%E4%B8%89%E3%80%81Vue%20%E7%9A%84%E4%B8%80%E4%BA%9B%E8%AF%AD%E6%B3%95%E6%A0%B7%E4%BE%8B.html"/>
+    <id>http://www.quellanan.xyz/20191220/三、Vue 的一些语法样例.html</id>
+    <published>2019-12-20T05:50:31.055Z</published>
+    <updated>2019-12-20T05:51:56.010Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="vue" scheme="http://www.quellanan.xyz/categories/vue/"/>
+    
+    
+      <category term="vue" scheme="http://www.quellanan.xyz/tags/vue/"/>
+    
+      <category term="前端" scheme="http://www.quellanan.xyz/tags/%E5%89%8D%E7%AB%AF/"/>
+    
+  </entry>
   
   <entry>
     <title>十一、springboot 配置log4j2以及打包成zip文件</title>
@@ -206,9 +234,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
-    
       <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
     
   </entry>
   
@@ -234,9 +262,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
-    
       <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
     
   </entry>
   
@@ -290,9 +318,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
-    
       <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
     
   </entry>
   
@@ -318,9 +346,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
-    
       <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
     
   </entry>
   
@@ -402,9 +430,9 @@
       <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
     
     
-      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
-    
       <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
+    
+      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
     
   </entry>
   
@@ -530,34 +558,6 @@
     <id>http://www.quellanan.xyz/20190921/三、SpringBoot 整合mybatis 多数据源以及分库分表.html</id>
     <published>2019-09-21T10:41:27.000Z</published>
     <updated>2019-09-29T00:57:32.040Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
-    
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>二、springBoot 整合 mybatis 项目实战</title>
-    <link href="http://www.quellanan.xyz/20190919/%E4%BA%8C%E3%80%81springBoot%20%E6%95%B4%E5%90%88%20mybatis%20%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98.html"/>
-    <id>http://www.quellanan.xyz/20190919/二、springBoot 整合 mybatis 项目实战.html</id>
-    <published>2019-09-19T14:11:53.000Z</published>
-    <updated>2019-09-30T00:47:34.033Z</updated>
     
     <summary type="html">
     
