@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.quellanan.xyz/"/>
-  <updated>2020-01-02T12:33:02.806Z</updated>
+  <updated>2020-01-28T07:43:17.236Z</updated>
   <id>http://www.quellanan.xyz/</id>
   
   <author>
@@ -15,6 +15,156 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>二、Spring Cloud之注册中心 Eureka</title>
+    <link href="http://www.quellanan.xyz/20200128/%E4%BA%8C%E3%80%81Spring%20Cloud%E4%B9%8B%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%20Eureka.html"/>
+    <id>http://www.quellanan.xyz/20200128/二、Spring Cloud之注册中心 Eureka.html</id>
+    <published>2020-01-28T07:41:58.041Z</published>
+    <updated>2020-01-28T07:43:17.236Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/categories/springCloud/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/tags/springCloud/"/>
+    
+      <category term="Eureka" scheme="http://www.quellanan.xyz/tags/Eureka/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>五、Spring Cloud之网关服务 zuul</title>
+    <link href="http://www.quellanan.xyz/20200128/%E4%BA%94%E3%80%81Spring%20Cloud%E4%B9%8B%E7%BD%91%E5%85%B3%E6%9C%8D%E5%8A%A1%20zuul.html"/>
+    <id>http://www.quellanan.xyz/20200128/五、Spring Cloud之网关服务 zuul.html</id>
+    <published>2020-01-28T07:41:58.030Z</published>
+    <updated>2020-01-28T07:45:17.857Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/categories/springCloud/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/tags/springCloud/"/>
+    
+      <category term="zuul" scheme="http://www.quellanan.xyz/tags/zuul/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>四、Spring Cloud之熔断处理 Hystrix</title>
+    <link href="http://www.quellanan.xyz/20200128/%E5%9B%9B%E3%80%81Spring%20Cloud%E4%B9%8B%E7%86%94%E6%96%AD%E5%A4%84%E7%90%86%20Hystrix.html"/>
+    <id>http://www.quellanan.xyz/20200128/四、Spring Cloud之熔断处理 Hystrix.html</id>
+    <published>2020-01-28T07:41:58.020Z</published>
+    <updated>2020-01-28T07:44:50.088Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/categories/springCloud/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/tags/springCloud/"/>
+    
+      <category term="Hystrix" scheme="http://www.quellanan.xyz/tags/Hystrix/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>三、Spring Cloud之软负载均衡 Ribbon</title>
+    <link href="http://www.quellanan.xyz/20200128/%E4%B8%89%E3%80%81Spring%20Cloud%E4%B9%8B%E8%BD%AF%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%20Ribbon.html"/>
+    <id>http://www.quellanan.xyz/20200128/三、Spring Cloud之软负载均衡 Ribbon.html</id>
+    <published>2020-01-28T07:41:57.963Z</published>
+    <updated>2020-01-28T07:44:15.145Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/categories/springCloud/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/tags/springCloud/"/>
+    
+      <category term="Ribbon" scheme="http://www.quellanan.xyz/tags/Ribbon/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>六、Spring Cloud之配置中心config</title>
+    <link href="http://www.quellanan.xyz/20200128/%E5%85%AD%E3%80%81Spring%20Cloud%E4%B9%8B%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83config.html"/>
+    <id>http://www.quellanan.xyz/20200128/六、Spring Cloud之配置中心config.html</id>
+    <published>2020-01-28T07:41:57.955Z</published>
+    <updated>2020-01-28T07:45:45.680Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/categories/springCloud/"/>
+    
+    
+      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
+    
+      <category term="springCloud" scheme="http://www.quellanan.xyz/tags/springCloud/"/>
+    
+      <category term="zuul" scheme="http://www.quellanan.xyz/tags/zuul/"/>
+    
+  </entry>
   
   <entry>
     <title>十三、springboot 优雅集成spring-boot-admin 实现程序监控</title>
@@ -433,150 +583,6 @@
       <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
     
       <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>五、springboot 简单优雅是实现邮件服务</title>
-    <link href="http://www.quellanan.xyz/20191012/%E4%BA%94%E3%80%81springboot%20%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E6%98%AF%E5%AE%9E%E7%8E%B0%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1.html"/>
-    <id>http://www.quellanan.xyz/20191012/五、springboot 简单优雅是实现邮件服务.html</id>
-    <published>2019-10-12T06:49:17.615Z</published>
-    <updated>2019-10-14T05:32:45.957Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="springBoot" scheme="http://www.quellanan.xyz/categories/springBoot/"/>
-    
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="springboot" scheme="http://www.quellanan.xyz/tags/springboot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>一、docker 入坑(win10和Ubuntu 安装)</title>
-    <link href="http://www.quellanan.xyz/20191011/%E4%B8%80%E3%80%81docker%20%E5%85%A5%E5%9D%91(win10%E5%92%8CUbuntu%20%E5%AE%89%E8%A3%85).html"/>
-    <id>http://www.quellanan.xyz/20191011/一、docker 入坑(win10和Ubuntu 安装).html</id>
-    <published>2019-10-11T08:12:02.000Z</published>
-    <updated>2019-10-23T03:11:28.503Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="docker" scheme="http://www.quellanan.xyz/categories/docker/"/>
-    
-    
-      <category term="linux" scheme="http://www.quellanan.xyz/tags/linux/"/>
-    
-      <category term="docker" scheme="http://www.quellanan.xyz/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>简单优雅的搭建个人博客</title>
-    <link href="http://www.quellanan.xyz/20190930/%E7%AE%80%E5%8D%95%E4%BC%98%E9%9B%85%E7%9A%84%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2.html"/>
-    <id>http://www.quellanan.xyz/20190930/简单优雅的搭建个人博客.html</id>
-    <published>2019-09-30T08:34:34.418Z</published>
-    <updated>2019-09-30T08:36:52.581Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="个人博客" scheme="http://www.quellanan.xyz/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
-    
-    
-      <category term="hexo" scheme="http://www.quellanan.xyz/tags/hexo/"/>
-    
-      <category term="next" scheme="http://www.quellanan.xyz/tags/next/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>UE激活（亲测有效，通过注册机激活）</title>
-    <link href="http://www.quellanan.xyz/20190930/UE%E6%BF%80%E6%B4%BB%EF%BC%88%E4%BA%B2%E6%B5%8B%E6%9C%89%E6%95%88%EF%BC%8C%E9%80%9A%E8%BF%87%E6%B3%A8%E5%86%8C%E6%9C%BA%E6%BF%80%E6%B4%BB%EF%BC%89.html"/>
-    <id>http://www.quellanan.xyz/20190930/UE激活（亲测有效，通过注册机激活）.html</id>
-    <published>2019-09-30T00:38:49.122Z</published>
-    <updated>2019-09-30T00:43:01.247Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="工具" scheme="http://www.quellanan.xyz/categories/%E5%B7%A5%E5%85%B7/"/>
-    
-    
-      <category term="UE" scheme="http://www.quellanan.xyz/tags/UE/"/>
-    
-      <category term="激活" scheme="http://www.quellanan.xyz/tags/%E6%BF%80%E6%B4%BB/"/>
-    
-      <category term="注册码" scheme="http://www.quellanan.xyz/tags/%E6%B3%A8%E5%86%8C%E7%A0%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何优雅实现属性的动态注入</title>
-    <link href="http://www.quellanan.xyz/20190929/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%AE%9E%E7%8E%B0%E5%B1%9E%E6%80%A7%E7%9A%84%E5%8A%A8%E6%80%81%E6%B3%A8%E5%85%A5.html"/>
-    <id>http://www.quellanan.xyz/20190929/如何优雅实现属性的动态注入.html</id>
-    <published>2019-09-29T09:11:48.154Z</published>
-    <updated>2019-09-29T09:24:38.785Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;\assets\css\APlayer.min.css&quot;&gt;&lt;script src=&quot;\assets\js\APlayer.min.js&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="Java" scheme="http://www.quellanan.xyz/categories/Java/"/>
-    
-    
-      <category term="java" scheme="http://www.quellanan.xyz/tags/java/"/>
-    
-      <category term="动态注入" scheme="http://www.quellanan.xyz/tags/%E5%8A%A8%E6%80%81%E6%B3%A8%E5%85%A5/"/>
-    
-      <category term="映射" scheme="http://www.quellanan.xyz/tags/%E6%98%A0%E5%B0%84/"/>
     
   </entry>
   
