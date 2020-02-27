@@ -3,18 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: QuellanAn
+title: 程序员爱酸奶
 subtitle:
 description: 别让生活成为梦想的羁绊
 keywords:
-author: QuellanAn
+author: 程序员爱酸奶
 language: zh-CN
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 #url: https://quellanan.github.io
-url: http://www.quellanan.xyz
+url: http://49.235.80.51
 root: /
 permalink: :year:month:day/:title.html
 permalink_defaults:
@@ -80,9 +80,9 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repository: 
-    github: git@github.com:QuellanAn/QuellanAn.github.io.git
-    coding: git@git.dev.tencent.com:quellanan/QuellanAn.git
+  repo: git@49.235.80.51:/var/repo/blog.git
+  #repository: 
+    #github: git@github.com:QuellanAn/QuellanAn.github.io.git
   branch: master
 
 # hexo sitemap
