@@ -12,7 +12,7 @@ Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
 
-Sitemap: http://quellanan.coding.me/sitemap.xml
-Sitemap: http://quellanan.coding.me/baidusitemap.xml
-Sitemap: https://quellanan.github.io/sitemap.xml
-Sitemap: https://quellanan.github.io/baidusitemap.xml
+Sitemap: http://quellanan.xyz/sitemap.xml
+Sitemap: http://quellanan.xyz/baidusitemap.xml
+Sitemap: https://quellanan.xyz/sitemap.xml
+Sitemap: https://quellanan.xyz/baidusitemap.xml
