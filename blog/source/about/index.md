@@ -8,7 +8,7 @@ comments: false
 
 # 个人简介
 毕业于郑州大学软件工程专业，毕业后在从事java方向工作。两年的工作经验使我熟悉javaWEB开发的企业架构，能够独立负责开发整个服务端。
-熟悉企业级常用的技术：spring、springMVC、springBoot、redis、mysql、sqlserver、neginx等。
+熟悉企业级常用的技术：spring、springMVC、springBoot、redis、mysql、sqlserver、nginx等。
 熟悉使用企业级常用的工具：YAPI、SonarQube、Jenkins等。
 
 比较喜欢将工作中碰到的问题和自己学习的心得笔记记录下来，方便自己以后查看。同时也方便和广大同胞进行交流互动。
